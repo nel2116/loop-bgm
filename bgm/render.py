@@ -135,8 +135,12 @@ def _validate_song(song):
     if song["swing"]:
         unit = song["swing_unit"]
         beats = song["bars"] * song["beats_per_bar"]
-        offset = song["swing"] * unit / 3
-        if not math.isfinite(beats / unit) or not math.isfinite((beats + abs(offset)) * sec_per_beat * SR):
+        try:
+            offset = song["swing"] * unit / 3
+            finite = math.isfinite(beats / unit) and math.isfinite((beats + abs(offset)) * sec_per_beat * SR)
+        except OverflowError as e:
+            raise SongError("song.json の swing / swing_unit: 拍の位置の計算が大きすぎます") from e
+        if not finite:
             raise SongError("song.json の swing / swing_unit: 拍の位置を有限数で計算できる範囲にしてください")
     if not song["parts"]:
         raise SongError("song.json の parts には1つ以上のパートが必要です")

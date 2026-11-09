@@ -58,6 +58,10 @@ CASES.extend((changed("song", key, value), key) for key, value in [
 data = changed("song", "swing_unit", 1e-320)
 data["swing"] = 1
 CASES.append((data, "swing"))
+SWING_OVERFLOW_INDEX = len(CASES)
+data = changed("song", "swing", 10 ** 200)
+data["swing_unit"] = 10 ** 200
+CASES.append((data, "swing / swing_unit"))
 data = changed("part", "bars", ["C4:" + "9" * 308])
 data["parts"][0]["gate"] = 100
 CASES.append((data, "[lead] 1番目の小節"))
@@ -85,7 +89,7 @@ def test_unknown_instrument_does_not_suggest_an_unavailable_command(tmp_path):
 
 
 @pytest.mark.parametrize("command", ["listen", "render"])
-@pytest.mark.parametrize("index", [0, 1, len(CASES) - 1, len(CASES) - 3])
+@pytest.mark.parametrize("index", [0, 1, SWING_OVERFLOW_INDEX, len(CASES) - 1, len(CASES) - 3])
 def test_cli_rejects_nested_and_scalar_errors(tmp_path, command, index):
     data, location = CASES[index]
     path = write_song(tmp_path, data)
