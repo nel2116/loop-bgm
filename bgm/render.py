@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -15,7 +16,7 @@ import soundfile as sf
 from . import ENGINE_VERSION
 from .instruments import PERCUSSION, SAMPLED, SYNTH_DRUMS, SYNTH_PITCHED
 from .paths import SONGS, SR
-from .theory import parse_pitches
+from .theory import midi_to_hz, parse_pitches
 
 MIX_ONLY_KEYS = {"volume", "pan", "mute", "solo", "note"}
 REVERBS = {"none": None, "room": (0.9, 0.012, 7000), "hall": (2.2, 0.025, 5500), "plate": (1.5, 0.005, 9000)}
@@ -76,6 +77,7 @@ def load_song(ref: str):
     names = [p.get("name") for p in song["parts"]]
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
+    _validate_song(song)
     return d, song
 
 
@@ -92,6 +94,109 @@ def _kind(value):
     if isinstance(value, list):
         return "配列"
     return "オブジェクト"
+
+
+def _number(value, location, *, positive=False, nonnegative=False, integer=False, float32=False):
+    # bool は int の派生だが、曲の数値としては受け付けない。
+    valid = type(value) in (int, float)
+    try:
+        valid = valid and math.isfinite(value)
+    except OverflowError:
+        valid = False
+    valid = valid and (not integer or type(value) is int)
+    valid = valid and (not positive or value > 0) and (not nonnegative or value >= 0)
+    valid = valid and (not float32 or abs(value) <= np.finfo(np.float32).max)
+    if not valid:
+        requirement = "正の整数" if integer and positive else "正の有限数" if positive else "0以上の有限数" if nonnegative else "有限数"
+        raise SongError(f"{location} は{requirement}にしてください（いまは{_kind(value)}です）")
+
+
+def _validate_song(song):
+    _number(song["tempo"], "song.json の tempo", positive=True)
+    _number(song["bars"], "song.json の bars", positive=True, integer=True)
+    _number(song["beats_per_bar"], "song.json の beats_per_bar", positive=True)
+    _number(song["swing"], "song.json の swing")
+    _number(song["swing_unit"], "song.json の swing_unit", positive=True)
+    _number(song["master"]["gain_db"], "song.json の master.gain_db")
+    if song["master"]["reverb"] is not None and not isinstance(song["master"]["reverb"], str):
+        raise SongError("song.json の master.reverb は文字列または null にしてください")
+    if song["loop"] is not None and type(song["loop"]) is not bool:
+        raise SongError("song.json の loop は真偽値または null にしてください")
+    # 小さすぎる長さは丸めで0サンプルになり、fold_loop等で失敗する。
+    try:
+        seconds = song_seconds(song)
+    except OverflowError as e:
+        raise SongError("song.json の tempo / bars / beats_per_bar: 曲の長さが大きすぎます") from e
+    if not math.isfinite(seconds) or not math.isfinite(seconds * SR) or round(seconds * SR) < 1:
+        raise SongError("song.json の tempo / bars / beats_per_bar: 曲の長さを有限の1サンプル以上にしてください")
+    sec_per_beat = 60.0 / song["tempo"]
+    if not math.isfinite(sec_per_beat):
+        raise SongError("song.json の tempo: 1拍の秒数を有限数にしてください")
+    if song["swing"]:
+        unit = song["swing_unit"]
+        beats = song["bars"] * song["beats_per_bar"]
+        offset = song["swing"] * unit / 3
+        if not math.isfinite(beats / unit) or not math.isfinite((beats + abs(offset)) * sec_per_beat * SR):
+            raise SongError("song.json の swing / swing_unit: 拍の位置を有限数で計算できる範囲にしてください")
+    if not song["parts"]:
+        raise SongError("song.json の parts には1つ以上のパートが必要です")
+    for part in song["parts"]:
+        where = f"[{part['name']}]"
+        if part.get("type") is not None and not isinstance(part["type"], str):
+            raise SongError(f"{where} type は文字列または null にしてください")
+        for key in ("mute", "solo"):
+            if part.get(key) is not None and type(part[key]) is not bool:
+                raise SongError(f"{where} {key} は真偽値または null にしてください")
+        for key in ("volume", "pan", "velocity", "humanize", "reverb"):
+            if key in part:
+                _number(part[key], f"{where} {key}", nonnegative=key == "humanize", float32=True)
+        segs = part.get("bars")
+        # 省略、null、空文字列は従来どおり無音。空配列もそのまま使う。
+        if segs is not None and segs != "" and not isinstance(segs, list):
+            raise SongError(f"{where} bars は小節の配列 [...] または null にしてください")
+        if part.get("type") == "drums":
+            _validate_drums(part)
+        else:
+            inst = part.get("instrument")
+            if not isinstance(inst, str) or inst not in SAMPLED and inst not in SYNTH_PITCHED:
+                raise SongError(f"{where} instrument に存在する楽器名が必要です。`bgm instruments` で一覧を見られます")
+            for key in ("gate", "strum", "transpose", "octave"):
+                if key in part:
+                    _number(part[key], f"{where} {key}", float32=True)
+            for i, seg in enumerate(segs or []):
+                if not isinstance(seg, str):
+                    raise SongError(f"{where} {i + 1}番目の小節: bars の各要素は音符を並べた文字列にしてください")
+            for beat, _, dur, _ in parse_note_bars(part, song):
+                if not math.isfinite(dur * sec_per_beat * part.get("gate", 1) * SR):
+                    bar = int(beat / song["beats_per_bar"]) + 1
+                    raise SongError(f"{where} {bar}番目の小節: 音の長さを有限数で計算できる範囲にしてください（tempo / gate）")
+
+
+def _validate_drums(part):
+    where = f"[{part['name']}]"
+    voices = part.get("voices", {})
+    if not isinstance(voices, dict):
+        raise SongError(f"{where} voices は打楽器名と設定のオブジェクトにしてください")
+    for voice, config in voices.items():
+        if config is None:
+            continue  # 従来の「個別設定なし」を維持する。
+        if not isinstance(config, dict):
+            raise SongError(f"{where} voices.{voice} は設定のオブジェクトまたは null にしてください")
+        for key in ("pan", "volume"):
+            if key in config:
+                _number(config[key], f"{where} voices.{voice}.{key}", float32=True)
+    for i, seg in enumerate(part.get("bars") or []):
+        location = f"{where} {i + 1}番目の小節"
+        if not isinstance(seg, dict):
+            raise SongError(f"{location}: drums の各小節は {{\"kick\": \"x...\"}} の形にしてください")
+        for voice, pattern in seg.items():
+            if not isinstance(pattern, str):
+                raise SongError(f"{location} {voice}: パターンは文字列にしてください")
+            if any(ch in "xXo" for ch in pattern) and voice not in PERCUSSION and voice not in SYNTH_DRUMS:
+                raise SongError(f"{location}: 打楽器 {voice!r} はありません")
+            for ch in pattern.replace(" ", "").replace("|", ""):
+                if ch not in "xXo.-_":
+                    raise SongError(f"{location} {voice}: 「{ch}」は使えません（x 普通, X 強く, o 弱く, . 休み）")
 
 
 # ---------------------------------------------------------------- parsing
@@ -123,17 +228,33 @@ def parse_note_bars(part, song):
             m = _TOKEN.match(tok)
             if not m:
                 raise SongError(f"[{part['name']}] {si + 1}番目の小節: 「{tok}」が読めません（例: C4:1  C4+E4+G4:2@80  r:0.5）")
-            dur = _num(m.group("d"))
+            location = f"[{part['name']}] {si + 1}番目の小節"
+            try:
+                dur = _num(m.group("d"))
+            except (ValueError, ZeroDivisionError, OverflowError) as e:
+                raise SongError(f"{location}: 「{tok}」の長さを正の有限数にしてください") from e
+            if not math.isfinite(dur) or dur <= 0:
+                raise SongError(f"{location}: 「{tok}」の長さを正の有限数にしてください")
             p = m.group("p")
             if p not in ("r", "R"):
                 try:
                     pitches = [x + shift for x in parse_pitches(p)]
-                except ValueError as e:
+                    for pitch in pitches:
+                        hz = midi_to_hz(pitch)
+                        if not math.isfinite(hz) or hz <= 0:
+                            raise ValueError("音高を計算できる範囲にしてください")
+                except (ValueError, OverflowError) as e:
                     raise SongError(f"[{part['name']}] {si + 1}番目の小節: {e}") from e
-                vel = int(m.group("v")) if m.group("v") else base_vel
+                try:
+                    vel = int(m.group("v")) if m.group("v") else base_vel
+                except ValueError as e:
+                    raise SongError(f"{location}: velocity が大きすぎます") from e
+                _number(vel, f"{location}: velocity", float32=True)
                 events.append((pos, pitches, dur, vel))
             pos += dur
         n_bars = pos / bpb
+        if not math.isfinite(n_bars):
+            raise SongError(f"[{part['name']}] {si + 1}番目の小節: 長さの合計を有限数にしてください")
         if abs(n_bars - round(n_bars)) > 1e-6 or round(n_bars) == 0:
             raise SongError(f"[{part['name']}] {si + 1}番目の小節: 長さの合計が {pos:g} 拍。"
                             f"1小節 {bpb} 拍の倍数にしてください")
