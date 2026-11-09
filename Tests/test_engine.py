@@ -3,6 +3,8 @@
 #   python -m pytest -q Tests/test_engine.py
 import json
 import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -74,6 +76,49 @@ def test_missing_required_keys_is_an_error(tmp_path):
     (tmp_path / "song.json").write_text(json.dumps({"tempo": 100}), encoding="utf-8")
     with pytest.raises(SongError, match="bars"):
         load_song(str(tmp_path))
+
+
+BAD_STRUCTURES = [
+    ([], "オブジェクトにしてください（いまは配列です）"),
+    (None, "オブジェクトにしてください（いまはnullです）"),
+    ("song", "オブジェクトにしてください（いまは文字列です）"),
+    (3, "オブジェクトにしてください（いまは数値です）"),
+    ({"id": 5, "tempo": 100, "bars": 1, "parts": []}, "id は空でない文字列"),
+    ({"tempo": 100, "bars": 1, "master": [], "parts": []}, "master は"),
+    ({"tempo": 100, "bars": 1, "master": None, "parts": []}, "master は"),
+    ({"tempo": 100, "bars": 1, "parts": {"name": "a"}}, "parts はパートの配列"),
+    ({"tempo": 100, "bars": 1, "parts": None}, "parts はパートの配列"),
+    ({"tempo": 100, "bars": 1, "parts": [{"name": "a"}, "b"]}, "2番目のパートは"),
+    ({"tempo": 100, "bars": 1, "parts": [{"name": ["a"]}]}, "1番目のパートの name"),
+    ({"tempo": 100, "bars": 1, "parts": [{"name": ""}]}, "1番目のパートの name"),
+]
+
+
+@pytest.mark.parametrize(("data", "message"), BAD_STRUCTURES)
+def test_wrong_structure_is_an_error_in_japanese(tmp_path, data, message):
+    (tmp_path / "song.json").write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(SongError, match=message):
+        load_song(str(tmp_path))
+
+
+def test_valid_song_keeps_its_defaults(song_dir):
+    d, song = load_song(str(song_dir))
+    assert d == song_dir.resolve()
+    assert song["id"] == "synth_song"
+    assert (song["beats_per_bar"], song["swing"], song["swing_unit"], song["loop"]) == (4, 0, 0.5, True)
+    assert song["master"] == {"reverb": "room", "gain_db": 0}
+
+
+@pytest.mark.parametrize("command", ["render", "listen"])
+@pytest.mark.parametrize("data", [[], None, {"tempo": 100, "bars": 1, "parts": [1]}])
+def test_cli_reports_wrong_structure_without_traceback(tmp_path, command, data):
+    design = tmp_path / "song.json"
+    design.write_text(json.dumps(data), encoding="utf-8")
+    result = subprocess.run([sys.executable, "-m", "bgm", command, str(design), *(["--no-mp3"] if command == "render" else [])],
+                            capture_output=True, text=True, encoding="utf-8", cwd=Path(__file__).resolve().parent.parent)
+    assert result.returncode == 1
+    assert "Traceback" not in result.stderr
+    assert "オブジェクトにしてください" in result.stderr
 
 
 # ---------------------------------------------------------------- loop
