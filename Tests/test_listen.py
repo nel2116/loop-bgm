@@ -70,7 +70,7 @@ def test_listen_cli_selects_rendered_audio(tmp_path, monkeypatch, reference, son
 
     folder = tmp_path / 'example'
     folder.mkdir()
-    song = {'tempo': 120, 'bars': 1, 'parts': []}
+    song = {'tempo': 120, 'bars': 1, 'parts': [{'name': 'lead', 'instrument': 'square', 'bars': []}]}
     if song_id is not None:
         song['id'] = song_id
     (folder / 'song.json').write_text(json.dumps(song), encoding='utf-8')
@@ -98,7 +98,8 @@ def test_listen_cli_errors(tmp_path, monkeypatch, capsys):
     design.write_text('{', encoding='utf-8')
     assert __main__.main(['listen']) == 1
     assert '書式エラー' in capsys.readouterr().err
-    design.write_text(json.dumps({'tempo': 120, 'bars': 1, 'parts': []}), encoding='utf-8')
+    design.write_text(json.dumps({'tempo': 120, 'bars': 1,
+                                 'parts': [{'name': 'lead', 'instrument': 'square', 'bars': []}]}), encoding='utf-8')
     assert __main__.main(['listen']) == 1
     assert '試聴音源がありません' in capsys.readouterr().err
     (folder / 'proto_test.wav').write_bytes(b'audio')
