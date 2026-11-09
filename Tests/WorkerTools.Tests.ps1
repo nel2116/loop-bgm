@@ -4,7 +4,7 @@
 
 .DESCRIPTION
 	PATH の先頭に偽の orca.ps1 を置いて実行する。実行の前に Get-Command で偽物が解決されることを確かめ、
-	そうでなければ失敗する。
+	そうでなければ失敗する。ORCA_CLI_COMMAND は消しておき、それを使うことを確かめるときだけ偽物の別名を指す。
 
 .EXAMPLE
 	pwsh -NoProfile -File Tests/WorkerTools.Tests.ps1
@@ -29,7 +29,7 @@ $fakeOrca = @'
 # 偽の orca(テスト用)。worker-list は 2 ページに分けて答える
 Add-Content -LiteralPath (Join-Path $env:LOOPBGM_TEST_STATE "orca.log") -Value "$args" -Encoding utf8
 function Write-Worker($id, $state, $outcome, $terminalState) {
-	[pscustomobject]@{ dispatchId = $id; taskId = "task_$id"; state = $state; outcome = $outcome; liveness = "unverifiable"; terminal = "structworker_$id"; terminalState = $terminalState }
+	[pscustomobject]@{ dispatchId = $id; taskId = "task_$id"; state = $state; outcome = $outcome; liveness = "unverifiable"; terminal = "structworker_$id"; terminalState = $terminalState; attention = @("unverifiable") }
 }
 if ($args[1] -eq "worker-list") {
 	if ($env:LOOPBGM_TEST_ORCA_FAIL -eq "list") { Write-Output '{"ok":false}'; exit 1 }
@@ -37,7 +37,9 @@ if ($args[1] -eq "worker-list") {
 		$result = [pscustomobject]@{ workers = @((Write-Worker "dead" "ready" "in_progress" "active"), (Write-Worker "unread" "ready" "in_progress" "active"), (Write-Worker "gone" "done" "succeeded" "released")) }
 	}
 	else {
-		$result = [pscustomobject]@{ workers = @((Write-Worker "live" "ready" "in_progress" "active"), (Write-Worker "finished" "done" "succeeded" "retained")); nextCursor = "page2" }
+		$finished = Write-Worker "finished" "done" "succeeded" "retained"
+		$finished | Add-Member -NotePropertyName next -NotePropertyValue ([pscustomobject]@{ command = "worker-release --dispatch finished" })
+		$result = [pscustomobject]@{ workers = @((Write-Worker "live" "ready" "in_progress" "active"), $finished); nextCursor = "page2" }
 	}
 	ConvertTo-Json -Depth 5 -InputObject ([pscustomobject]@{ ok = $true; result = $result })
 	exit 0
@@ -69,7 +71,9 @@ $root = Join-Path ([System.IO.Path]::GetTempPath()) ("loopbgm_workertools_test_"
 $bin = Join-Path $root "bin"
 $state = Join-Path $root "state"
 $savedPath = $env:PATH
+$savedCli = $env:ORCA_CLI_COMMAND
 try {
+	$env:ORCA_CLI_COMMAND = $null
 	New-Item -ItemType Directory -Path $bin, $state | Out-Null
 	Set-Content -LiteralPath (Join-Path $bin "orca.ps1") -Value $fakeOrca -Encoding utf8
 	$env:PATH = "$bin;$savedPath"
@@ -99,8 +103,10 @@ try {
 
 	$r = Invoke-Tool "WorkerStatus.ps1" @()
 	Check ($r.Exit -eq 0 -and $r.Output -match "\*\*\* EXITED \*\*\*\s+dead") "the text output flags exited workers"
-	Check ($r.Output -match "要対応: dead" -and $r.Output -notmatch "要対応: finished") "the text output names what needs attention"
-	Check ($r.Output -match "ワーカー 5 件、exited 2 件、未完了で動いていないもの 2 件") "the summary counts them"
+	Check ($r.Output -match "要確認: dead" -and $r.Output -notmatch "要確認: finished") "the text output names what needs attention"
+	Check ($r.Output -match "next があればそれに従い" -and $r.Output -notmatch "起動し直して") "it points to next and the recovery guide, not to a restart (#7)"
+	Check ($r.Output -match "finished .*next=\{""command"":""worker-release --dispatch finished""\}" -and $r.Output -match "attention=unverifiable") "the text output shows next and attention from worker-list"
+	Check ($r.Output -match "ワーカー 5 件、exited 2 件、未完了で動いていると確かめられないもの 2 件") "the summary counts them"
 
 	$env:LOOPBGM_TEST_ORCA_FAIL = "list"
 	$r = Invoke-Tool "WorkerStatus.ps1" @()
@@ -120,8 +126,30 @@ try {
 	Check ($r.Log -match "--agent claude --worktree new-top-level --name issue-1-x --base-branch origin/develop --setup run" -and $r.Log -notmatch "--model") "normal: a new worktree from origin/develop, no model override"
 	Check (-not (Test-Path -LiteralPath (Get-Content -Encoding utf8 (Join-Path $state "spec-path.txt")))) "the temporary spec is deleted"
 
-	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x", "-Size", "small", "-Run", "run_x")
-	Check ($r.Log -match "--model claude-sonnet-5-5" -and $r.Log -match "--run run_x") "small adds the model; the Run is passed"
+	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x", "-Model", "some-model", "-Effort", "high", "-Run", "run_x")
+	Check ($r.Exit -eq 0 -and $r.Log -match "--model some-model --effort high" -and $r.Log -match "--run run_x") "-Model and -Effort are passed only when given; the Run is passed"
+
+	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x", "-Effort", "high")
+	Check ($r.Exit -eq 2 -and -not $r.Log) "-Effort without -Model is refused before orca"
+
+	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x", "-Size", "small")
+	Check ($r.Exit -ne 0 -and -not $r.Log) "the fixed small model is gone (-Size is no longer accepted, #7)"
+
+	# ORCA_CLI_COMMAND があればそれを使う(PATH の orca には何も書かない別の偽物を置く)
+	$cliDir = Join-Path $root "cli"
+	New-Item -ItemType Directory -Path $cliDir | Out-Null
+	Set-Content -LiteralPath (Join-Path $cliDir "session-orca.ps1") -Value ($fakeOrca.Replace('"orca.log"', '"session-orca.log"')) -Encoding utf8
+	$sessionLog = Join-Path $state "session-orca.log"
+	$env:ORCA_CLI_COMMAND = Join-Path $cliDir "session-orca.ps1"
+	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x")
+	$s = Invoke-Tool "WorkerStatus.ps1" @("-Json")
+	$sessionText = if (Test-Path $sessionLog) { Get-Content -Raw -Encoding utf8 $sessionLog } else { "" }
+	Check ($r.Exit -eq 0 -and -not $r.Log -and $s.Exit -eq 0 -and -not $s.Log -and $sessionText -match "worker-start" -and $sessionText -match "worker-list") "ORCA_CLI_COMMAND is used instead of the orca on PATH"
+
+	$env:ORCA_CLI_COMMAND = Join-Path $cliDir "missing-orca.exe"
+	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Name", "issue-1-x")
+	Check ($r.Exit -eq 1 -and -not $r.Log -and $r.Output -match "missing-orca") "a broken ORCA_CLI_COMMAND fails instead of falling back to PATH"
+	$env:ORCA_CLI_COMMAND = $null
 
 	$r = Invoke-Tool "StartWorker.ps1" @("-SpecFile", $specFile, "-Worktree", "path:C:/w")
 	Check ($r.Exit -eq 0 -and $r.Log -match "--worktree path:C:/w" -and $r.Log -notmatch "--name|--setup|--base-branch") "an existing worktree takes no creation flags"
@@ -167,6 +195,7 @@ try {
 }
 finally {
 	$env:PATH = $savedPath
+	$env:ORCA_CLI_COMMAND = $savedCli
 	Remove-Item -Recurse -Force $root -ErrorAction SilentlyContinue
 }
 

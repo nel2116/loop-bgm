@@ -3,19 +3,27 @@
 	共通のルール(docs/dev/WorkerRules.md)と仕様を必ず連結して、Orca のワーカーを起動するスクリプト(#195)。
 
 .DESCRIPTION
-	orca orchestration worker-start を包む。コーディネーターが共通のルールを貼り忘れることと、小さな仕事に
-	大きなモデルを使うことを防ぐ。orca の出力と終了コードをそのまま返す。
+	orca orchestration worker-start を包む。コーディネーターが共通のルールを貼り忘れることを防ぐ。orca の出力と終了コードを
+	そのまま返す。orca は ORCA_CLI_COMMAND があればその実行ファイル、なければ PATH の orca を使う
+	(Orca のガイドと同じ解決。別のビルドの Orca を相手にしないため、#7)。
 
-	起動し直すときは 2 通りある。
+	モデルは既定では指定しない。-Model はユーザーがモデルを指定したときだけ渡す(#7)。
+
+	起動し直すときは 2 通りある。どちらも、失敗や前のワーカーの状態を確かめてから使う。起動の失敗を
+	そのまま再実行しない(failedStage と Orca の復旧ガイド recovery-and-cleanup.md に従う)。
 	- -Task と -RetryOf: 失敗した Task をそのまま再試行する。Orca は --retry-of に --task を求め、仕様は Task に
 	  入っているので -SpecFile は渡せない。worktree は引き継がれないので -Worktree も指定する。
-	- -SpecFile(引き継ぎを書いた仕様)と -Worktree path:<パス>: 新しい Task として同じ worktree で続ける。
+	既存 Task の復旧は現行ガイドに従う。-SpecFile は新規 Task を作るため、失敗した Task の復旧には使わない。
+	生きているか分からない worktree は再利用しない。引き継ぎ完了だけでもプロセスの終了の証拠にはならない。
 
 .PARAMETER SpecFile
 	タスクの仕様のファイル(UTF-8)。-RetryOf のとき以外は必須。
 
-.PARAMETER Size
-	normal(既定)または small。small は --model claude-sonnet-5-5 を付ける。
+.PARAMETER Model
+	--model に渡すモデルの ID。ユーザーがモデルを指定したときだけ渡す。省略するとエージェントの既定。
+
+.PARAMETER Effort
+	--effort に渡す推論の強さ。Orca の --effort は --model を求めるので、-Model と一緒に指定する。
 
 .PARAMETER Name
 	新しい worktree の名前(例: issue-195-review-flow)。
@@ -41,14 +49,15 @@
 	実行せず、orca の引数と連結した仕様を表示する。
 
 .EXAMPLE
-	./StartWorker.ps1 -SpecFile $env:TEMP\spec.md -Name issue-200-foo -Size small
+	./StartWorker.ps1 -SpecFile $env:TEMP\spec.md -Name issue-200-foo
 #>
 [CmdletBinding()]
 param(
 	[string]$SpecFile,
 
-	[ValidateSet("normal", "small")]
-	[string]$Size = "normal",
+	[string]$Model,
+
+	[string]$Effort,
 
 	[string]$Name,
 
@@ -68,7 +77,6 @@ param(
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$SmallModel = "claude-sonnet-5-5"
 $rulesPath = Join-Path $PSScriptRoot "docs/dev/WorkerRules.md"
 
 $isRetry = [bool]$RetryOf
@@ -79,6 +87,10 @@ if ([bool]$Task -ne $isRetry -or ($isRetry -and $SpecFile) -or (-not $isRetry -a
 $isNewWorktree = $Worktree -like "new-*"
 if ($PSBoundParameters.ContainsKey("BaseBranch") -and -not $isNewWorktree) {
 	Write-Host "-BaseBranch は新しい worktree のときだけ指定できます。"
+	exit 2
+}
+if ($Effort -and -not $Model) {
+	Write-Host "-Effort は -Model と一緒に指定してください(Orca の --effort は --model を求めます)。"
 	exit 2
 }
 if ($isRetry -and $isNewWorktree) {
@@ -110,7 +122,8 @@ if ($isNewWorktree -and -not $Name) {
 
 $arguments = @("orchestration", "worker-start", "--agent", "claude", "--worktree", $Worktree)
 if ($isNewWorktree) { $arguments += @("--name", $Name, "--base-branch", $BaseBranch, "--setup", "run") }
-if ($Size -eq "small") { $arguments += @("--model", $SmallModel) }
+if ($Model) { $arguments += @("--model", $Model) }
+if ($Effort) { $arguments += @("--effort", $Effort) }
 if ($Run) { $arguments += @("--run", $Run) }
 if ($isRetry) { $arguments += @("--task", $Task, "--retry-of", $RetryOf) }
 
@@ -125,19 +138,21 @@ if ($DryRun) {
 	exit 0
 }
 
-if (-not (Get-Command orca -ErrorAction SilentlyContinue)) {
-	Write-Host "orca が見つかりません。"
+# Orca のガイドと同じく、ORCA_CLI_COMMAND があればその実行ファイルを使う。それが動かないときは PATH の orca に切り替えず失敗する(別のビルドを相手にしないため)
+$orca = if ($env:ORCA_CLI_COMMAND) { $env:ORCA_CLI_COMMAND } else { "orca" }
+if (-not (Get-Command $orca -ErrorAction SilentlyContinue)) {
+	Write-Host "orca が見つかりません: $orca"
 	exit 1
 }
 if ($isRetry) {
-	& orca @arguments
+	& $orca @arguments
 	exit $LASTEXITCODE
 }
 $combined = "$rules`n`n$spec`n"
 $temp = Join-Path ([System.IO.Path]::GetTempPath()) ("loopbgm_worker_spec_" + [guid]::NewGuid().ToString("N") + ".md")
 try {
 	[System.IO.File]::WriteAllText($temp, $combined, [System.Text.UTF8Encoding]::new($false))
-	& orca @arguments --spec-file $temp
+	& $orca @arguments --spec-file $temp
 	exit $LASTEXITCODE
 }
 finally {

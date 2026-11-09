@@ -23,6 +23,8 @@
 	  keep-unsafe   未マージ、マージ後のコミットあり、未コミットの変更あり、未追跡ファイルありは残る
 	  dry-run       -DryRun では何も消えず、orca worktree rm も呼ばれない
 	  live-terminal Orcaのターミナルが開いているworktreeは残し、ほかのマージ済みのworktreeは消す(#133)
+	  session-cli   PATH に Orca がなくても ORCA_CLI_COMMAND の偽物で worker を保護・不要な worktree を削除する(#7)
+	  session-cli-unavailable 指定 CLI が見つからない・照会に失敗するときは PATH に切り替えず worktree を保持する
 	  terminal-path-format  Orcaのパスの区切り・大文字小文字・末尾の区切りが違っても、同じworktreeとして残す
 	  terminal-unknown      terminal list が失敗したときと途中で切れたときは、残す
 	  live-worker   worker-list に解放されていないworkerがいるworktreeは残し、released だけのworktreeは消す(#166)
@@ -233,11 +235,14 @@ function Get-ReviewRefs($sb, [string]$key) {
 }
 
 # テスト対象を実行する。-NoOrca なら本物も偽物もない PATH にする
-function Invoke-Cleanup($sb, [string[]]$arguments = @(), [switch]$NoOrca, [string]$OrcaMode = "async", [string]$Script, [switch]$InPlace, [string]$Terminals = "", [string]$Workers = "") {
+function Invoke-Cleanup($sb, [string[]]$arguments = @(), [switch]$NoOrca, [string]$OrcaMode = "async", [string]$Script, [switch]$InPlace, [string]$Terminals = "", [string]$Workers = "", [string]$Cli = "") {
 	$savedPath = $env:PATH
+	$savedCli = $env:ORCA_CLI_COMMAND
 	# スクリプトは %TEMP% のレビューのロックを読むので、本物の %TEMP% を見せない
 	$savedTemp = $env:TEMP, $env:TMP
 	try {
+		# 本物のセッション CLI はテストに渡さず、指定時も sandbox の偽物だけを使う
+		$env:ORCA_CLI_COMMAND = $Cli
 		$env:TEMP = $sb.Temp
 		$env:TMP = $sb.Temp
 		$dirs = $env:PATH -split ';' | Where-Object { $_ }
@@ -284,6 +289,7 @@ function Invoke-Cleanup($sb, [string[]]$arguments = @(), [switch]$NoOrca, [strin
 	}
 	finally {
 		$env:PATH = $savedPath
+		$env:ORCA_CLI_COMMAND = $savedCli
 		$env:TEMP, $env:TMP = $savedTemp
 	}
 }
@@ -488,6 +494,38 @@ $cases["live-terminal"] = {
 		Check (Test-BranchExists $sb "fix/live") "ブランチは残っている"
 		Check (-not (Test-Path -LiteralPath $done)) "ターミナルのないマージ済みのworktreeは消える"
 		Check (-not (Test-BranchExists $sb "fix/done")) "ターミナルのないマージ済みのブランチは消える"
+	}
+	finally { Remove-Sandbox $sb }
+}
+
+$cases["session-cli"] = {
+	$sb = New-Sandbox
+	try {
+		$live = New-Branch $sb "fix/session-live" -Worktree -Merge
+		$done = New-Branch $sb "fix/session-done" -Worktree -Merge
+		$r = Invoke-Cleanup $sb -NoOrca -Cli (Join-Path $sb.Bin "orca.ps1") -Workers "active|$live"
+		Check ($r.ExitCode -eq 0) "PATH に Orca がなくても指定 CLI で終了コード0"
+		Check ($r.Text -match "Orcaのworkerがまだ解放されていない") "指定 CLI の worker 一覧で保持を判断する"
+		Check ((Test-Registered $sb $live) -and (Test-BranchExists $sb "fix/session-live")) "未解放 worker の worktree とブランチを保持する"
+		Check (-not (Test-Path -LiteralPath $done)) "指定 CLI で不要な worktree を削除する"
+		Check (((Get-OrcaCalls $sb) | Where-Object { $_ -match [regex]::Escape($done) }).Count -eq 1) "削除にも指定 CLI を使う"
+	}
+	finally { Remove-Sandbox $sb }
+}
+
+$cases["session-cli-unavailable"] = {
+	$sb = New-Sandbox
+	try {
+		$wt = New-Branch $sb "fix/session-unknown" -Worktree -Merge
+		$missing = Join-Path $sb.Bin "missing-orca.exe"
+		$failed = Join-Path $sb.Bin "failed-orca.ps1"
+		Set-Content -LiteralPath $failed -Value 'exit 1' -Encoding utf8BOM
+		foreach ($cli in $missing, $failed) {
+			$r = Invoke-Cleanup $sb -Cli $cli
+			Check ((Test-Registered $sb $wt) -and (Test-BranchExists $sb "fix/session-unknown") -and (Test-Path -LiteralPath $wt)) "指定 CLI が使えない場合は worktree とブランチを保持する: $cli"
+			Check ($r.Text -match '指定された Orca CLI が見つかりません|Orcaのターミナルを確認できない') "確認できない理由を表示する"
+			Check ((Get-OrcaCalls $sb).Count -eq 0) "PATH の Orca に切り替えて削除しない"
+		}
 	}
 	finally { Remove-Sandbox $sb }
 }

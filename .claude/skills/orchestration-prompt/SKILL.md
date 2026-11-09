@@ -5,19 +5,22 @@ description: Write and present the instruction text that has an Orca coordinator
 
 # Writing instructions for a coordinator
 
-<!-- last-reviewed: 2026-11-05 -->
+<!-- last-reviewed: 2026-11-09 -->
 
-The user pastes the text written here into a new Claude session (the Orca coordinator). **Write and present it; never run it yourself.** The user once said 「勝手に進めないでプロンプトだけ提示して」. Do not start workers or begin implementing.
+The user usually gets here from the `next-task` skill (「次のタスクを提示」→「プロンプトを提示」) and pastes the text written here into a new session that becomes the Orca coordinator. **Write and present it; never run it yourself.** The user once said 「勝手に進めないでプロンプトだけ提示して」. Do not start workers or begin implementing.
 
-The template is `template.md` in this folder, distilled from earlier instructions (#10, #11/#107, #104, #116/#117).
+The text itself says that the work is delegated to Orca workers: it starts with "Use the /orchestration skill", and the template's roles are fixed: workers implement, open the PR, wait for CI, run `CodexReview.ps1 -Post` and fix findings; only the coordinator runs `-SetStatus`, and the user listens at the end of the phase.
+
+The template is `template.md` in this folder. It deliberately does not copy Orca's own procedure (waiting, ask/reply/send, `worker_done`, recovery): the coordinator reads the guide that matches its Orca binary (`<ORCA_CLI_COMMAND or orca> skills get orchestration`). Do not add such steps back, in particular no `check --wait` loop, no restart of a silent worker, no blanket `worker-release`, and no fixed `--model`.
 
 ## 1. Settle what must be decided
 
 Ask only about what cannot be read from the user's request.
 
 - **Target issues**: one or several. If several, one PR or parallel workers. Parallelize only when the edited files do not overlap.
-- **Whether the user is present**: if absent, limit the work to what can be verified headless without the GUI. Decisions beyond the spec become "the coordinator decides in the direction of a smaller scope and reports why".
-- **Whether the sound changes**: then the worker writes a 「試聴メモ」 in the PR body; it does not block the merge. After CI and the Codex PASS, the coordinator runs `-SetStatus` through to the merge (human approval `merge-ok` is not required). The worker runs `-Post` and fixes findings; only the coordinator runs `-SetStatus`.
+- **Whether the user is present**: if absent, limit the work to what can be verified headless. Decisions beyond the spec become "the coordinator decides in the direction of a smaller scope and reports why".
+- **Whether the sound changes**: then the worker writes a 「試聴メモ」 in the PR body; it does not block the merge. After CI and the Codex PASS, the coordinator runs `-SetStatus` through to the merge (no human approval).
+- **Model**: none unless the user names one; then add `-Model <id>` to the `StartWorker.ps1` line.
 
 ## 2. Research and fill in the premises
 
@@ -36,7 +39,7 @@ gh pr list --state open --json number,title,headRefName
 
 ## 3. Fill in the template
 
-- Fill in the `<...>` of `template.md`, and delete lines that do not apply (e.g. the GUI/no-GUI alternatives) as well as the last-reviewed line at the top.
+- Fill in the `<...>` of `template.md`, and delete lines that do not apply as well as the comment and the last-reviewed line at the top.
 - Write the completion conditions and Observable acceptance in a **verifiable form** (which command shows what, what happens before the fix). Never "it works".
 - For a bug fix, include a condition that reproduces the failure before the fix.
 - For hard work with several possible approaches, include a step where the approach is approved via ask before implementation, plus the "approach criteria". Leave them out for simple work.
@@ -45,5 +48,5 @@ gh pr list --state open --json number,title,headRefName
 ## 4. Present it
 
 - Show the whole text in one code block (` ```markdown `) so it can be copied as-is.
-- Before the block, 2-4 lines in Japanese with the key points: what is done by how many workers, whether a GUI check is needed, whether auto-merge is scheduled, and any points you were unsure about.
+- Before the block, 2-4 lines in Japanese with the key points: what is done by how many workers, whether the sound changes, that the merge is automatic after CI and the Codex PASS, and any points you were unsure about.
 - Then wait for the user's reply.
