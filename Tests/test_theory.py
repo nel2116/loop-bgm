@@ -1,6 +1,6 @@
 import pytest
 
-from bgm.theory import degree_to_midi, parse_key
+from bgm.theory import degree_to_midi, note_to_midi, parse_key, parse_pitches
 
 
 @pytest.mark.parametrize(("key", "expected"), [
@@ -78,3 +78,26 @@ def test_invalid_octaves(octave):
 def test_out_of_midi_range(degree, key, octave):
     with pytest.raises(ValueError, match="MIDIの範囲"):
         degree_to_midi(degree, key, base_octave=octave)
+
+
+@pytest.mark.parametrize(("name", "expected"), [
+    ("C4", 60), ("F#3", 54), ("Bb5", 82), ("B#3", 60), ("Cb4", 59),
+    ("C##4", 62), (" c4 ", 60), ("C-2", -12), ("G#9", 128),
+])
+def test_legacy_absolute_notes(name, expected):
+    assert note_to_midi(name) == expected
+
+
+@pytest.mark.parametrize(("token", "expected"), [
+    ("C4", [60]), ("C4+E4+G4", [60, 64, 67]),
+    ("Am7_3", [57, 60, 64, 67]), ("Cmaj7_3", [48, 52, 55, 59]),
+    ("Bb_3", [58, 62, 65]), ("C4+Am7_3", [60, 57, 60, 64, 67]),
+])
+def test_legacy_pitch_tokens(token, expected):
+    assert parse_pitches(token) == expected
+
+
+@pytest.mark.parametrize("token", ["1", "#4", "b7", "1'"])
+def test_legacy_pitch_tokens_reject_degrees(token):
+    with pytest.raises(ValueError, match="音名が読めません"):
+        parse_pitches(token)
