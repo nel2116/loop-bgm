@@ -82,3 +82,5 @@ finally {
         Remove-Item -LiteralPath $target -Recurse -Force
     }
 }
+
+exit 0
