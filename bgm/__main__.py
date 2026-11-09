@@ -31,10 +31,14 @@ def main(argv=None):
 
     if args.command == "listen":
         from .listen import serve
-        from .render import song_dir
+        from .render import SongError, load_song
 
-        folder = song_dir(args.song)
-        audio = folder / f"{folder.name}.wav"
+        try:
+            folder, song = load_song(args.song)
+        except (SongError, OSError, ValueError) as e:
+            print(f"試聴する曲を読み込めません: {e}", file=sys.stderr)
+            return 1
+        audio = folder / f"{song['id']}.wav"
         if not audio.is_file():
             print(f"試聴音源がありません: {audio}。先に bgm render で曲を書き出してください。", file=sys.stderr)
             return 1

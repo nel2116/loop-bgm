@@ -1,5 +1,6 @@
 """試聴画面の配信範囲を確認する。"""
 
+import json
 from threading import Thread
 from urllib.error import HTTPError
 from urllib.request import urlopen
@@ -63,12 +64,18 @@ def test_listen_escapes_filename(tmp_path):
 
 
 @pytest.mark.parametrize('reference', ['song', 'folder', 'json'])
-def test_listen_cli_selects_rendered_audio(tmp_path, monkeypatch, reference):
+@pytest.mark.parametrize('song_id', [None, 'alternate'])
+def test_listen_cli_selects_rendered_audio(tmp_path, monkeypatch, reference, song_id):
     from bgm import __main__, listen, paths
 
     folder = tmp_path / 'example'
     folder.mkdir()
-    audio = folder / 'example.wav'
+    song = {'tempo': 120, 'bars': 1, 'parts': []}
+    if song_id is not None:
+        song['id'] = song_id
+    (folder / 'song.json').write_text(json.dumps(song), encoding='utf-8')
+    (folder / 'example.wav').write_bytes(b'old audio')
+    audio = folder / f'{song_id or folder.name}.wav'
     audio.write_bytes(b'audio')
     monkeypatch.setattr(paths, 'SONGS', tmp_path)
     monkeypatch.setattr('bgm.render.SONGS', tmp_path)
@@ -84,9 +91,16 @@ def test_listen_cli_errors(tmp_path, monkeypatch, capsys):
 
     monkeypatch.setattr('bgm.render.SONGS', tmp_path)
     assert __main__.main(['listen']) == 1
-    assert '試聴音源がありません' in capsys.readouterr().err
+    assert '曲ファイルがありません' in capsys.readouterr().err
     folder = tmp_path / 'proto_test'
     folder.mkdir()
+    design = folder / 'song.json'
+    design.write_text('{', encoding='utf-8')
+    assert __main__.main(['listen']) == 1
+    assert '書式エラー' in capsys.readouterr().err
+    design.write_text(json.dumps({'tempo': 120, 'bars': 1, 'parts': []}), encoding='utf-8')
+    assert __main__.main(['listen']) == 1
+    assert '試聴音源がありません' in capsys.readouterr().err
     (folder / 'proto_test.wav').write_bytes(b'audio')
 
     def fail(*args):
