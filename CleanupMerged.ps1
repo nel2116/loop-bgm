@@ -59,7 +59,12 @@ foreach ($tool in "git", "gh") {
 		throw "$tool が見つかりません。"
 	}
 }
-$hasOrca = [bool](Get-Command orca -ErrorAction SilentlyContinue)
+$orca = if ($env:ORCA_CLI_COMMAND) { $env:ORCA_CLI_COMMAND } else { "orca" }
+$hasOrca = [bool](Get-Command $orca -ErrorAction SilentlyContinue)
+# 指定 CLI を確認できない場合は削除前に止める。別ビルドや git の削除へ切り替えない(#7)
+if ($env:ORCA_CLI_COMMAND -and -not $hasOrca) {
+	throw "指定された Orca CLI が見つかりません: $orca。worktree を保持します。"
+}
 
 # git worktree list の先頭はメインのworktree(ルートのチェックアウト)。
 # このスクリプトがworktreeの中から実行されても、ルートを基準にする。
@@ -139,7 +144,7 @@ try {
 	function Get-OrcaTerminalReason([string]$path) {
 		if (-not $hasOrca) { return $null }
 		$unknown = "Orcaのターミナルを確認できない(Orcaを起動してから実行し直す)"
-		$json = orca terminal list --limit 100000 --json 2>$null | Out-String
+		$json = & $orca terminal list --limit 100000 --json 2>$null | Out-String
 		if ($LASTEXITCODE -ne 0) { return $unknown }
 		try { $list = $json | ConvertFrom-Json }
 		catch { return $unknown }
@@ -159,7 +164,7 @@ try {
 		do {
 			$pageArgs = $arguments + @("--json")
 			if ($cursor) { $pageArgs += @("--cursor", $cursor) }
-			$json = orca @pageArgs 2>$null | Out-String
+			$json = & $orca @pageArgs 2>$null | Out-String
 			if ($LASTEXITCODE -ne 0) { return $null }
 			try { $page = $json | ConvertFrom-Json }
 			catch { return $null }
@@ -302,7 +307,7 @@ try {
 		Write-Output "削除: $($wt.Path) [$($wt.Branch)](PR #$(Get-MergedPr $wt.Branch) はマージ済み)"
 		$done = $false
 		if ($hasOrca -and -not $DryRun) {
-			$result = orca worktree rm --worktree "path:$($wt.Path)" --json 2>$null | Out-String
+			$result = & $orca worktree rm --worktree "path:$($wt.Path)" --json 2>$null | Out-String
 			$done = ($LASTEXITCODE -eq 0) -and ($result -match '"ok":\s*true')
 			if (-not $done) { Write-Output "  Orcaでは消せなかったため、gitで消します。" }
 		}
