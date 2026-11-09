@@ -2,6 +2,9 @@ import re
 
 _PC = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 _NOTE = re.compile(r"^([A-Ga-g])([#b]*)(-?\d+)$")
+_KEY = re.compile(r"([A-Ga-g])([#b]?) (major|minor)")
+_DEGREE = re.compile(r"([#b]?)([1-7])(,*|'*)")
+_SCALES = {"major": (0, 2, 4, 5, 7, 9, 11), "minor": (0, 2, 3, 5, 7, 8, 10)}
 NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 
 # Chord symbols usable as  Cmaj7_3  (root C, octave 3)
@@ -44,3 +47,36 @@ def parse_pitches(token: str):
 
 def midi_to_hz(m: float) -> float:
     return 440.0 * 2 ** ((m - 69) / 12)
+
+
+def parse_key(key: str) -> tuple[int, str]:
+    """主音のピッチクラス（0〜11）と major / minor（自然短調）を返す。"""
+    match = _KEY.fullmatch(key.strip()) if isinstance(key, str) else None
+    if match is None:
+        raise ValueError(f"調が読めません: {key!r}（例: C major, A minor, Bb major）")
+    letter, accidental, mode = match.groups()
+    tonic = (_PC[letter.upper()] + (accidental == "#") - (accidental == "b")) % 12
+    return tonic, mode
+
+
+def degree_to_midi(degree: str, key: str, *, base_octave: int) -> int:
+    """度数をMIDI音程へ変換する。基準は主音のピッチクラスの指定オクターブ。
+
+    C major / base_octave=4 の1は60、5,は55、1'は72。
+    異名同音の主音は同じ高さ（B# major と C major の1は同じ）になる。
+    # / b は音階の音を半音上下し、同じオクターブ記号は複数付けられる。
+    パートや小節の文脈は呼び出し元が ValueError に付け加える。
+    """
+    tonic, mode = parse_key(key)
+    if type(base_octave) is not int or not -1 <= base_octave <= 9:
+        raise ValueError(f"基準オクターブは-1〜9の整数で指定してください: {base_octave!r}")
+    match = _DEGREE.fullmatch(degree.strip()) if isinstance(degree, str) else None
+    if match is None:
+        raise ValueError(f"度数が読めません: {degree!r}（例: 1, #4, b7, 5, / 1'）")
+    accidental, number, octave_marks = match.groups()
+    midi = (12 * (base_octave + 1) + tonic + _SCALES[mode][int(number) - 1]
+            + (accidental == "#") - (accidental == "b")
+            + 12 * (octave_marks.count("'") - octave_marks.count(",")))
+    if not 0 <= midi <= 127:
+        raise ValueError(f"度数 {degree!r} の音程がMIDIの範囲（0〜127）を超えています: {midi}")
+    return midi
