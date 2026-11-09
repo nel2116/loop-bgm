@@ -20,6 +20,16 @@
 
 Output: `songs/<song>/<song>.wav` (loop, 44.1 kHz/16 bit), per-part stems in `stems/` with a hash cache (unchanged parts are reused), the previous render in `history/`. MP3 needs `ffmpeg` on `PATH`. The render prints a seam check line (`つなぎ目 OK` or `注意: ...`).
 
+## Local listening
+
+Run `.venv/Scripts/python -m bgm listen [song] [--port 8765]` and open the printed localhost URL.
+The song argument defaults to `proto_test`; like `render`, it accepts a song ID, folder or `song.json` path.
+Render first: the listener reads `<song-folder>/<folder-name>.wav` and never renders or edits a song.
+Only `/` and `/audio.wav` are served, on `127.0.0.1` only. Stop the server with Ctrl+C.
+The page offers Web Audio loop playback, stop and WAV download. Keep the browser in the foreground.
+Reload the page after rendering a new version (playback caches decoded audio until reload).
+Remote access and the full listening UI are separate tasks.
+
 ## Tests
 
 | Command | What | Time |

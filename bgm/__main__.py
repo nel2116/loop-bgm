@@ -2,6 +2,7 @@
 
   python -m bgm render <song> [--force] [--no-mp3]   render songs/<song>/song.json (or a path)
   python -m bgm fetch [instrument ...] [--verify]    download the samples the kit uses
+  python -m bgm listen [song] [--port 8765]           open a local listening page
   python -m bgm status [instrument ...]              how many sample files are missing
 """
 
@@ -23,7 +24,26 @@ def main(argv=None):
     p.add_argument("--verify", action="store_true", help="取得済みのファイルもハッシュを確かめる")
     p = sub.add_parser("status", help="足りない音源を数える")
     p.add_argument("instruments", nargs="*")
+    p = sub.add_parser("listen", help="ローカルの試聴画面を起動する")
+    p.add_argument("song", nargs="?", default="proto_test", help="曲ID、曲フォルダー、または song.json")
+    p.add_argument("--port", type=int, default=8765, choices=range(1, 65536), metavar="1-65535")
     args = parser.parse_args(argv)
+
+    if args.command == "listen":
+        from .listen import serve
+        from .render import song_dir
+
+        folder = song_dir(args.song)
+        audio = folder / f"{folder.name}.wav"
+        if not audio.is_file():
+            print(f"試聴音源がありません: {audio}。先に bgm render で曲を書き出してください。", file=sys.stderr)
+            return 1
+        try:
+            serve(audio, args.port)
+        except (OSError, ValueError) as e:
+            print(f"試聴画面を起動できません: {e}", file=sys.stderr)
+            return 1
+        return 0
 
     if args.command == "render":
         from .render import SongError, render_song

@@ -15,7 +15,10 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 ./setup.ps1
 .venv/Scripts/python -m bgm fetch                  # 音源の取得（約1.2GB）
 .venv/Scripts/python -m bgm render proto_test --no-mp3
+.venv/Scripts/python -m bgm listen proto_test    # ローカルの試聴画面
 ```
+
+試聴画面ではループ再生・停止・WAV保存ができます。別の曲は `proto_test` を曲IDに置き換えてください。
 
 ## 音源とライセンス
 
