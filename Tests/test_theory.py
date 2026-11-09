@@ -82,7 +82,7 @@ def test_out_of_midi_range(degree, key, octave):
 
 @pytest.mark.parametrize(("name", "expected"), [
     ("C4", 60), ("F#3", 54), ("Bb5", 82), ("B#3", 60), ("Cb4", 59),
-    ("C##4", 62), (" c4 ", 60), ("C-2", -12), ("G#9", 128),
+    ("C##4", 62), (" c4 ", 60), ("C-2", -12), ("G#9", 128), ("b7", 107),
 ])
 def test_legacy_absolute_notes(name, expected):
     assert note_to_midi(name) == expected
@@ -97,7 +97,7 @@ def test_legacy_pitch_tokens(token, expected):
     assert parse_pitches(token) == expected
 
 
-@pytest.mark.parametrize("token", ["1", "#4", "b7", "1'"])
+@pytest.mark.parametrize("token", ["1", "#4", "1'"])
 def test_legacy_pitch_tokens_reject_degrees(token):
     with pytest.raises(ValueError, match="音名が読めません"):
         parse_pitches(token)
