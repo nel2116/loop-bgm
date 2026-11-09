@@ -159,7 +159,7 @@ def _validate_song(song):
         else:
             inst = part.get("instrument")
             if not isinstance(inst, str) or inst not in SAMPLED and inst not in SYNTH_PITCHED:
-                raise SongError(f"{where} instrument に存在する楽器名が必要です。`bgm instruments` で一覧を見られます")
+                raise SongError(f"{where} instrument に存在する楽器名が必要です")
             for key in ("gate", "strum", "transpose", "octave"):
                 if key in part:
                     _number(part[key], f"{where} {key}", float32=True)

@@ -78,6 +78,12 @@ def test_invalid_song_reports_location(tmp_path, data, location):
     assert location in str(error.value)
 
 
+def test_unknown_instrument_does_not_suggest_an_unavailable_command(tmp_path):
+    with pytest.raises(SongError) as error:
+        load_song(str(write_song(tmp_path, changed("part", "instrument", "unknown"))))
+    assert "[lead] instrument に存在する楽器名が必要です" == str(error.value)
+
+
 @pytest.mark.parametrize("command", ["listen", "render"])
 @pytest.mark.parametrize("index", [0, 1, len(CASES) - 1, len(CASES) - 3])
 def test_cli_rejects_nested_and_scalar_errors(tmp_path, command, index):
