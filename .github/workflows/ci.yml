@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python checks & tests
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install
+        shell: pwsh
+        run: |
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet -e ".[dev]"
+      - name: File conventions
+        shell: pwsh
+        run: python Tests/check_conventions.py
+      - name: Ruff
+        shell: pwsh
+        run: python -m ruff check .
+      - name: Pytest (no samples)
+        shell: pwsh
+        run: python -m pytest -q -m "not samples"
+
+  scripts:
+    name: PowerShell script tests
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: CodexReview.ps1 tests
+        shell: pwsh
+        run: ./Tests/CodexReview.Tests.ps1
+      - name: Worker tools tests
+        shell: pwsh
+        run: ./Tests/WorkerTools.Tests.ps1
+      - name: CleanupMerged.ps1 tests
+        shell: pwsh
+        run: ./Tests/CleanupMerged.Tests.ps1

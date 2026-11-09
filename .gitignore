@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Samples are downloaded by `bgm fetch` and never committed (docs/spec.md 4.3)
+samples/
+
+# Rendered audio and per-song work files (docs/spec.md 5.5)
+songs/*/out/
+songs/*/stems/
+songs/*/history/
+songs/*/build/
+songs/*/requests/
+songs/*/last_song.json
+songs/*/mix.json
+build/
+tmp/
+
+# Audio anywhere (Tests/check_conventions.py also rejects tracked audio)
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.aif
+*.aiff

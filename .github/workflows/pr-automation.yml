@@ -1,0 +1,158 @@
+# PRの自動マージを支えるワークフロー。
+#
+#   - hold: PRに hold ラベルが付いている間は失敗する。develop のブランチ保護で必須にしているため、
+#     CI・codex-review がそろっていても、hold を外すまで自動マージされない(人が止めるための手段)。
+#   - approval: PRに merge-ok ラベルが付いているときだけ成功する(人がマージを承認するための手段、#160。
+#     変数 REQUIRE_MERGE_APPROVAL が true のときだけ動く)。
+#     エージェントは codex-review を付けて自動マージを予約するところまでで、マージを確定するのは人が付ける
+#     merge-ok である。承認は head ごとに取るため、push(synchronize)されたらラベルを外して失敗する。
+#   - close-issues: develop にマージされたPRの本文にある "Closes #NN" のIssueを閉じる。
+#     GitHub がPRの本文でIssueを閉じるのは既定のブランチ(main)へのマージだけなので、ここで代わりに行う。
+#     pull_request_target は向き先に関係なく既定のブランチ(main)のワークフローを使うため、develop に
+#     置いただけでは動かない。そこで develop への push(マージコミット)を契機にし、コミットからPRを引く。
+#     develop に push できるのは書き込み権限のある人だけなので、forkからのPRでも権限は足りる。
+name: PR automation
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+  push:
+    branches: [develop]
+
+jobs:
+  hold:
+    name: No hold label
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      # イベントに記録されたラベルではなく、実行時点のラベルを見る(古いrunを再実行しても hold を見落とさない)
+      - name: Fail while the hold label is set
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          labels=$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name')
+          if printf '%s\n' "$labels" | grep -qx 'hold'; then
+            echo "::error::This PR has the 'hold' label. Remove it to allow merging."
+            exit 1
+          fi
+          echo "No hold label."
+
+  approval:
+    name: Merge approved
+    # 承認を必須にするときだけ動かす(リポジトリの変数 REQUIRE_MERGE_APPROVAL を true にし、ブランチ保護でも
+    # 必須にする)。個人開発で速度を優先するため、今は動かしていない(2026/11/03)。必須のジョブがスキップされると
+    # 成功として扱われるので、変数を設定せずに保護だけで必須にしても、承認なしでマージされる
+    if: github.event_name == 'pull_request' && vars.REQUIRE_MERGE_APPROVAL == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      issues: read
+      pull-requests: write
+    steps:
+      # 承認したあとに足されたコミットを、承認されたまま通さない(codex-review がコミットごとに付くのと同じ考え方)。
+      # ここでラベルを外すのは見た目のため。外せなくても(forkからのPRでトークンが読み取り専用など)、
+      # 次のステップが承認の時刻と head の時刻を比べるので、古い承認は通らない
+      - name: Withdraw the approval when new commits are pushed
+        if: github.event.action == 'synchronize'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          labels=$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name')
+          if printf '%s\n' "$labels" | grep -qx 'merge-ok'; then
+            gh pr edit "$PR_NUMBER" --remove-label merge-ok || echo "::warning::Could not remove the 'merge-ok' label; the old approval is still rejected by its time."
+            echo "::error::New commits were pushed after the approval; the 'merge-ok' label was removed. Add it again to approve this head."
+          else
+            echo "::error::New commits were pushed. Add the 'merge-ok' label to approve this head."
+          fi
+          exit 1
+      # イベントに記録されたラベルではなく、実行時点のラベルを見る(hold と同じ)。
+      # さらに、最後に merge-ok を付けた時刻が、head が最後にこの SHA になった時刻より後であることを確かめる。
+      # ラベルが外れずに残っていても、push の前の承認は通らない。head を前の SHA に戻した(force-push)ときも、
+      # 戻す前の head への承認は通らない(PR #161 の Codex の指摘)
+      - name: Fail until the merge-ok label is set for this head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # forkからのPRの実行には pull_requests が記録されず、head の push の時刻を確かめられないので承認できない
+          if [ "$HEAD_REPO" != "$GH_REPO" ]; then
+            echo "::error::Pull requests from forks cannot be approved with 'merge-ok' (the approval cannot be tied to the head). Push the branch to $GH_REPO instead."
+            exit 1
+          fi
+          labels=$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name')
+          if ! printf '%s\n' "$labels" | grep -qx 'merge-ok'; then
+            echo "::error::This PR has no 'merge-ok' label. A human adds it to approve the merge."
+            exit 1
+          fi
+          # 時刻はどちらも UTC の ISO 8601(YYYY-MM-DDTHH:MM:SSZ)なので、文字列のまま比べられる
+          approved_at=$(gh api --paginate "repos/$GH_REPO/issues/$PR_NUMBER/events" \
+            --jq '.[] | select(.event == "labeled" and .label.name == "merge-ok") | .created_at' | sort | tail -n 1)
+          # head が最後にこの SHA になった時刻: このPRの実行を時刻の順に並べ、最後に続いているこの SHA の実行の
+          # うち最初のものの時刻。同じ SHA の最初の実行の時刻にすると、A → B(承認)→ A と戻したときに、
+          # B への承認が A にも効いてしまう
+          pushed_at=$(gh api --paginate "repos/$GH_REPO/actions/runs?event=pull_request&branch=$HEAD_REF" \
+            --jq ".workflow_runs[] | select(any(.pull_requests[]?; .number == $PR_NUMBER)) | [.created_at, .head_sha] | @tsv" \
+            | sort | awk -F '\t' -v sha="$HEAD_SHA" '$2 != sha { start = "" } $2 == sha && start == "" { start = $1 } END { print start }')
+          if [ -z "$approved_at" ] || [ -z "$pushed_at" ]; then
+            echo "::error::Could not read when 'merge-ok' was added ($approved_at) or when ${HEAD_SHA:0:7} was pushed ($pushed_at)."
+            exit 1
+          fi
+          if [[ ! "$approved_at" > "$pushed_at" ]]; then
+            echo "::error::'merge-ok' was added at $approved_at, before ${HEAD_SHA:0:7} was pushed at $pushed_at. Add it again to approve this head."
+            exit 1
+          fi
+          echo "Approved by 'merge-ok' at $approved_at (head ${HEAD_SHA:0:7} pushed at $pushed_at)."
+
+  close-issues:
+    name: Close linked issues
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - name: Close issues referenced by merged PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        # bash を明示して pipefail を有効にする。API の取得失敗はジョブを失敗させ、再実行できるようにする
+        shell: bash
+        run: |
+          # このpushに含まれるコミットに対応する、develop へマージ済みのPR
+          # (代入 x=$(...) は中のコマンドが失敗すると -e でステップを止める)
+          prs=""
+          for sha in $(jq -r '.commits[].id' "$GITHUB_EVENT_PATH"); do
+            found=$(gh api "repos/$GH_REPO/commits/$sha/pulls" \
+              --jq '.[] | select(.merged_at != null and .base.ref == "develop") | .number')
+            prs="$prs $found"
+          done
+          for pr in $(printf '%s\n' $prs | sort -un); do
+            merge_sha=$(gh pr view "$pr" --json mergeCommit --jq '.mergeCommit.oid')
+            body=$(gh pr view "$pr" --json body --jq '.body')
+            # 該当がないと grep は 1 を返すので、それだけは失敗にしない
+            numbers=$(printf '%s' "$body" \
+              | { grep -oiE '\b(close[sd]?|fix(e[sd])?|resolve[sd]?)[[:space:]]+#[0-9]+' || true; } \
+              | grep -oE '[0-9]+$' | sort -un || true)
+            for n in $numbers; do
+              # 取得に失敗したら(存在しない番号を含めて)ジョブを失敗させ、取りこぼしを見えるようにする
+              state=$(gh issue view "$n" --json state --jq .state)
+              if [ "$state" = "OPEN" ]; then
+                gh issue close "$n" --comment "PR #$pr (${merge_sha:0:7}) で develop にマージしました。"
+              else
+                echo "PR #$pr -> #$n: skipped (state: $state)"
+              fi
+            done
+          done

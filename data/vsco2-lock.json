@@ -1,0 +1,5826 @@
+{
+ "repo": "sgossner/VSCO-2-CE",
+ "commit": "440300901dfe9275fd84e0b7763af1f8443ae62e",
+ "files": [
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A#1_v1_1.wav",
+   "sha": "573db456092f7eff6af7245819f162828f749e10",
+   "size": 2417592
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A#1_v2_1.wav",
+   "sha": "62c15504278f9c2dfaa0006530d34a5a3d92ecb0",
+   "size": 2740036
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A#1_v3_1.wav",
+   "sha": "8fe919bf02a81284083f9a356db56591ffbb5e31",
+   "size": 1829064
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A0_v1_1.wav",
+   "sha": "bec79afe2bde69ed445c52da977b83e31cc81ed7",
+   "size": 947196
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A2_v1_1.wav",
+   "sha": "d358aadfb3bb1e0f28ab742d96f5418dc750057b",
+   "size": 2672192
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A2_v2_1.wav",
+   "sha": "5ea35c7b0bf50d85195ba726380e611817f4ba9a",
+   "size": 2542000
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_A2_v3_1.wav",
+   "sha": "d4088d29905d60944c524d443f66c55035301e47",
+   "size": 1305440
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C1_v1_1.wav",
+   "sha": "eed8f32ab91afd3381e42d0a5d0ad1d2beccbd11",
+   "size": 1093856
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C1_v2_1.wav",
+   "sha": "48ea1921e88607d0aea8aece16be6bc2456f6a4e",
+   "size": 807756
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C1_v3_1.wav",
+   "sha": "3503c90afff58abd64db51f24e7f0ffc02954e3d",
+   "size": 704216
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C3_v1_1.wav",
+   "sha": "e53d2d03f0902c9f3a6add7c6bf51122bcc7d573",
+   "size": 2519448
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C3_v2_1.wav",
+   "sha": "9f89dc248404a1a1e0240035ac5fa55c89e9c9cd",
+   "size": 2240888
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C3_v3_1.wav",
+   "sha": "69e3187ccc4d4338931d412a9f50978ca576db5c",
+   "size": 2114316
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_C3_v4_1.wav",
+   "sha": "98bc7d3d4709c8d7a240a1f39c615bef3af7e5b0",
+   "size": 1761688
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D#1_v1_1.wav",
+   "sha": "238de6f129810744e89a22c414daf926e1b55a37",
+   "size": 1425196
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D#1_v2_1.wav",
+   "sha": "20c33d3ffb3bf369e30359e3eb8b8ac7548adda3",
+   "size": 970468
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D#1_v3_1.wav",
+   "sha": "db97debcf24dfa898ce069d9b21b5bbea371e552",
+   "size": 927292
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D2_v1_1.wav",
+   "sha": "e63cadc76d2b3e56ee26ad558e52fd633cc8c4b1",
+   "size": 2500360
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D2_v2_1.wav",
+   "sha": "665f09cf0fe70efdcec1d93b064d5a5a32d6ebe0",
+   "size": 2583372
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D2_v3_1.wav",
+   "sha": "aec5cfdb8e2532338f69f6726c77c1d8e5044f0d",
+   "size": 1746204
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D2_v4_1.wav",
+   "sha": "e61e2d828400580fd267e5af934eee65e62d21b7",
+   "size": 1166236
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_D4_v1_1.wav",
+   "sha": "0d13acd769ecdfc234c416fe859a4eda9aac2f22",
+   "size": 1445100
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_F2_v1_1.wav",
+   "sha": "90c68f7833a7aa2325dea7159aad8af4c9b13a76",
+   "size": 2163124
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_F2_v2_1.wav",
+   "sha": "37655b24ac23b96a47a6bb75c091bedef6913632",
+   "size": 2558276
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_F2_v3_1.wav",
+   "sha": "af9345753c5b31083a3e344dd7bbf6c978de59c3",
+   "size": 1692688
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_F4_v1_1.wav",
+   "sha": "3061198e82995900230e9ddde1138a076d8dca9f",
+   "size": 1477536
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_G1_v1_1.wav",
+   "sha": "587133d2ed466473bd29438555973d9e75c3285a",
+   "size": 2038728
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_G1_v2_1.wav",
+   "sha": "e09ff9550c6ed4b660baeaba5497040ca7add35e",
+   "size": 1300556
+  },
+  {
+   "path": "Brass/F Horn/sus/MOHorn_sus_G1_v3_1.wav",
+   "sha": "e824ccfe9f9b0a33e31151cec90e838dc769d949",
+   "size": 941656
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v1_rr1.wav",
+   "sha": "8937a788f22f3abd6c8b3d17d3924b47ae08d32f",
+   "size": 170308
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v1_rr2.wav",
+   "sha": "626b72a06c8f16e7b405c05c4d9d5f525d631b65",
+   "size": 180488
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v2_rr1.wav",
+   "sha": "8fd5f3092b2d9d88e51a1e3e423525ee4c0d6ede",
+   "size": 210728
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v2_rr2.wav",
+   "sha": "cee76883dd41d147ac4de73b5d38758029dd8ccc",
+   "size": 177660
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v3_rr1.wav",
+   "sha": "95673324beff9f3303d5ae3fe16b73e6e5501c2b",
+   "size": 170680
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v3_rr2.wav",
+   "sha": "72ff8d0ebff690c764e6ef355c5036ae0acce5ab",
+   "size": 303352
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v4_rr1.wav",
+   "sha": "72c262cae03320cea616854e6e9a7edd87c03445",
+   "size": 185504
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#0_v4_rr2.wav",
+   "sha": "9f35ceb2fc078fca63f93ec75413e6b504884c31",
+   "size": 197632
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v1_rr1.wav",
+   "sha": "be9d933594ffc7e8883c613b527413682a8440f1",
+   "size": 156432
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v1_rr2.wav",
+   "sha": "69e3c0348d2520f20fd25c7ca361021f78a29dcb",
+   "size": 263624
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v2_rr1.wav",
+   "sha": "b489cd5449d3d082220faf517c005822808d0b4b",
+   "size": 208332
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v2_rr2.wav",
+   "sha": "71e190a8060be44609af48f42bac7ddcd47850bc",
+   "size": 290660
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v3_rr1.wav",
+   "sha": "79b0f7b1417faddc46890bb92508e52021d5da03",
+   "size": 274064
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v3_rr2.wav",
+   "sha": "0c049f2b38424f1e7cddd1bb2773b7923efff2fb",
+   "size": 215868
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v4_rr1.wav",
+   "sha": "9947fab6818aebb2977c473e964088638b02ff14",
+   "size": 230512
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#1_v4_rr2.wav",
+   "sha": "d323f7ba3db673b459f94b23175e9305a5a2995d",
+   "size": 248472
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v1_rr1.wav",
+   "sha": "14fe341ff5e398a3230f76fe91ab6d9f6dbc8211",
+   "size": 196392
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v1_rr2.wav",
+   "sha": "22bebbb1d39a81e3d753912ebe2f936ef9768038",
+   "size": 299128
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v2_rr1.wav",
+   "sha": "ef7315518f9ea88e4b8195f7659f83fc7a6f6b08",
+   "size": 179448
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v2_rr2.wav",
+   "sha": "d61ee7e58ab90ceec1f1bfdbaf5c0bab6f912ed8",
+   "size": 295160
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v3_rr1.wav",
+   "sha": "ce149164e8a227ffbe3adfbed37181223dbe05d2",
+   "size": 303796
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v3_rr2.wav",
+   "sha": "56fd03961972f3b2a8c894cbe9256b376ca1eb0c",
+   "size": 342228
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_A#2_v4_rr1.wav",
+   "sha": "8d68825cf75741d32d75bd182130bb6ebb0bf3e9",
+   "size": 358016
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v1_rr1.wav",
+   "sha": "b40fe1e2b7bf70663fd7435e6b4e9634a66a955a",
+   "size": 260432
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v1_rr2.wav",
+   "sha": "a09f2b65aaaa0a3a1af410dc990f2e8376ccaa8a",
+   "size": 174980
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v2_rr1.wav",
+   "sha": "5bda44b54bb60e7e1e681319928394b47a5eef5a",
+   "size": 262148
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v2_rr2.wav",
+   "sha": "203a5ba1ab630d194c4cd28f2f584572b94c31f7",
+   "size": 195532
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v3_rr1.wav",
+   "sha": "edeb1555e4d30c6e981c03a982a7d9149c3d79fb",
+   "size": 314000
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v3_rr2.wav",
+   "sha": "f321ddf3d08d458faeef57da0c445ea3f8674bbd",
+   "size": 238404
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v4_rr1.wav",
+   "sha": "3806b91e69df67b6c065fe80fd629df65b5391d4",
+   "size": 328948
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_D3_v4_rr2.wav",
+   "sha": "688419e623c8022563d8b1880e2ab5fc4aa93bf9",
+   "size": 347676
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v1_rr1.wav",
+   "sha": "609aad6d7ef959889bc778c49cb76e257fbc9d86",
+   "size": 206824
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v1_rr2.wav",
+   "sha": "76f9d9b968070f008fc44d8708c9495fcb811f23",
+   "size": 220484
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v2_rr1.wav",
+   "sha": "93aec9029a704da43e0ad75a97fe25692f567094",
+   "size": 234584
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v2_rr2.wav",
+   "sha": "f214d71c40e7a392015d88349c24d3e7709585cd",
+   "size": 318040
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v3_rr1.wav",
+   "sha": "f103568b26e144a4a284f76e1902bd4a5ed754bb",
+   "size": 259980
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v3_rr2.wav",
+   "sha": "b79bb400b9d39638fdbdfff4771bc1ec6ca83b51",
+   "size": 214312
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v4_rr1.wav",
+   "sha": "2a88b80622277b5a4739445a7945cdc7a95123b8",
+   "size": 323208
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F1_v4_rr2.wav",
+   "sha": "0f778971b23d1c279757fc918fb822959294868e",
+   "size": 207796
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v1_rr1.wav",
+   "sha": "9286c22ff7fa3cea82617611f83189a170930d8d",
+   "size": 180332
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v1_rr2.wav",
+   "sha": "e04d0180b6758368018cdac8de3c8884a0359b54",
+   "size": 274384
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v2_rr1.wav",
+   "sha": "7fb521ee3cc17335cc454359f8801d7211598c84",
+   "size": 164096
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v2_rr2.wav",
+   "sha": "2b2813053dcabeb7ef0f794a1c9b950adf0db15f",
+   "size": 189624
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v3_rr1.wav",
+   "sha": "15d871a42884a9a6c8300021790e94a38a9c297b",
+   "size": 177232
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v3_rr2.wav",
+   "sha": "00a9f623324538a93e90e2bdfc5c24b8b27cb06d",
+   "size": 175100
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v4_rr1.wav",
+   "sha": "1ccb564b7564df62ac16af6947e1216489730941",
+   "size": 270120
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F2_v4_rr2.wav",
+   "sha": "86b845ae3d94c6e8213b61364a37c318904efc00",
+   "size": 256564
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v1_rr1.wav",
+   "sha": "7117430dfa725072c048ffab44998e685d81bd91",
+   "size": 207184
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v1_rr2.wav",
+   "sha": "1adac947367a59bc188842e8b645a805f03f1e4e",
+   "size": 186184
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v2_rr1.wav",
+   "sha": "6413045836a20da7a60cf5a0ce67efb44fe55e27",
+   "size": 185392
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v2_rr2.wav",
+   "sha": "5e568a1abbb8469c8e2ad7d7deeb3621da086d4f",
+   "size": 199272
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v3_rr1.wav",
+   "sha": "a1257ab3aa44b2e2464d82624087b3eb36783838",
+   "size": 198704
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v3_rr2.wav",
+   "sha": "019eb003bcf58fa164cfdcf47316748b72cdaa7a",
+   "size": 188292
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v4_rr1.wav",
+   "sha": "eca22d71889ee09f22e91af77b4a1dd8d6305758",
+   "size": 353884
+  },
+  {
+   "path": "Brass/Tenor Trombone/stac/tenortbn_stac_F3_v4_rr2.wav",
+   "sha": "6544d23257b3106d0f5aff57c2bf66906229997f",
+   "size": 349876
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v1_rr1.wav",
+   "sha": "bf0e95a8fd3e63f12d208a946bfcd659b407e1bc",
+   "size": 201336
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v1_rr2.wav",
+   "sha": "199c5ac074304d2a3b0dc95a3b10cae790913396",
+   "size": 199784
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v2_rr1.wav",
+   "sha": "2da16b369ecc935ce024f1250afc4fb2dc151eb6",
+   "size": 218460
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v2_rr2.wav",
+   "sha": "eed06e0833c95cf381ec231b1d737e2eba82d14f",
+   "size": 236496
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v3_rr1.wav",
+   "sha": "b7f76652558f4b2bc8065424e9e8b119859deb8d",
+   "size": 270432
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A#3_v3_rr2.wav",
+   "sha": "df3b1287a88e26172ef1c5d83f0b12a08cf30e07",
+   "size": 263516
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v1_rr1.wav",
+   "sha": "f37fbc8a9bec8ac95a28b359ae13f2db9d1259e5",
+   "size": 132836
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v1_rr2.wav",
+   "sha": "1958d00def0a6e62ae72f959c1dd7773591e167d",
+   "size": 147328
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v2_rr1.wav",
+   "sha": "24bd1d129ebf8af4b218699193be85f2d4fc0471",
+   "size": 166660
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v2_rr2.wav",
+   "sha": "e1ade182454040684d8689235d7182d268973bc7",
+   "size": 170764
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v3_rr1.wav",
+   "sha": "3096788299a4fdbef104a517b885d0105b7cf9ac",
+   "size": 266432
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A2_v3_rr2.wav",
+   "sha": "7411f2aa7ddf090f97d7477e737b70f7a8bbea9a",
+   "size": 274396
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v1_rr1.wav",
+   "sha": "4a7e8e27138b468aa8c4bdff2d14d29a73a4fdcc",
+   "size": 261468
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v1_rr2.wav",
+   "sha": "33e4fb87dff994f4c98c5a49ecc06e91e1591cbf",
+   "size": 215684
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v2_rr1.wav",
+   "sha": "e756e2573b1112d1c0a182ffedb71237006e8ff9",
+   "size": 213260
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v2_rr2.wav",
+   "sha": "c0822dbc84bbecbf671165b3731b8afeccadf088",
+   "size": 220680
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v3_rr1.wav",
+   "sha": "756e786aeabfe7b27f1b66c212ce824d5608de4e",
+   "size": 238432
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_A4_v3_rr2.wav",
+   "sha": "816cb43dc8f09ad900246dd00a4880a3d62c310c",
+   "size": 258296
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v1_rr1.wav",
+   "sha": "73bc75a68458df9dac5946665c206be58e4f4899",
+   "size": 184244
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v1_rr2.wav",
+   "sha": "c326617e07521b04cb6df3c4cdbc040e48fcfc74",
+   "size": 166180
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v2_rr1.wav",
+   "sha": "ab8da5c0a735702b45b8c4dada74f74abf816218",
+   "size": 201220
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v2_rr2.wav",
+   "sha": "2e3fa81623f9d20872f3b6aab25fc423e8ea6636",
+   "size": 206236
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v3_rr1.wav",
+   "sha": "2f50c4afc81b078ba9d67d75212d398b5115bfe6",
+   "size": 214984
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C3_v3_rr2.wav",
+   "sha": "a1aaf39ce40739defd53021d08e00f8f3540bd2a",
+   "size": 233160
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v1_rr1.wav",
+   "sha": "234aa7a8f29ad31675b83baaff1c135fa190c04c",
+   "size": 292552
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v1_rr2.wav",
+   "sha": "4277f766095fe63c2348352ef9d61f83b9165366",
+   "size": 241188
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v2_rr1.wav",
+   "sha": "864e7856744bed4c94c9d2e50b74c02b0e5d4817",
+   "size": 156828
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v2_rr2.wav",
+   "sha": "b5b2dcabc2a1f07a81b3605f8299f3244fb865dd",
+   "size": 262760
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v3_rr1.wav",
+   "sha": "059a10515dc4ed409dfea126cff0e0a1b46cd3a7",
+   "size": 253728
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_C5_v3_rr2.wav",
+   "sha": "371b3c89b59fa63405e0e1e8909ae473104a3049",
+   "size": 299412
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v1_rr1.wav",
+   "sha": "0daa5f3026acbb9d2e71d1e93ce7af262e211875",
+   "size": 185364
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v1_rr2.wav",
+   "sha": "e54f1ee5338150b5ae9eb23f21adb28b1f13f427",
+   "size": 188972
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v2_rr1.wav",
+   "sha": "a88c16c3a48afb44991c1b2d99fb1394195161f7",
+   "size": 227856
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v2_rr2.wav",
+   "sha": "2087047717d10850a622600ca73ac34799653413",
+   "size": 223108
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v3_rr1.wav",
+   "sha": "77d17d832af6f646de8b2cb2e2793f87e939076f",
+   "size": 258380
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D#3_v3_rr2.wav",
+   "sha": "427677a8e7fe48b551ef171c64cfb1414a49550b",
+   "size": 246320
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v1_rr1.wav",
+   "sha": "9362f406faf92752f69f81a3e64924850f4cb829",
+   "size": 194672
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v1_rr2.wav",
+   "sha": "7e804b845c8db49962a83a30a30f971270f9fd3f",
+   "size": 190316
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v2_rr1.wav",
+   "sha": "80d482935d4b79a80938c30dc6f083bfe206e9be",
+   "size": 235968
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v2_rr2.wav",
+   "sha": "282b1bf9c727c8a755daaedcd546e9fe887a6ba8",
+   "size": 205900
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v3_rr1.wav",
+   "sha": "f1fe8074459f0c37f6212f296f299ff4416da09c",
+   "size": 309472
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_D4_v3_rr2.wav",
+   "sha": "87e437363c9893fbbe10a70cf9edec17bce2907f",
+   "size": 254176
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v1_rr1.wav",
+   "sha": "e9f946ca06becd252fd6429ae3818c7ab215a915",
+   "size": 153232
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v1_rr2.wav",
+   "sha": "5df204d937199917741b314de99c0b660c386c47",
+   "size": 154136
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v2_rr1.wav",
+   "sha": "b157118ffe94338901f32ff69944dfe63be915c4",
+   "size": 190468
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v2_rr2.wav",
+   "sha": "13ec72eb3c733b1b0a1be84d7ac76e958f7d23b4",
+   "size": 172032
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v3_rr1.wav",
+   "sha": "845cbbe1d7ecaa358fba272dd1aea6cec12b6ad5",
+   "size": 189328
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F2_v3_rr2.wav",
+   "sha": "22e498b1af165faaf2ac794d7e72221a9f820056",
+   "size": 163492
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v1_rr1.wav",
+   "sha": "5265c95f043605ea4ade1d1d87f21382567519e4",
+   "size": 208348
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v1_rr2.wav",
+   "sha": "b84b438a07e076a04fa239405afb4a0a3551da3b",
+   "size": 228760
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v2_rr1.wav",
+   "sha": "403be9ea239d244971f7bc0130a8756c88d28640",
+   "size": 237684
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v2_rr2.wav",
+   "sha": "48a91912f81a27d4a474a360703ff3d8c4612280",
+   "size": 237112
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v3_rr1.wav",
+   "sha": "5b5082d93eade6e6b4307b6e0ab75fe4e27501e4",
+   "size": 250784
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F3_v3_rr2.wav",
+   "sha": "3e1d8c464a54b7a070d0ef7380a408fd06c5e0c9",
+   "size": 247036
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v1_rr1.wav",
+   "sha": "53a406f4412eccb96f537ad3ade778aec190af3f",
+   "size": 212348
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v1_rr2.wav",
+   "sha": "7f646ed719647ffd08b30bf20d5a84fce8910ca6",
+   "size": 242816
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v2_rr1.wav",
+   "sha": "2cde793a0c0b3e1657ec07b7dc03395eb39d1c84",
+   "size": 244372
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v2_rr2.wav",
+   "sha": "01719dfe7beb254f6f16dccb8d56a906c41316c4",
+   "size": 240208
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v3_rr1.wav",
+   "sha": "0c64406f6cfacac35e83670215fe84988eb2862d",
+   "size": 270884
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_F4_v3_rr2.wav",
+   "sha": "e8363c0ab182b9eae55c3d79f855f67ca585b08f",
+   "size": 266712
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v1_rr1.wav",
+   "sha": "daadc87e3855aed3fd479ab3bd998a9ac144670a",
+   "size": 225752
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v1_rr2.wav",
+   "sha": "166a4fab909fc5def73d35f5c2c90e8243fa6e16",
+   "size": 215936
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v2_rr1.wav",
+   "sha": "0b6142ebe63a7f86763391286ef44ec66f26ac7c",
+   "size": 210292
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v2_rr2.wav",
+   "sha": "6ff7612abefebbfe086f87a843d89492b3c08d78",
+   "size": 202652
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v3_rr1.wav",
+   "sha": "53ef5d48ac2c8263da2f6e70f73302e84e520227",
+   "size": 226840
+  },
+  {
+   "path": "Brass/Trumpet/stac/Sum_SHTrumpet_stac_G3_v3_rr2.wav",
+   "sha": "3e581ffda8f01a633c045f7181474368f100d11f",
+   "size": 254172
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A#3_v1_rr1.wav",
+   "sha": "685f2d59ac73190c90384112d889083bc37a33c0",
+   "size": 3398084
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A#3_v3_rr1.wav",
+   "sha": "f6b2753da2ae19e4748a91b0ed412decf3973fda",
+   "size": 1667240
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A2_v1_rr1.wav",
+   "sha": "59f4b5eadb7907b9656c5251869efa435a485c15",
+   "size": 2100400
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A2_v3_rr1.wav",
+   "sha": "85310d01faf50dbd83ed4a65ac7bed50d97904e1",
+   "size": 1041256
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A4_v1_rr1.wav",
+   "sha": "544285c24f712f098254f0f4677cb96e9c272081",
+   "size": 2528080
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_A4_v3_rr1.wav",
+   "sha": "bbdc0773c636c611b953ed1383f8cf1eb6b53b38",
+   "size": 1730412
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_C3_v1_rr1.wav",
+   "sha": "efc0c148e06d6cf1b2c5e65efc568635e4fac38f",
+   "size": 2677040
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_C3_v3_rr1.wav",
+   "sha": "d5490467cf68db010843924b975fd71edfc41273",
+   "size": 1234136
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_C5_v1_rr1.wav",
+   "sha": "bff7f04cb34938be10dca3793e3bdae722f88aa2",
+   "size": 2568220
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_C5_v3_rr1.wav",
+   "sha": "9e43868b7c7e47a8ee107c68c6072756ef0f6bc1",
+   "size": 1339832
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_D#3_v1_rr1.wav",
+   "sha": "939984455c785033eaef8d951bb3888666ce29cb",
+   "size": 2757848
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_D#3_v3_rr1.wav",
+   "sha": "0b2c29a0d8744377dd839065be025a47b7bde77e",
+   "size": 1654796
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_D4_v1_rr1.wav",
+   "sha": "5270a6927aa41b90f804df59b9888449aa01a2bb",
+   "size": 2878200
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_D4_v3_rr1.wav",
+   "sha": "815560ece9f2e8d0ad6a33ba24a014345ea59814",
+   "size": 1422408
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_F2_v1_rr1.wav",
+   "sha": "31229c3ab9801808ee11cd278d11247b1c2ef9aa",
+   "size": 2204420
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_F2_v3_rr1.wav",
+   "sha": "ee1895af491c7c332439dae630de17e1a83a4abd",
+   "size": 980856
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_F4_v1_rr1.wav",
+   "sha": "c14125cf6f506ed3a5d495fee4130381d050b109",
+   "size": 2442252
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_F4_v3_rr1.wav",
+   "sha": "cb508c5bf2e3c21dc3441194499fc6d0e7344f4b",
+   "size": 1269372
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_G3_v1_rr1.wav",
+   "sha": "129e67aa9df78209517b461e38d8d1176a0e2861",
+   "size": 3010072
+  },
+  {
+   "path": "Brass/Trumpet/sus/Sum_SHTrumpet_sus_G3_v3_rr1.wav",
+   "sha": "a301819024fe8d1fb8cdf86f9b5d0d8121c8c073",
+   "size": 1638452
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v1_rr1_Sum.wav",
+   "sha": "7c22ee9e89d51c19e2930695746fa8835c35b5a4",
+   "size": 138724
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v1_rr2_Sum.wav",
+   "sha": "6aebba2034867dbf351ba819f8b0d47a5f59a037",
+   "size": 140460
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v1_rr3_Sum.wav",
+   "sha": "3d372755696ab7ae8733a0b6a11f8ae41e4ab5ce",
+   "size": 160644
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v1_rr4_Sum.wav",
+   "sha": "5eb4e4daee898d7dd77115122f2b3e774c3abcac",
+   "size": 199344
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v2_rr1_Sum.wav",
+   "sha": "a9165d8b01971e32a3185b50052d0cf34741e625",
+   "size": 152280
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v2_rr2_Sum.wav",
+   "sha": "208f679bd7760d68a5c5dc396024122c3686fb83",
+   "size": 134768
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v2_rr3_Sum.wav",
+   "sha": "70812126dc697dfe0f6837a485c115c07dbd638f",
+   "size": 138668
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#0_v2_rr4_Sum.wav",
+   "sha": "c5b28a256c0f0cf63522a7d395f12f98f63c4e2b",
+   "size": 130636
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v1_rr1_Sum.wav",
+   "sha": "c55df0bc76a884932369b2feebbfae1d0d9ff7d5",
+   "size": 108712
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v1_rr2_Sum.wav",
+   "sha": "86358cdb41323cc288171bb0707333481ab33c28",
+   "size": 116448
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v1_rr3_Sum.wav",
+   "sha": "eb4b45fccfd783908e31a0adeb71153d9bef6c7c",
+   "size": 109124
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v1_rr4_Sum.wav",
+   "sha": "b59bd238c219a7ea1048ba226604fcaf57d28bb1",
+   "size": 107712
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v2_rr1_Sum.wav",
+   "sha": "6f9f8d7fdba8779629970e0d86da143aa08c712e",
+   "size": 167612
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v2_rr2_Sum.wav",
+   "sha": "f9cd9ddaf2dec7d23060ac268c4913e63306b193",
+   "size": 185664
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v2_rr3_Sum.wav",
+   "sha": "ccd37e6e9289545bc0e81ccf4289552885163681",
+   "size": 150672
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#1_v2_rr4_Sum.wav",
+   "sha": "677194bbc25372f1aae6360b9804f19dfa4b742d",
+   "size": 146564
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v1_rr1_Sum.wav",
+   "sha": "cb59b84d99d0140d00ff29e5548bfc83cecb688d",
+   "size": 132356
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v1_rr2_Sum.wav",
+   "sha": "cebcdb351a754aced1d519cacf8fd52411d5db15",
+   "size": 184596
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v1_rr3_Sum.wav",
+   "sha": "f15c6feae5049e534b962b906713f5e0b6dbb842",
+   "size": 128752
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v1_rr4_Sum.wav",
+   "sha": "595c830ba9f1a4b09c3b173a4b3fa69bef054665",
+   "size": 138888
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v2_rr1_Sum.wav",
+   "sha": "6e010be66e35c4a7b1786651cf43a53c0fa71b03",
+   "size": 137144
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v2_rr2_Sum.wav",
+   "sha": "ed320bda30a823e1e732375bfc232aa6d01c9d72",
+   "size": 135928
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v2_rr3_Sum.wav",
+   "sha": "7fa5436ef134c1b3560ddc7de7e02c30136afc46",
+   "size": 150036
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_A#2_v2_rr4_Sum.wav",
+   "sha": "e2d8d4326461b1ffcb5a4b46a8caf2470e4af03c",
+   "size": 136548
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v1_rr1_Sum.wav",
+   "sha": "d66d2cd35d8937b1eee12773a0c1da3de9b4e4e2",
+   "size": 192424
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v1_rr2_Sum.wav",
+   "sha": "1d989b5ac1639d4c75b73eaa7f07e38a36dd57f7",
+   "size": 108908
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v1_rr3_Sum.wav",
+   "sha": "0057468932632473300e01a87efbfe8285566b72",
+   "size": 102520
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v1_rr4_Sum.wav",
+   "sha": "f86ceb2836476fff92b913c2953e583c996c1790",
+   "size": 117888
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v2_rr1_Sum.wav",
+   "sha": "950438ecb7217d5a4a6d0c8af6d814a92ab5be0e",
+   "size": 227256
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v2_rr2_Sum.wav",
+   "sha": "5a2c37217f7cdb9125142ab5b05dcd41a20e5be2",
+   "size": 166056
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v2_rr3_Sum.wav",
+   "sha": "aa54df144b4bc892fe68cf6fd8519d60898b5362",
+   "size": 173064
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D#1_v2_rr4_Sum.wav",
+   "sha": "a3d2dce8d8334444818a2c7403f0964ea3aa5122",
+   "size": 158208
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v1_rr1_Sum.wav",
+   "sha": "acb7dfa38c0b28c0861c81d5ba39cc62dff10d8b",
+   "size": 112364
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v1_rr2_Sum.wav",
+   "sha": "35ba93540d47843324241a07706abacdacd5ea6b",
+   "size": 125732
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v1_rr3_Sum.wav",
+   "sha": "3910accd1dfeb1b104adad1ec2003adda18eecdf",
+   "size": 120696
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v1_rr4_Sum.wav",
+   "sha": "d40b01368cdb308895fa70837a2dd12e48811259",
+   "size": 182904
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v2_rr1_Sum.wav",
+   "sha": "e7dd012d9016e608fad58edccb085bba73621a33",
+   "size": 125584
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v2_rr2_Sum.wav",
+   "sha": "1ad34440024d83f6f157ef48b11eb025759ed92b",
+   "size": 127884
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v2_rr3_Sum.wav",
+   "sha": "afce238e76bb892386b1e01b28f189c913469852",
+   "size": 129944
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D2_v2_rr4_Sum.wav",
+   "sha": "5f0bdab9f64fb9a1bfc9119b95469c24d391cbf5",
+   "size": 122360
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v1_rr1_Sum.wav",
+   "sha": "473e4c38bfa355a81ec0e5dc32ffd8e410e57685",
+   "size": 101976
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v1_rr2_Sum.wav",
+   "sha": "15e9b5504e8aaeefc39e6aca64fd397d65cb4bd8",
+   "size": 183004
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v1_rr3_Sum.wav",
+   "sha": "a4fe0f057b4ac41387bc42d4d05671d96c7786dd",
+   "size": 103548
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v1_rr4_Sum.wav",
+   "sha": "bbc908dea58926fb3d4cd6086099ad13f2eed359",
+   "size": 168296
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v2_rr1_Sum.wav",
+   "sha": "0e8fc0ae58311384c5c7caaca5ad98561d6d38c6",
+   "size": 164920
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v2_rr2_Sum.wav",
+   "sha": "f57f4f3091230086dcea90f50893b840d8774658",
+   "size": 172440
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v2_rr3_Sum.wav",
+   "sha": "b9d1d615626b0891a361fb5b6c26de6cbb3cc754",
+   "size": 113368
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_D3_v2_rr4_Sum.wav",
+   "sha": "88b69826fcd02f6c61f0bd76d4d499bfdb1cd972",
+   "size": 133956
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v1_rr1_Sum.wav",
+   "sha": "7fed15dfb84f947c91f5af42357730c3c3814cd8",
+   "size": 146752
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v1_rr2_Sum.wav",
+   "sha": "50dd08f2c697fe7d8919f62f8881b2053bff97c2",
+   "size": 151648
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v1_rr3_Sum.wav",
+   "sha": "f2eab297c859188643405eadbf19ebf470144c42",
+   "size": 145788
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v1_rr4_Sum.wav",
+   "sha": "5813a1942b1f7be98f58f75d6307208723d9ebe6",
+   "size": 193256
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v2_rr1_Sum.wav",
+   "sha": "ee1eace963e4bceaa70c84b6a0f6cbd67cfacb21",
+   "size": 169920
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v2_rr2_Sum.wav",
+   "sha": "3e2525a304ec4894d7adb477d2e8134d46b6a3b1",
+   "size": 146916
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v2_rr3_Sum.wav",
+   "sha": "30ccff6f19012dc772f805beb172f0dd7fabf2e6",
+   "size": 215428
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F1_v2_rr4_Sum.wav",
+   "sha": "5e3664e122ad9321309f2c4476ff9de4444c908b",
+   "size": 167888
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v1_rr1_Sum.wav",
+   "sha": "26caa2ef6070cdc02df9b63a12abeceab7091099",
+   "size": 112620
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v1_rr2_Sum.wav",
+   "sha": "62aa72ff55121007112354b5b2bc9444d8793a91",
+   "size": 106388
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v1_rr3_Sum.wav",
+   "sha": "183c9dbfbe1dca134c768d6032281a3786e97dad",
+   "size": 105828
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v1_rr4_Sum.wav",
+   "sha": "84acd34a0f1758e8e98de223f95a46f67b39a647",
+   "size": 120192
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v2_rr1_Sum.wav",
+   "sha": "99f3b8910804b525fcd179c98554a2a4d9e66abb",
+   "size": 174564
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v2_rr2_Sum.wav",
+   "sha": "2810975d146076a48cef57b20af86cf350cc4f05",
+   "size": 145616
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v2_rr3_Sum.wav",
+   "sha": "3eb5962e9a77933318eae621e4d57aa141bc509f",
+   "size": 148516
+  },
+  {
+   "path": "Brass/Tuba/stac/Tuba3_stac_F2_v2_rr4_Sum.wav",
+   "sha": "243e79ab51b1c72649cb9716f41c9c27132d9d5b",
+   "size": 217192
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_01.wav",
+   "sha": "0f3273e6fd11feafc1ac940a21a4e3758e2d44c9",
+   "size": 2230702
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_04.wav",
+   "sha": "80e7f33d97f47ef540f5e178e2b272b1be26715b",
+   "size": 2206402
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_07.wav",
+   "sha": "fca6a7ac9c081fd2ecb7eab6319bd0d4f6762877",
+   "size": 2234062
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_10.wav",
+   "sha": "67dbbbdb6f3040b8a0a03d3a52cdbd17358dcb9c",
+   "size": 2207738
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_13.wav",
+   "sha": "0d68a094fbfbce26e0334c6286106c7aa3f468b8",
+   "size": 2169390
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_16.wav",
+   "sha": "b9dcd8ff9b7e85a76816e148691c248afe8d1fad",
+   "size": 2190914
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_19.wav",
+   "sha": "7f08f09b1afba404569f415040767aea84fe7038",
+   "size": 2197326
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_22.wav",
+   "sha": "6bfaaa9813b18d839af8d025496ee3350f651470",
+   "size": 2164554
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_25.wav",
+   "sha": "66755890efd10ee015f7972de4e3cd7c22ee3a69",
+   "size": 2180642
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_28.wav",
+   "sha": "c77465be14701669cd9c7b33441ce94033837fd7",
+   "size": 2159210
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_31.wav",
+   "sha": "b5573c0e706b03087e7f5d68087f0bbebffe44e2",
+   "size": 2167714
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_34.wav",
+   "sha": "c71f73bc8a4245b05ab1b708bdb3c59d8a374731",
+   "size": 2188610
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_37.wav",
+   "sha": "e1edb88fdb776827136e0c72cd37c1ea5f931cec",
+   "size": 2187714
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_40.wav",
+   "sha": "2bb490a70b3ab81cc683329e6670d27e3232d7df",
+   "size": 2138830
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_43.wav",
+   "sha": "1d5ef04f7b98a6d61dd4dc3932e7800b0f7d6aea",
+   "size": 2119798
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_46.wav",
+   "sha": "d40f13a91325566d22347d68f551e7c2f8826d23",
+   "size": 2129178
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_49.wav",
+   "sha": "0acea8ad636b504e970fbe6df4c434ad24fce7f3",
+   "size": 2135622
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_52.wav",
+   "sha": "bfcab183037cf39bbf3e0c26266360b24f020b16",
+   "size": 2117706
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_55.wav",
+   "sha": "b945af66d23632766a9662204976a99e5234d5c4",
+   "size": 2121458
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_58.wav",
+   "sha": "e78c667910dc55b03fdcf363b9fc19fa861ef1a9",
+   "size": 2143830
+  },
+  {
+   "path": "Keys/Organ/Loud/Rode_Man3Open_61.wav",
+   "sha": "a8313968e2d65d70934f1c58a4bb221bc80300e6",
+   "size": 2099290
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C1_f_RR1.wav",
+   "sha": "0c9987efda27e50babf86ed50fb335d90a96fd3d",
+   "size": 3130978
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C1_f_RR2.wav",
+   "sha": "f5f80eefd769a4b990c10322e7c93100e54f808b",
+   "size": 3915528
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C1_mf_RR2.wav",
+   "sha": "d61c9698c4c1cf306b7e440ead630a6f3495680e",
+   "size": 3392398
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C1_pp_RR1.wav",
+   "sha": "cb70a3d508163e4035600cfe287e191960be76db",
+   "size": 1331494
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C1_pp_RR2.wav",
+   "sha": "345b0946181a427bb30a25730162b8c4c42c16e3",
+   "size": 2038540
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C2_f_RR1.wav",
+   "sha": "84cd2353a68dbe43054e9edea7537c7abbceb96a",
+   "size": 3811820
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C2_f_RR2.wav",
+   "sha": "d26d4053963aee3b7f44845e2c1e5f4453470179",
+   "size": 3751096
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C2_mf_RR1.wav",
+   "sha": "67c55237469793ee90fa9dd6457fd51a714f9fe1",
+   "size": 2384234
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C2_mf_RR2.wav",
+   "sha": "0b91a52c2f733f540f58e7416b96e5595bac74c0",
+   "size": 3334902
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C2_pp_RR1.wav",
+   "sha": "aad159499f633ad8f5b5f1679ffd00e8c9077085",
+   "size": 1866674
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_f_RR1.wav",
+   "sha": "dacaecf9ac8913b176970684a5767557a4b7adb9",
+   "size": 3518256
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_f_RR2.wav",
+   "sha": "6e38823eb4928da19488391dca7601f5b87f120c",
+   "size": 3604186
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_mf_RR1.wav",
+   "sha": "622047ce32400cd99c0193f245955e3572d85a1b",
+   "size": 2150126
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_mf_RR2.wav",
+   "sha": "32d8a3bcade4393952cb50bef37d8dc0eb09423e",
+   "size": 3308386
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_pp_RR1.wav",
+   "sha": "b9b046afcfb96255f219242cf1eaaa96c6c18435",
+   "size": 1252962
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C3_pp_RR2.wav",
+   "sha": "3605a4a7b601c273c6874dcaf4c937f21d66d1a5",
+   "size": 1978814
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_f_RR1.wav",
+   "sha": "d76c049063c299b9e78587cab7600882b3de0b58",
+   "size": 3262386
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_f_RR2.wav",
+   "sha": "b6d78cbe89d497199d3b6f90b4badd5a8d3d88c4",
+   "size": 3104238
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_mf_RR1.wav",
+   "sha": "99c511c4d2d3fd91b68cdf530fa043e2b03f076f",
+   "size": 2495426
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_mf_RR2.wav",
+   "sha": "53c637f052c5b4ddc5d975d494963fbb57b370fb",
+   "size": 2601474
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_pp_RR1.wav",
+   "sha": "a5a8d82859df78cfd1c4ffdedd1b9b8ac209d6d4",
+   "size": 1948154
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C4_pp_RR2.wav",
+   "sha": "7bf1428e674ebf683fc54d8cc460b539eca751e2",
+   "size": 1175854
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_f_RR1.wav",
+   "sha": "aca4969e3bd81b18eae2a45ad41aee1d4c4a192d",
+   "size": 1910466
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_f_RR2.wav",
+   "sha": "541fc4b1b01c68642c4c3c798f948673e962f996",
+   "size": 2461478
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_mf_RR1.wav",
+   "sha": "b0079bd7ec568998e65df839d5387fb56e264b7d",
+   "size": 1905930
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_mf_RR2.wav",
+   "sha": "6d052b5ff3f278fdc5763baa28e50e52bdb90533",
+   "size": 1917910
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_pp_RR1.wav",
+   "sha": "b18f8dd3cfc2115befe960866a646d80c5c078ee",
+   "size": 1573878
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C5_pp_RR2.wav",
+   "sha": "4c172e4285c39997bc86d066a23779b0d610eafc",
+   "size": 1680558
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_f_RR1.wav",
+   "sha": "96a2005cbe74a9ccc5ac6f9ee554c5caeff65041",
+   "size": 1184214
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_f_RR2.wav",
+   "sha": "c7919d8e4c5a1f8faacd5d08f5bd7bb77856e9f0",
+   "size": 1239644
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_mf_RR1.wav",
+   "sha": "2c3af039f8bcf9ead897dbb46f158fe6330088dd",
+   "size": 1018802
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_mf_RR2.wav",
+   "sha": "58b056f2da0b1ed5e0eabe74f9954e76d407d594",
+   "size": 1152126
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_pp_RR1.wav",
+   "sha": "baaa90c2bb98c0b070013aec41a953803e0adf08",
+   "size": 1019544
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C6_pp_RR2.wav",
+   "sha": "74c966e1d4dd4e7c99898f93afae0b9ed80eefbf",
+   "size": 987228
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_f_RR1.wav",
+   "sha": "fad2dd6a4d9da48b3dcee5ec6383821b51128fc7",
+   "size": 670740
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_f_RR2.wav",
+   "sha": "9da3cb40203d57fa1324dd4f7809ca8fe633bf89",
+   "size": 712028
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_mf_RR1.wav",
+   "sha": "bdadd24805e085c03f6f6323dd03b464dc5a9181",
+   "size": 469466
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_mf_RR2.wav",
+   "sha": "b46925ef19ae1cad7e08c4e9970f0fd43795436d",
+   "size": 577034
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_pp_RR1.wav",
+   "sha": "4c9525e1f9dd3686aa185230c303ad7fb6208371",
+   "size": 502340
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_C7_pp_RR2.wav",
+   "sha": "c3ddf3ad2a6501dd4b178ec0f7e7aece6d799e37",
+   "size": 544560
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G1_f_RR2.wav",
+   "sha": "4a53e29e43e7732d126908af820cfe1cdfdaeed2",
+   "size": 3626534
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G1_mf_RR1.wav",
+   "sha": "1aca0fb64ba6c1bb477f4c46bb3a6dddf84d09f3",
+   "size": 3191510
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G1_mf_RR2.wav",
+   "sha": "2e374f75ddd77f93e319b74cfaefaf9a7d207da2",
+   "size": 3117554
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G1_pp_RR1.wav",
+   "sha": "24e7b92825f7fd78f74a6b1e62b303681d77078b",
+   "size": 1363468
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G2_f_RR1.wav",
+   "sha": "e6fb7235a285c7ca0837c938bbfc5c430211d42a",
+   "size": 3562426
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G2_f_RR2.wav",
+   "sha": "dd147cd60acc63f5df8db18eda7a7a9437b1fdf6",
+   "size": 4121650
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G2_mf_RR1.wav",
+   "sha": "7afcc4d73739bbc52ed313a0f21dae36970039b2",
+   "size": 2429878
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G2_mf_RR2.wav",
+   "sha": "85227145b6f1e208db96fefd7276c6743b137999",
+   "size": 3614038
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G2_pp_RR1.wav",
+   "sha": "06820c56e752e1e6a5f7dbe0da3bc87c9ff461a5",
+   "size": 2302416
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_f_RR1.wav",
+   "sha": "0af3651b302695ed7a1ae4194f970f100c6b19ef",
+   "size": 3996466
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_f_RR2.wav",
+   "sha": "dfc30af7005eb230f79ee6552e891dc8f20f5984",
+   "size": 3890306
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_mf_RR1.wav",
+   "sha": "85581601bc6c00f010fdffc7ac24ea53c4a19147",
+   "size": 2602206
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_mf_RR2.wav",
+   "sha": "220f0911622aaa1147176d287850cdac98bbe7ce",
+   "size": 3785062
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_pp_RR1.wav",
+   "sha": "33c8b7e4ecd74b38ce5d31b4ce610a01ff6dde9f",
+   "size": 1805230
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G3_pp_RR2.wav",
+   "sha": "e6e46d7f2408f049be45046a9491533a516440ba",
+   "size": 2436286
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_f_RR1.wav",
+   "sha": "2df24b4e3a2e36591c8849bc6bd6b80a3412503d",
+   "size": 2362410
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_f_RR2.wav",
+   "sha": "7c812c4ae7ddec6912d792b32ae50bc5220740a8",
+   "size": 2355630
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_mf_RR1.wav",
+   "sha": "b6727511ac816dd81e2e4f2dcc4d1c7b3349efcd",
+   "size": 2240934
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_mf_RR2.wav",
+   "sha": "4462ae852b9db9a5f4d235a8ff6475e43807678f",
+   "size": 1854386
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_pp_RR1.wav",
+   "sha": "d4f2fb2465ddb686035519575bdd29e684ae40f6",
+   "size": 1840722
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G4_pp_RR2.wav",
+   "sha": "a75d4b80defb68e3c88515156ebb13edaa9501d6",
+   "size": 1680314
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_f_RR1.wav",
+   "sha": "da4a4d93ea16e8de93b63b4ca58a287ed0aa69f1",
+   "size": 1538602
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_f_RR2.wav",
+   "sha": "3325d2584bc5cb18c75369df6d5963bfff4f1b3c",
+   "size": 1496310
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_mf_RR1.wav",
+   "sha": "b6e139fb26fa6b67ca931c5db8ad60d8beb075a8",
+   "size": 1665486
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_mf_RR2.wav",
+   "sha": "008654a4d88862d186796549b6f0e3f4e216211c",
+   "size": 1468242
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_pp_RR1.wav",
+   "sha": "d11b161a1d509ecb76953ceac32b246855268148",
+   "size": 1531990
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G5_pp_RR2.wav",
+   "sha": "dcad2002a7eda654a7e161cd1c6f99bae56c97b4",
+   "size": 1181794
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_f_RR1.wav",
+   "sha": "63fc4bb1222dd4beab69adfe52077c2165ce2496",
+   "size": 810946
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_f_RR2.wav",
+   "sha": "6a3d8b0c7633c4f44a26b7ee5865bad2b8d10e4b",
+   "size": 786374
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_mf_RR1.wav",
+   "sha": "81108c59a76bee0a6e890e0e110e42edd1d29aa2",
+   "size": 860698
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_mf_RR2.wav",
+   "sha": "1b00fb9ac0c4f067b67ea6b3588bc5254c036360",
+   "size": 930886
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_pp_RR1.wav",
+   "sha": "8ae8714bc743e33b428d9bed372557567f5f2564",
+   "size": 623248
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G6_pp_RR2.wav",
+   "sha": "a7c995535d9f2beba953f58272d65c81854c04a4",
+   "size": 547342
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_f_RR1.wav",
+   "sha": "4bae0651e83e975c9719f7bfe2fd86a9bbb3a062",
+   "size": 502066
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_f_RR2.wav",
+   "sha": "0aef8cbaecefccca74645f185728a96069e8bdd6",
+   "size": 450206
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_mf_RR1.wav",
+   "sha": "ccd334879367a96ef88f239a05a6b14167055eb1",
+   "size": 369990
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_mf_RR2.wav",
+   "sha": "37c98a8cd45ebf13a81453160a42350e6c51ba1a",
+   "size": 446034
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_pp_RR1.wav",
+   "sha": "cf38fbb2328816d7b32584667c9d189e2414e0ee",
+   "size": 297872
+  },
+  {
+   "path": "Keys/Upright Nr1/UR1_G7_pp_RR2.wav",
+   "sha": "f8b5f0ba4360fa141da1509f3cf093363143bcaa",
+   "size": 500414
+  },
+  {
+   "path": "Keys/Upright Piano/MappingChart.txt",
+   "sha": "e59ab607be6408ba065ba80f34f315c62548f879",
+   "size": 338
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_000.wav",
+   "sha": "3b4e10ccdd8a06971564b1d936f2516a761e7f6f",
+   "size": 4105066
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_002.wav",
+   "sha": "42f56b6b301fdeddce7f7076e34c4f5a03e0fea4",
+   "size": 4109632
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_004.wav",
+   "sha": "7cb8841df46d247a0ed9a33976277902595359a6",
+   "size": 4128814
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_006.wav",
+   "sha": "10e0e1c3ec485c50bf12f7e2400e8aa9364f2bc9",
+   "size": 4063450
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_008.wav",
+   "sha": "cb2e89a7749fc4b979512aa5da883059cd3f6ad7",
+   "size": 5470924
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_010.wav",
+   "sha": "2b3b3f25903ed087eb334d985a0b25f4bbd510d4",
+   "size": 5770636
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_012.wav",
+   "sha": "5942615eb10199382e44c0e052ebb7885b167f53",
+   "size": 3870382
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_014.wav",
+   "sha": "30127aa63c8342a363b9a13b8052a3428d3bb046",
+   "size": 2270980
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_016.wav",
+   "sha": "480e9d56f8cfaefde9be4a7f9bde2b01ac3d100f",
+   "size": 3546940
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_018.wav",
+   "sha": "90745e10b1d8774db29a9817a218277102cd998b",
+   "size": 3002200
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_020.wav",
+   "sha": "084b3f131592beecd311b309e6c5f42190653f4f",
+   "size": 3134164
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_022.wav",
+   "sha": "a4238a2d033e560225a1b3d9d3fa1eef9c21ac50",
+   "size": 4126858
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_024.wav",
+   "sha": "6350b1cf0a614fe0920ad212e807d4575fcf71bd",
+   "size": 2222998
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_026.wav",
+   "sha": "9a6cd6b879752f747e136ee001e7f1b78b40dc9c",
+   "size": 3558112
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_028.wav",
+   "sha": "c371f48ff5e5a675a0d91d0e7060e79322adfc2e",
+   "size": 1935304
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_030.wav",
+   "sha": "91b0fa42ec94ba1cbda1c466ae0614a59ae927e6",
+   "size": 3120676
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_032.wav",
+   "sha": "8ac49b49803f59cf0a712261a9e06a54edd2e6eb",
+   "size": 1746142
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_034.wav",
+   "sha": "629c13e5725eda851b051c525d6fe53ad5226a66",
+   "size": 1303534
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_036.wav",
+   "sha": "ba909286b3eefe713c484953a12bb4b2b201d4ad",
+   "size": 1304218
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_038.wav",
+   "sha": "18a8573978f46906530206c2b54e35750d007b70",
+   "size": 915352
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_040.wav",
+   "sha": "a11b447a61033b762cf757a0c3001ca99dfb1ecb",
+   "size": 642772
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_042.wav",
+   "sha": "b875022548b6281012e78434a784b418b67ded12",
+   "size": 571294
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn1_rr1_044.wav",
+   "sha": "b38476be1ca8cf4571d7ae71b2c562692ddc37d3",
+   "size": 377608
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_000.wav",
+   "sha": "6506b03a6d64c8c9b6d0050d6217bf0e65f6e364",
+   "size": 4500238
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_002.wav",
+   "sha": "a038b982ae1dacdb01c7e7168ae32675d32caa6d",
+   "size": 6074254
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_004.wav",
+   "sha": "00abb8cca2df2b97fd3d945c4fdef29259081e17",
+   "size": 5625058
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_006.wav",
+   "sha": "fe626910074423b0c2d9165c18468d52b2e50d2c",
+   "size": 4936726
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_008.wav",
+   "sha": "ab13066d1f089f86fed417c7b887d6104e573574",
+   "size": 6862312
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_010.wav",
+   "sha": "4e6a1acfd958682e1f3dc2ba9d42b33b73de0a98",
+   "size": 7572904
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_012.wav",
+   "sha": "fd035ea95dc49897c9be8627b8124b73c56221db",
+   "size": 6306106
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_014.wav",
+   "sha": "2f341c6fca30ac8a6ae977cf97e93538f6c1e75b",
+   "size": 6180628
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_016.wav",
+   "sha": "a2fc6927cb562424c17b213e4cb47353d65e9cc5",
+   "size": 4643212
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_018.wav",
+   "sha": "c8da939be405e5f6dd7b13b99aedfef76d5c56aa",
+   "size": 5748202
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_020.wav",
+   "sha": "e6027651b23024f343a8eb7823f32b49742a35fe",
+   "size": 4346848
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_022.wav",
+   "sha": "521353ee671854c74478c330df9195d17261193c",
+   "size": 4476550
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_024.wav",
+   "sha": "77f7bc50e751c377f8e3db7c88c14861395d1288",
+   "size": 3204940
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_026.wav",
+   "sha": "946de9950a88c228d6f764e6789efb7d0147cffa",
+   "size": 2656870
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_028.wav",
+   "sha": "3a9f1381ca8a1a35ac4acdbf0d954e6aeb507dea",
+   "size": 3008866
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_030.wav",
+   "sha": "bbc718ed37a516d761b10c4ededd14243b2ba64f",
+   "size": 3144364
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_032.wav",
+   "sha": "e49d0ae70c0419e9e7dfa1a6ae94acd2731b4291",
+   "size": 2888572
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_034.wav",
+   "sha": "48078281fd0dd839c18f0eaec19f90fb97223a35",
+   "size": 2605408
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_036.wav",
+   "sha": "b539c687d7f6055868ea1e3b4bac868a8ed18e21",
+   "size": 2254930
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_038.wav",
+   "sha": "8e410d3c45ec1dce8ff6d7ef1ffd4a2640b2a12f",
+   "size": 1425370
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_040.wav",
+   "sha": "7bc2a9a79148886286c946ce155b6651020ec5f7",
+   "size": 667948
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_042.wav",
+   "sha": "e4a96a87b47956e4d7db505b756f1f148394c30c",
+   "size": 633034
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn2_rr1_044.wav",
+   "sha": "6a629d05c65f076b4b01602b67392d9f3b699261",
+   "size": 581164
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_000.wav",
+   "sha": "27d53546a018acfdfd0c178bf44f0d6656d029a8",
+   "size": 6918652
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_002.wav",
+   "sha": "a24be261484daddfc8d1f59e9c4cffe3c5664af6",
+   "size": 6462502
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_004.wav",
+   "sha": "d996ff2f2dca27156d735ff799564caabb742027",
+   "size": 6156106
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_006.wav",
+   "sha": "54bc5bb4bc2c81e278e50b2541d5a5fb9ff65766",
+   "size": 6210712
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_008.wav",
+   "sha": "83838d0d84e6d96598b75f443ed221ec3cb3bbb0",
+   "size": 7063150
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_010.wav",
+   "sha": "250458c14cb7a095de719efdbd2728bdc3f5e9ed",
+   "size": 6946702
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_012.wav",
+   "sha": "e0c5fec5cc73ee8c2532c34e3385c0f5a5a3c4e0",
+   "size": 6153220
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_014.wav",
+   "sha": "8a860137884587939f37e8ee874081b0f535b155",
+   "size": 5030746
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_016.wav",
+   "sha": "48282e602945bd593f5c7d59b7ae7d1c98ca3b73",
+   "size": 5759260
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_018.wav",
+   "sha": "399fff7fadc9ca2c167e09dea39c2af0f8b2c386",
+   "size": 5608348
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_020.wav",
+   "sha": "ce3179aa6ec23de9ecd80dc5cffe2a2519ed916b",
+   "size": 5212972
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_022.wav",
+   "sha": "28ddbc265f8666c5032994cbb89dca46ff8c89a0",
+   "size": 4898926
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_024.wav",
+   "sha": "f223d77b03f9ea0874ccdf9fd5d75349e0d76391",
+   "size": 4721116
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_026.wav",
+   "sha": "09d29d228fdd4b1761a82f31f303e31e846bc8b0",
+   "size": 3849658
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_028.wav",
+   "sha": "cf1c463a5bcd85150d3ffd737a8a544d0c70c5a8",
+   "size": 2854090
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_030.wav",
+   "sha": "f782f10cef31ce25f78d4307aad0e81109a272c0",
+   "size": 3738850
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_032.wav",
+   "sha": "df159dfb166f8c52f3765fd1803c773f37f658df",
+   "size": 3372646
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_034.wav",
+   "sha": "4ccc1d8ab98069d20c38b0197a5e80853becb415",
+   "size": 2808244
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_036.wav",
+   "sha": "3eb2377f6868155b5161eab2fc013d626440e7e4",
+   "size": 1487410
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_038.wav",
+   "sha": "6d513d818874be2b46a1e3d59de78af080f5ed29",
+   "size": 927712
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_040.wav",
+   "sha": "0b836190186e816eca5c9b0bbc3cdbd3a7fd416e",
+   "size": 725854
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_042.wav",
+   "sha": "c0a670664148ec327664f9525b32c7b445bc029e",
+   "size": 472108
+  },
+  {
+   "path": "Keys/Upright Piano/Player_dyn3_rr1_044.wav",
+   "sha": "8941d2933abd39db561777213c47eeb393d6c0ab",
+   "size": 615094
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v1_rr1_Sum.wav",
+   "sha": "2bd179131d6b00e99f018210fe62c7443b4f4bd5",
+   "size": 264580
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v1_rr2_Sum.wav",
+   "sha": "d9d4aa64beb8c8cef2b8014050314c21919fb2f2",
+   "size": 224916
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v2_rr1_Sum.wav",
+   "sha": "90e36064984ad741962e2f033e286bc16758b46c",
+   "size": 281616
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v2_rr2_Sum.wav",
+   "sha": "eb9b718cd1b75df824f30ae07405ba0a111f1be7",
+   "size": 302396
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v3_rr1_Sum.wav",
+   "sha": "5f068b40b13f887c170d574b916dd21927f545ca",
+   "size": 367124
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v3_rr2_Sum.wav",
+   "sha": "92756223015f024e235dc8a0543118cf048b7e82",
+   "size": 354580
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v4_rr1_Sum.wav",
+   "sha": "2c50b244be4321074ce64fffcf87f8f570634f6e",
+   "size": 539748
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v4_rr2_Sum.wav",
+   "sha": "14c3376b3c396c8447415cb3b32aeca053322948",
+   "size": 514224
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v5_rr1_Sum.wav",
+   "sha": "6a3b5a0fdc56be45b6188c026b2221c31ba8ecb4",
+   "size": 588092
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v5_rr2_Sum.wav",
+   "sha": "cb6a7fc6201c4466ab5ea2a0bc62359a04d2ca37",
+   "size": 614388
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v6_rr1_Sum.wav",
+   "sha": "0bd3b2ebbebffcd253eb9b061b24677278d0b34a",
+   "size": 947896
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v6_rr2_Sum.wav",
+   "sha": "c8745b65f57dfd91c6421ecea49b45ac7ef0358f",
+   "size": 933528
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v7_rr1_Sum.wav",
+   "sha": "93ebf3571cef69c65ba1acba1d746e5bfa6c7db8",
+   "size": 1105152
+  },
+  {
+   "path": "Percussion/BDrumNewhit_v7_rr2_Sum.wav",
+   "sha": "b76f283f9fffd4ad4d32689424e8562292021791",
+   "size": 993988
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v1_rr1_Sum.wav",
+   "sha": "e5a416a1a5a1b85fb57fc2c3035895a540368586",
+   "size": 199848
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v1_rr2_Sum.wav",
+   "sha": "5595faedc516092d8de80c3f0ddfcda79f5574c5",
+   "size": 181976
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v2_rr1_Sum.wav",
+   "sha": "64d31c2fa742947d83a431c266b7a18644e8d3e1",
+   "size": 191812
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v2_rr2_Sum.wav",
+   "sha": "9e52456881fcac88e9ff0fb69f7e3125afae0df2",
+   "size": 187072
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v3_rr1_Sum.wav",
+   "sha": "4d98b9b093c3ff659d4e5e6b07293199e1ab734f",
+   "size": 228764
+  },
+  {
+   "path": "Percussion/Claves1_Hit_v3_rr2_Sum.wav",
+   "sha": "c2fff7edd6d9741509bae74e59b3300fceadb4c2",
+   "size": 267012
+  },
+  {
+   "path": "Percussion/Conga-HitN_v1_rr1_Sum.wav",
+   "sha": "16a927b7771ee7a512d6d6c4906aa3086bc867f2",
+   "size": 185024
+  },
+  {
+   "path": "Percussion/Conga-HitN_v1_rr2_Sum.wav",
+   "sha": "669aa5ba4ab9ed96ec9632bbfff90e9e7a069744",
+   "size": 116928
+  },
+  {
+   "path": "Percussion/Conga-HitN_v2_rr1_Sum.wav",
+   "sha": "9a0630a1212d56e838c98f87a8c6a68e9b4e9b9c",
+   "size": 140012
+  },
+  {
+   "path": "Percussion/Conga-HitN_v2_rr2_Sum.wav",
+   "sha": "3e4fd53fc0836f0b1609b64ef090f3ed8ceecb91",
+   "size": 131952
+  },
+  {
+   "path": "Percussion/Conga-HitN_v3_rr1_Sum.wav",
+   "sha": "54484187ce3db3ea58ea04e22b1afd573499230d",
+   "size": 231124
+  },
+  {
+   "path": "Percussion/Conga-HitN_v3_rr2_Sum.wav",
+   "sha": "961882f2c14007f608154f482438a1eda6af6e33",
+   "size": 178648
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v1_rr1_Sum.wav",
+   "sha": "6205a473cb35519aa78e0c38a51a53373bc2070b",
+   "size": 141332
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v1_rr2_Sum.wav",
+   "sha": "b008a5ec7abfb3e2bf35649126be89f969c89da0",
+   "size": 137672
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v2_rr1_Sum.wav",
+   "sha": "87aee4c818fc1f2030a49885fc1f24ae9f51ab06",
+   "size": 199568
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v2_rr2_Sum.wav",
+   "sha": "defbcb7b7c8f7da7d3f10429655e8a2a028a2628",
+   "size": 177084
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v3_rr1_Sum.wav",
+   "sha": "cb5e2673f32a8caf99d29ed8f35ba816a6403cd8",
+   "size": 204528
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v3_rr2_Sum.wav",
+   "sha": "061071d09fedcfc23e9666bc6de0438d2d01072e",
+   "size": 197780
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v4_rr1_Sum.wav",
+   "sha": "f1a70fd503d05df922a7a550c95c955117bb4371",
+   "size": 195080
+  },
+  {
+   "path": "Percussion/Cowbell1_Hit_v4_rr2_Sum.wav",
+   "sha": "22c8d57a5c47152b10cc429a596ef315736a831a",
+   "size": 190696
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_C5.wav",
+   "sha": "db079c70946137f543820b6a6ac023d0afaac47c",
+   "size": 1271310
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_C6.wav",
+   "sha": "c02ff721d10eb3551372806653368f45ea5dc367",
+   "size": 1271310
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_C7.wav",
+   "sha": "a0f4aff9ef7d73e49a16f4054ead1369a78572b0",
+   "size": 492418
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_G4.wav",
+   "sha": "a7d9ca6c68e4c56327d83f0653ee3e16e4810265",
+   "size": 1271310
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_G5.wav",
+   "sha": "dbaf80bc3975016095de3a611a202b581931311c",
+   "size": 1226714
+  },
+  {
+   "path": "Percussion/Glock/glock_medium_G6.wav",
+   "sha": "e95738492bdc207b11ad32891a9a1ea090b6719e",
+   "size": 843122
+  },
+  {
+   "path": "Percussion/Guiro-Hit_v1_rr1_Sum.wav",
+   "sha": "40e8806804d0dccc04f2b71cebd1d87f39fbd3f4",
+   "size": 234316
+  },
+  {
+   "path": "Percussion/Guiro-Hit_v1_rr2_Sum.wav",
+   "sha": "69b162b538d75e8a3a4bf39c316acad9cd57556c",
+   "size": 240040
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v1_rr1_Sum.wav",
+   "sha": "4adbb9907e3ae60aaeb3b386e79f6afc58cfeeb5",
+   "size": 262508
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v1_rr2_Sum.wav",
+   "sha": "80072cae50bdf1a7f0c691dc41a3e4c067713054",
+   "size": 282404
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v2_rr1_Sum.wav",
+   "sha": "3a48d67c5a28429eb5bca9f4a51151a50770b0b1",
+   "size": 272684
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v2_rr2_Sum.wav",
+   "sha": "8a0e61a2f880891775745791b6c72b567bd9b56c",
+   "size": 260408
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v3_rr1_Sum.wav",
+   "sha": "a035863ca280bcced67a1a9519bd1a1bd0d21395",
+   "size": 267984
+  },
+  {
+   "path": "Percussion/LogDrumHi_MedM_v3_rr2_Sum.wav",
+   "sha": "a6d7057447d2bffbdfd74ee1b08a6f1f00cb35ed",
+   "size": 275784
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v1_rr1_Sum.wav",
+   "sha": "a926252a2093a6ee0630b50276e4c24087ddbf25",
+   "size": 198684
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v1_rr2_Sum.wav",
+   "sha": "ebdbb82ac115fd696c71e890f7cfdb1a991e7556",
+   "size": 215520
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v2_rr1_Sum.wav",
+   "sha": "5141b97b980c5316cfafe49768ec059d2a43cc2f",
+   "size": 249240
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v2_rr2_Sum.wav",
+   "sha": "14dfb88486fdb22347ccec10ccb63173077ca25a",
+   "size": 233724
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v3_rr1_Sum.wav",
+   "sha": "45df3307b66e64ce44c6d5a622f1009f61baca14",
+   "size": 220864
+  },
+  {
+   "path": "Percussion/LogDrumLo_MedM_v3_rr2_Sum.wav",
+   "sha": "b9d34cc3569e5eb798b7c3c2ccfcbf302374f47f",
+   "size": 234580
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_B2_loud_01.wav",
+   "sha": "e3b63f301191c679cea1eaa61a99d3baa9c3fbfe",
+   "size": 1585778
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_B4_loud_01.wav",
+   "sha": "cf36d9cae6614613c17069accbaa46594846c113",
+   "size": 694454
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_C2_loud_01.wav",
+   "sha": "155e036d3aa04fba9d3389e2cdf3accec9842e01",
+   "size": 2236004
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_C4_loud_01.wav",
+   "sha": "fe3ec22b99ed4afdd007d0107d925669e7e1d4c9",
+   "size": 1016564
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_C6_loud_01.wav",
+   "sha": "aa3b9670477cf7d6825cb9e6e3c9446acffa95ee",
+   "size": 472142
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_F1_loud_01.wav",
+   "sha": "cc5b73c4c0b50ca64a0c484f17d37e825957de50",
+   "size": 972392
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_F3_loud_01.wav",
+   "sha": "646d1490ead56eaf0db10c96ac352c80d3275736",
+   "size": 1589876
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_F5_loud_01.wav",
+   "sha": "fadca10c6d332115fa9f586cc37245a008a8a859",
+   "size": 551306
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_G2_loud_01.wav",
+   "sha": "b73a4b8febfdeb8e86ab13edabd1e663caebd378",
+   "size": 1855448
+  },
+  {
+   "path": "Percussion/Marimba/Marimba_hit_Outrigger_G4_loud_01.wav",
+   "sha": "3c6ea81532f6924112581140e8f530e6cc45739d",
+   "size": 800102
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v1_rr1_Sum.wav",
+   "sha": "6a49e37ad77c6c70286ae8cebc36c9a910eefbd7",
+   "size": 117192
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v1_rr2_Sum.wav",
+   "sha": "a1048bfbe061c24f531da0ec0a5a71158d021736",
+   "size": 163996
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v2_rr1_Sum.wav",
+   "sha": "707a380589cf542f53c665702a2e8d9a0e28cf79",
+   "size": 141228
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v2_rr2_Sum.wav",
+   "sha": "8077224a71270cb2c87b7647ee26e2f48fab80bf",
+   "size": 155968
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v3_rr1_Sum.wav",
+   "sha": "48363460308e5862c36aa0054d2e8cbed7e03476",
+   "size": 207412
+  },
+  {
+   "path": "Percussion/Quinto-HitN_v3_rr2_Sum.wav",
+   "sha": "3e87a0fa520b9edd6dc3ce572c91648b5ffe89e6",
+   "size": 157200
+  },
+  {
+   "path": "Percussion/Sleighbells_Hit_v1_rr1_Mid.wav",
+   "sha": "205c71fd44f04877c09f8dff4f7d2ec080380891",
+   "size": 441104
+  },
+  {
+   "path": "Percussion/Sleighbells_Hit_v1_rr2_Mid.wav",
+   "sha": "d1ba80da4166150cf77d1a84062fbe2238fd4aa4",
+   "size": 434528
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v1_rr1_Sum.wav",
+   "sha": "5e7829bdbca881d0124b5cae4b55733dc190cd8b",
+   "size": 338762
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v1_rr2_Sum.wav",
+   "sha": "2cb682331309d6434e4eb0042ae8cdfc9f06a7f2",
+   "size": 319736
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v3_rr1_Sum.wav",
+   "sha": "42b9e96ed8cc11399b12fffa7977c8e41e9c586a",
+   "size": 457934
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v3_rr2_Sum.wav",
+   "sha": "df0031afe7073164604fe48982ddeb0b9dd88704",
+   "size": 346874
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v5_rr1_Sum.wav",
+   "sha": "102f740d546c8f147847ea4243b7c75b6eaa3119",
+   "size": 360722
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v5_rr2_Sum.wav",
+   "sha": "b449ea581cb7bb5722e7e0a07df342e2c1bd0de4",
+   "size": 383162
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v7_rr1_Sum.wav",
+   "sha": "2d1c3921045d4c2d6148a9a16e764e2bfdfc6cd7",
+   "size": 407198
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v7_rr2_Sum.wav",
+   "sha": "87d4aee035e4ac29ebca2787048594c059509962",
+   "size": 387608
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v9_rr1_Sum.wav",
+   "sha": "c39c5e8c2acff7e954a5446603c310e238efc70d",
+   "size": 442280
+  },
+  {
+   "path": "Percussion/Snare2-HitSN_v9_rr2_Sum.wav",
+   "sha": "f6564fe9bd3d498859c84e0395c3f0d97443a061",
+   "size": 408902
+  },
+  {
+   "path": "Percussion/Tamb1-Hit_v1_rr1_Sum.wav",
+   "sha": "fbddb1e497d238e85b5c5646ed2c435767ae4385",
+   "size": 338496
+  },
+  {
+   "path": "Percussion/Tamb1-Hit_v1_rr2_Sum.wav",
+   "sha": "a9077c258202b6ae4065a33b93478814079065ef",
+   "size": 290840
+  },
+  {
+   "path": "Percussion/Tamb1-Hit_v2_rr1_Sum.wav",
+   "sha": "de276008d59c05d274d56457931781263380f8f2",
+   "size": 293256
+  },
+  {
+   "path": "Percussion/Tamb1-Hit_v2_rr2_Sum.wav",
+   "sha": "e446f1fa39898b778aae62f99e8ed51a031f6834",
+   "size": 303536
+  },
+  {
+   "path": "Percussion/Tamb1-Shake_v1_rr1_Sum.wav",
+   "sha": "81fe6eb985f6aa698843375933a326f6a8134876",
+   "size": 258948
+  },
+  {
+   "path": "Percussion/Tamb1-Shake_v1_rr2_Sum.wav",
+   "sha": "5257373afa17a8f8565c1df68ca511cf13935de4",
+   "size": 237792
+  },
+  {
+   "path": "Percussion/Timpani/Timpani1_Hit_v1_rr1_Sum.wav",
+   "sha": "77c36162c32a539649022e5917e0aa764a9c081b",
+   "size": 559976
+  },
+  {
+   "path": "Percussion/Timpani/Timpani1_Hit_v1_rr2_Sum.wav",
+   "sha": "525877a1eead2c5f3034b446631341f63b9ece92",
+   "size": 542456
+  },
+  {
+   "path": "Percussion/Timpani/Timpani1_Hit_v3_rr1_Sum.wav",
+   "sha": "86d8e078c8820d49fd15124fe037cbd667ae8fa2",
+   "size": 1602676
+  },
+  {
+   "path": "Percussion/Timpani/Timpani1_Hit_v3_rr2_Sum.wav",
+   "sha": "3e681d3622b0a6e73eef4c0411312969656f5f2c",
+   "size": 2026620
+  },
+  {
+   "path": "Percussion/Triangle3-Hit_v1_rr1_Sum.wav",
+   "sha": "d65c289803375e669cf73aefec295a6fa22c7d51",
+   "size": 1482680
+  },
+  {
+   "path": "Percussion/Triangle3-Hit_v1_rr2_Sum.wav",
+   "sha": "f5b9c03b11423e8473438dc312769c65d71e9dfe",
+   "size": 1251436
+  },
+  {
+   "path": "Percussion/Triangle3-Hit_v2_rr1_Sum.wav",
+   "sha": "d10404330f27f4611b4ea5a3dd87c5fe8d877a25",
+   "size": 2098660
+  },
+  {
+   "path": "Percussion/Triangle3-Hit_v2_rr2_Sum.wav",
+   "sha": "2709e6fc6a55c35a0d3f9438103f7525cb856d92",
+   "size": 1857796
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v1_rr1_Sum.wav",
+   "sha": "27be5474b92270d079d8a7323b99ae5b41b530f2",
+   "size": 124652
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v1_rr2_Sum.wav",
+   "sha": "9c83c8c30ea107c53414a4988b65997c1670aee6",
+   "size": 123428
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v2_rr1_Sum.wav",
+   "sha": "8f54617d22b01eae35d3374b8eb662c0d3c6a284",
+   "size": 149288
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v2_rr2_Sum.wav",
+   "sha": "0616640b03e7884ce67a73d031ddeeb27e419a2b",
+   "size": 126616
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v3_rr1_Sum.wav",
+   "sha": "5fafad3fe5a0047c692b9af14333335f29e9e3db",
+   "size": 129160
+  },
+  {
+   "path": "Percussion/Tumba-HitN_v3_rr2_Sum.wav",
+   "sha": "c6e4fd93daca6b8e4c34e65da2c94bf44b8fe2cc",
+   "size": 120668
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_C4_ff_01_far.wav",
+   "sha": "af5c4ea6431fc38aa5049cd202dde9e58102e6b7",
+   "size": 897126
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_C5_ff_01_far.wav",
+   "sha": "f8bd2232bc174009e2a4e1a531e879e8cbd74199",
+   "size": 504372
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_C6_ff_01_far.wav",
+   "sha": "b947a33529eb125a762090fc368b1942a4e3aa72",
+   "size": 393930
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_C7_ff_01_far.wav",
+   "sha": "d44013498ae967ea9998cb03bac8b59f461865ed",
+   "size": 306732
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_G3_ff_01_far.wav",
+   "sha": "0ebb689b682277fdbcde0a3c76b9b1e197ef29fa",
+   "size": 963174
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_G4_ff_01_far.wav",
+   "sha": "dd8e753fbd1a67efa83049e7b226ddabc5644720",
+   "size": 669186
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_G5_ff_01_far.wav",
+   "sha": "7183664e7583871c9221e3b0c40a324a265706f7",
+   "size": 432828
+  },
+  {
+   "path": "Percussion/Xylo/Xylo_Medium_G6_ff_01_far.wav",
+   "sha": "911cb8efac1a84a05d071a04ff35d6b3b087e313",
+   "size": 371682
+  },
+  {
+   "path": "Percussion/cymbal-crash1_ff_rr1.wav",
+   "sha": "2c25cd11c6f8d8c1dbec501fd1c693aa6739c1fa",
+   "size": 1772758
+  },
+  {
+   "path": "Percussion/cymbal-crash1_ff_rr2.wav",
+   "sha": "00eecfab16c3bab05a5b84b8671316b76013da0a",
+   "size": 2344542
+  },
+  {
+   "path": "Percussion/cymbal-crash1_mf_rr1.wav",
+   "sha": "32bdfa92238d510fcd2cbe0f390e3540060146a1",
+   "size": 1495666
+  },
+  {
+   "path": "Percussion/cymbal-crash1_mf_rr2.wav",
+   "sha": "a932ee40e4c87c70637d6e5da5b63d117bf59ce1",
+   "size": 1703922
+  },
+  {
+   "path": "Percussion/cymbal-crash1_mp_rr1.wav",
+   "sha": "41338062a3c8c9510959464334b38bbdcdfd1677",
+   "size": 1253390
+  },
+  {
+   "path": "Percussion/cymbal-crash1_mp_rr2.wav",
+   "sha": "b1d1bef7ed3bc13409354542640c76019971b8a2",
+   "size": 1416522
+  },
+  {
+   "path": "Percussion/cymbal-crash1_pp_rr1.wav",
+   "sha": "0cb2c3c0cd7dd5d7c642781f0011730debc7336b",
+   "size": 1646510
+  },
+  {
+   "path": "Percussion/cymbal-crash1_pp_rr2.wav",
+   "sha": "c20e2bdb7dfc0d808c7d259f66a3127d262ba4b2",
+   "size": 1508818
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_f_rr1.wav",
+   "sha": "4529eca8c2b92f1b377b1eb0f55985152b245642",
+   "size": 1213358
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_f_rr2.wav",
+   "sha": "0c6f31588f8567564503f8bdd398bd4eb991391e",
+   "size": 1598894
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_fff_rr1.wav",
+   "sha": "b7cf8e1d670cfffdf3b470d75fdd31663a700ca9",
+   "size": 2055786
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_fff_rr2.wav",
+   "sha": "fee20fcfda7d6e5094a457dceb138e912cb6e185",
+   "size": 1975606
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_mp_rr1.wav",
+   "sha": "22733b4388f26829d94de380711792f7a56ab4da",
+   "size": 1399926
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_mp_rr2.wav",
+   "sha": "35dd0248163a1c21d397d068a0b37c3b63d0ef76",
+   "size": 1550114
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_pp_rr1.wav",
+   "sha": "012211003ea58fa9075c356592ead89e937ab96b",
+   "size": 1152978
+  },
+  {
+   "path": "Percussion/susCymb1-hitstick_pp_rr2.wav",
+   "sha": "e467abd94445d3350b9d4f653922dfb6e757e39d",
+   "size": 1126182
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_A2_v1_RR1.wav",
+   "sha": "3e1fec71b531697030215d70a51889260324a225",
+   "size": 763418
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_A2_v1_RR2.wav",
+   "sha": "2f0d3adf6cad8227f6c340d71a9b5597dfa6f319",
+   "size": 714926
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_A2_v2_RR1.wav",
+   "sha": "72e0f0d5d328ff59c7b0227a451c1a226b892265",
+   "size": 748484
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_A2_v2_RR2.wav",
+   "sha": "fa1956ce30140cf95d335c16a5d8986b53751c8e",
+   "size": 757718
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B1_v1_RR1.wav",
+   "sha": "a77d940699042d211e6e329d2331d95ca76842c8",
+   "size": 890366
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B1_v1_RR2.wav",
+   "sha": "2ac3786f8de7fa92086cf2620d4acf0be60c0ae9",
+   "size": 1005728
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B1_v2_RR1.wav",
+   "sha": "4a241c20bb2cb76be13837019363537e85851f40",
+   "size": 1058144
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B1_v2_RR2.wav",
+   "sha": "7792131afbc5bdc2e2e85ca070954a72239ef523",
+   "size": 851390
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B3_v1_RR1.wav",
+   "sha": "9beeb61bac3f90a6031fc44df73203dca0128518",
+   "size": 637034
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B3_v1_RR2.wav",
+   "sha": "c2336fd8d3a7f7d9267b0ec5124d6b7c2295522f",
+   "size": 462368
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B3_v2_RR1.wav",
+   "sha": "37e30848e2c86eeb1a7fd6f704fc33b23c4afa4b",
+   "size": 528038
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_B3_v2_RR2.wav",
+   "sha": "344e9c73227fb784fa182a14ad266c4ba9bf5398",
+   "size": 498176
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C1_v1_RR1.wav",
+   "sha": "c075a85b166054bbb9d1f900393a76f05f10a8b1",
+   "size": 829634
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C1_v1_RR2.wav",
+   "sha": "ab41bf7563e84434f5babc50dda270e92fdb89d2",
+   "size": 858296
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C1_v2_RR1.wav",
+   "sha": "e863415fcc1daf43bb56c7ad2990774f66c1cb98",
+   "size": 981176
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C1_v2_RR2.wav",
+   "sha": "a6030389c8d46bdbfdcb9954de2db56972743873",
+   "size": 886544
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C3_v1_RR1.wav",
+   "sha": "0e8a8a7eadd8ea2b5f009f70fd4b1c2e325ec137",
+   "size": 704396
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C3_v1_RR2.wav",
+   "sha": "5f02b7ab2afbf1825bfef67c4b24516fa2136c0c",
+   "size": 668192
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C3_v2_RR1.wav",
+   "sha": "a0a21bf7abdff541715f3c49df50ca0a3b5ef0f7",
+   "size": 762122
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_C3_v2_RR2.wav",
+   "sha": "0f4fb38d9ece8c7ce5f2176b184c7695ff715540",
+   "size": 717008
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D2_v1_RR1.wav",
+   "sha": "602ef076ef3e60774a7a9d99450fbceaa7f4d24b",
+   "size": 723014
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D2_v1_RR2.wav",
+   "sha": "896b65e4cff10b895f49ecf50d3eb12bde14f341",
+   "size": 769676
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D2_v2_RR1.wav",
+   "sha": "55891f1ec98c1742b27e0b7565c0ef2f027e9bbc",
+   "size": 770222
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D2_v2_RR2.wav",
+   "sha": "15d9901c6962456d98fa7e435e485df07bd39e3e",
+   "size": 686930
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D4_v1_RR1.wav",
+   "sha": "d431933dfc477cab274a7ba5e17bbad5ab68f768",
+   "size": 246806
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D4_v1_RR2.wav",
+   "sha": "1f45b6a4eff699b0104c9ad0461f1cb493f93926",
+   "size": 443942
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D4_v2_RR1.wav",
+   "sha": "d8b97e0669415235b2d28ed65f247430264cc847",
+   "size": 345608
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_D4_v2_RR2.wav",
+   "sha": "c4e580cdb994d107d7cc292e0c69e4cc7d7556b4",
+   "size": 264272
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E1_v1_RR1.wav",
+   "sha": "9678586affff8ef2973ef9da03259ba0132d1b67",
+   "size": 842720
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E1_v1_RR2.wav",
+   "sha": "9a4a5b9bd741c22fbd2646eed0bf48f839c8445d",
+   "size": 688292
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E1_v2_RR1.wav",
+   "sha": "7e8f2ebee318b74e00763e877c7da474511e3341",
+   "size": 826130
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E1_v2_RR2.wav",
+   "sha": "0031262b33fb7a612eab5f7e42b7737600275eca",
+   "size": 1005260
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E3_v1_RR1.wav",
+   "sha": "e25e4b7b69df776d59a8e66ce3c3203f02ca3b59",
+   "size": 512792
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E3_v1_RR2.wav",
+   "sha": "a24e7e2f05f7aa3073c8ef0f641eadf33a1f7fed",
+   "size": 550814
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E3_v2_RR1.wav",
+   "sha": "81e7e715c82c068767246b948aa5720bdacd61ba",
+   "size": 613436
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_E3_v2_RR2.wav",
+   "sha": "3079bc3db63fa205a7e7beef171611877d1abc8b",
+   "size": 642656
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F2_v1_RR1.wav",
+   "sha": "65b06f53a4d2c449f38b30a22aeea6bf1ce814af",
+   "size": 662600
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F2_v1_RR2.wav",
+   "sha": "69b5bd25c32e439c69df8ce0623d767bcc98fd08",
+   "size": 446198
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F2_v2_RR1.wav",
+   "sha": "20c6e50e4f6e6d4e677a66989de22ebe44af9707",
+   "size": 479312
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F2_v2_RR2.wav",
+   "sha": "d172b1efd4ed288c0be128c1360583756a5d04bd",
+   "size": 537716
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F4_v1_RR1.wav",
+   "sha": "24895de3e0d59db4ba2f2905777d1d4cb1f3242f",
+   "size": 231038
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F4_v1_RR2.wav",
+   "sha": "ece05cdbcb43e57d592e819806fe323395b68666",
+   "size": 241640
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F4_v2_RR1.wav",
+   "sha": "5a5d41fbab07b45e1c15f8332ad3a9be98d9087c",
+   "size": 267632
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_F4_v2_RR2.wav",
+   "sha": "3103fe64aa82efa50834f8060e6f869c70e74786",
+   "size": 346466
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G1_v1_RR1.wav",
+   "sha": "7a2e62d4053cf9d0260ededbe1b97b1963cdd1e0",
+   "size": 852008
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G1_v1_RR2.wav",
+   "sha": "1f424612f211f3360db750f4f1cbd5c7c25b6812",
+   "size": 718130
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G1_v2_RR1.wav",
+   "sha": "9e6b7510899020e0deffdf7cd84ebc207057ec27",
+   "size": 884180
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G1_v2_RR2.wav",
+   "sha": "dc1935483eda7148f8db4cc3b62d0f6dce23a4d6",
+   "size": 977798
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G3_v1_RR1.wav",
+   "sha": "3e51a603e5395b476a41ebdcf91e2b6902fe5bfd",
+   "size": 746396
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G3_v1_RR2.wav",
+   "sha": "11b3dbf3c78e4ba6138d74a7001731d26f448a65",
+   "size": 719588
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G3_v2_RR1.wav",
+   "sha": "2aee48b5212697b6c897260d25c3ad31f6b8e8aa",
+   "size": 720596
+  },
+  {
+   "path": "Strings/Cello Section/pizzT/pizzT_G3_v2_RR2.wav",
+   "sha": "b9ff26a22c79a87e0967bea0a871c9c4dfd12b69",
+   "size": 762104
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_A2_v1_1.wav",
+   "sha": "76df6b474aff133b2ac9d96bf2466cb6fd865c72",
+   "size": 2336738
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_A2_v3_1.wav",
+   "sha": "ad696c6ad3cbacb37b6d9cf4f26da4a54521e7ce",
+   "size": 3082676
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_B1_v1_1.wav",
+   "sha": "d6a4a2d1a688c6ccb4e1e1a56b878c9c93df468b",
+   "size": 2372492
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_B1_v3_1.wav",
+   "sha": "56c81412c60a2b04b8556dfa26a7e0127357c5cb",
+   "size": 3372962
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_B3_v1_1.wav",
+   "sha": "16d846690d7c4d385f3cfc8f1fe25873d6bd5b01",
+   "size": 1690082
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_B3_v3_1.wav",
+   "sha": "3b1685e657db57bd71c979da8c2d9d35d2d0d197",
+   "size": 2865086
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_C1_v1_1.wav",
+   "sha": "ff87d1ae488d87189f33a0d18550d3bcde012f3d",
+   "size": 2347376
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_C1_v3_1.wav",
+   "sha": "d3820a6d57daf9a202a000bff0fa082a3f77acf6",
+   "size": 3335948
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_C3_v1_1.wav",
+   "sha": "73ccb5dc2cc2a07926a1c41aa3c5621b19f420bf",
+   "size": 2444174
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_C3_v3_1.wav",
+   "sha": "a192845091cb8e669c72d3ff4a88eb1c5968e626",
+   "size": 3019394
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_D2_v1_1.wav",
+   "sha": "8076f809d4f6a8057f3835e12d22751a25e39252",
+   "size": 2550956
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_D2_v3_1.wav",
+   "sha": "fdb46242bb68876ad275b9b8ed10c4b8508b9292",
+   "size": 3291368
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_D4_v1_1.wav",
+   "sha": "e1125afc13def9b43e4612cdcebd11b99fce20cc",
+   "size": 2153228
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_D4_v3_1.wav",
+   "sha": "9189549dab9d3e0928fc7e42f94c04d66d28c52b",
+   "size": 2801210
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_E1_v1_1.wav",
+   "sha": "fcd27d29a8c0d520539cef6aad659bf9006ae730",
+   "size": 2468348
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_E1_v1_2.wav",
+   "sha": "d5756d400ce67b25c332e04061dd9f32dc89d283",
+   "size": 2439512
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_E1_v3_1.wav",
+   "sha": "666f0d1ba1a76133c12c9859222c1c7094b613cf",
+   "size": 3080426
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_E3_v1_1.wav",
+   "sha": "63f4d6df3a25fb95f417b5d45b5f8bf6a11107bf",
+   "size": 2456672
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_E3_v3_1.wav",
+   "sha": "7711cb67795d692b0d732eb8fd234c41d5980f42",
+   "size": 3278270
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_F2_v1_1.wav",
+   "sha": "78f52c49ddc8a357657d92b05cd89f15beb6c717",
+   "size": 2186012
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_F2_v3_1.wav",
+   "sha": "a384e84a342ab9be12ca55b92c845a3c351b75bf",
+   "size": 3062696
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_F4_v1_1.wav",
+   "sha": "7f39cccecb392eaa0ff4c94e3607dc2294458a30",
+   "size": 1922948
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_F4_v3_1.wav",
+   "sha": "074f12a91124e13ea0e4fb34d9ecbe7279ec0806",
+   "size": 2726342
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_G1_v1_1.wav",
+   "sha": "42a2731d11a4749c3026f0618e21a8c9370c2024",
+   "size": 2161700
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_G1_v3_1.wav",
+   "sha": "35971538059e18b8f38cdc556630967777a0a0d5",
+   "size": 3370496
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_G3_v1_1.wav",
+   "sha": "7880157fbb8e57fb0b7a694b8569701bc0d942ea",
+   "size": 2431598
+  },
+  {
+   "path": "Strings/Cello Section/susvib/susvib_G3_v3_1.wav",
+   "sha": "732d0c80596fdfc593f55b5a24f65c07cd3191cd",
+   "size": 3335768
+  },
+  {
+   "path": "Strings/Harp/KSHarp_A2_mf.wav",
+   "sha": "265383d75cb23b2882ca297e6c50908e3ec8247a",
+   "size": 2007670
+  },
+  {
+   "path": "Strings/Harp/KSHarp_A4_mf.wav",
+   "sha": "acbece38a84e886cb5516e0f29d6ff5d38900fe1",
+   "size": 2143618
+  },
+  {
+   "path": "Strings/Harp/KSHarp_A6_mf.wav",
+   "sha": "9fc9959804954e24e6837c426d702031fd2a3b7f",
+   "size": 636870
+  },
+  {
+   "path": "Strings/Harp/KSHarp_B1_mf.wav",
+   "sha": "bb26292fd8b4d4d7f95703c69667c8f2234eebc8",
+   "size": 2284022
+  },
+  {
+   "path": "Strings/Harp/KSHarp_B3_mf.wav",
+   "sha": "8d06cd55bc871d19f25a2bb1b56c7a567aabbc6b",
+   "size": 1981130
+  },
+  {
+   "path": "Strings/Harp/KSHarp_B5_mf.wav",
+   "sha": "2d2689e8ca023cd685ed5a29161f3d641f109da9",
+   "size": 779058
+  },
+  {
+   "path": "Strings/Harp/KSHarp_B6_mf.wav",
+   "sha": "d350ad472b663c9c239802f10228cd0073cf698d",
+   "size": 483966
+  },
+  {
+   "path": "Strings/Harp/KSHarp_C3_mf.wav",
+   "sha": "20e91e167e86132bb16601f682c90444779d8a23",
+   "size": 1586172
+  },
+  {
+   "path": "Strings/Harp/KSHarp_C5_mf.wav",
+   "sha": "748b4b1366616972c2a22e81fc48a86178801c45",
+   "size": 1237142
+  },
+  {
+   "path": "Strings/Harp/KSHarp_D2_mf.wav",
+   "sha": "2a9d5a18ceb32459a29995a4e68e06c8f78dff5d",
+   "size": 1741118
+  },
+  {
+   "path": "Strings/Harp/KSHarp_D4_mf.wav",
+   "sha": "342eec5072e2c0a7fb7cb03b6f5b46d84ed6ac69",
+   "size": 1921690
+  },
+  {
+   "path": "Strings/Harp/KSHarp_D6_mf.wav",
+   "sha": "f66e88f651740695e4971c3197e6a1d61d6380c1",
+   "size": 687750
+  },
+  {
+   "path": "Strings/Harp/KSHarp_D7_f.wav",
+   "sha": "096a6d12f2a4e01c952d85100d11030b8ab2fdf9",
+   "size": 396134
+  },
+  {
+   "path": "Strings/Harp/KSHarp_E1_f.wav",
+   "sha": "483714bd64ecf4947fe70d0ae0da6f2292c958f2",
+   "size": 4001190
+  },
+  {
+   "path": "Strings/Harp/KSHarp_E3_mf.wav",
+   "sha": "5c6c7410ae0ff7800214931f9db9a7f52db5987e",
+   "size": 2461138
+  },
+  {
+   "path": "Strings/Harp/KSHarp_E5_mf.wav",
+   "sha": "20675907d698db011d0c8bc72cf9af4e7a1ac971",
+   "size": 1171586
+  },
+  {
+   "path": "Strings/Harp/KSHarp_F2_mf.wav",
+   "sha": "03c3ce65453dc79a0b36805126b57574ff7dc654",
+   "size": 3086590
+  },
+  {
+   "path": "Strings/Harp/KSHarp_F4_mf.wav",
+   "sha": "a1966639b165b623ac533270d616814cbc5389ef",
+   "size": 1913498
+  },
+  {
+   "path": "Strings/Harp/KSHarp_F6_mf.wav",
+   "sha": "5d80932f790a28c088fab5dc2727c01ef2a130fc",
+   "size": 413126
+  },
+  {
+   "path": "Strings/Harp/KSHarp_F7_f.wav",
+   "sha": "2451907b2acc4cdf9b371111c760abc9bb866926",
+   "size": 332482
+  },
+  {
+   "path": "Strings/Harp/KSHarp_G3_mf.wav",
+   "sha": "a2f7fcc2bce81d039d9c0c529a94159f589f36e1",
+   "size": 1806874
+  },
+  {
+   "path": "Strings/Harp/KSHarp_G5_mf.wav",
+   "sha": "8e3593345c95368ae9d74591c1046d21de6a8e60",
+   "size": 1049778
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A#0_v1_rr1.wav",
+   "sha": "6b42c2b752ac8aa098fa512b1c068229036f9d55",
+   "size": 344328
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A#0_v1_rr2.wav",
+   "sha": "74b090dd2b40841aa3657f35859ae5810ed3344e",
+   "size": 326372
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A#0_v3_rr1.wav",
+   "sha": "b5525c15a77e1871feb42f70cc17a6650aee4355",
+   "size": 417360
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A#0_v3_rr2.wav",
+   "sha": "3bcb6e93918b0e8355867acfcaca87106e421b23",
+   "size": 458396
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A1_v1_rr1.wav",
+   "sha": "311a5027a127715530f1e723a21f7927d280d493",
+   "size": 623260
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_A1_v1_rr2.wav",
+   "sha": "4ccbcc407cdc07f124f6523d50778d8e77ac2aad",
+   "size": 485472
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_B2_v1_rr1.wav",
+   "sha": "c5bfef7aaa68a98928f172b8572711ea6ce8975d",
+   "size": 417472
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_B2_v1_rr2.wav",
+   "sha": "a36c908d3b8b07d9ecc0107d465ab391160e3c79",
+   "size": 332204
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C#2_v1_rr1.wav",
+   "sha": "16b7ca596182a49fe693b81ed925df8d2fc1be59",
+   "size": 513824
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C#2_v1_rr2.wav",
+   "sha": "1538275fda063011eae150b531752b410186c2b6",
+   "size": 498308
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C1_v1_rr1.wav",
+   "sha": "46a4f947083669e7281be98b16c89b434529ea9e",
+   "size": 270720
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C1_v1_rr2.wav",
+   "sha": "aa16603fb7d318a87c47abf01e3ea321cdc78418",
+   "size": 405984
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C1_v3_rr1.wav",
+   "sha": "eb8c1aa8049e386288b71b7678098352a0c8f037",
+   "size": 400396
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_C1_v3_rr2.wav",
+   "sha": "974926b4eda1088bb5c7865de6712acc7803d304",
+   "size": 384920
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_D1_v1_rr1.wav",
+   "sha": "623693ad1479a3e1da230fe62b8d012406412d86",
+   "size": 856252
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_D1_v1_rr2.wav",
+   "sha": "6b66446765a55ddcad2fbfdf3b47fdc6737bc540",
+   "size": 1062672
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E0_v1_rr1.wav",
+   "sha": "8e025f9d9f072fd42a12ff27bad023f95016203f",
+   "size": 423964
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E0_v1_rr2.wav",
+   "sha": "548f3bf22840c6477487df248e1a2d6417ad7175",
+   "size": 412812
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E0_v3_rr1.wav",
+   "sha": "3258f6728cacc74c5ad6addadaa8a61cbb9d57cd",
+   "size": 901744
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E0_v3_rr2.wav",
+   "sha": "92da6c6d93f06c950cbf8ebd737947cc8cd02769",
+   "size": 908620
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E1_v1_rr1.wav",
+   "sha": "da8962289a777507e94094c6dde7131916ca1b64",
+   "size": 294356
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E1_v1_rr2.wav",
+   "sha": "3326b2b4ae5a4bc6156e7ec8ce5adaca94e867e5",
+   "size": 315292
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E1_v3_rr1.wav",
+   "sha": "1cada4277b16b2eb8b240d4a6da4bbd3aca989a0",
+   "size": 518876
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E1_v3_rr2.wav",
+   "sha": "9033e53e840a4ca791ff0ae57bd1f171bc5a310c",
+   "size": 445256
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E2_v1_rr1.wav",
+   "sha": "ba882653db7ef6fcebc5dc0e373707cdca944e62",
+   "size": 438040
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_E2_v1_rr2.wav",
+   "sha": "0d330f46bca35ae676072455ab09bc1391ffdff7",
+   "size": 595380
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#0_v1_rr1.wav",
+   "sha": "4578fd1b4f56290dc35ee453105e487efb3c5c67",
+   "size": 256360
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#0_v1_rr2.wav",
+   "sha": "d0a056d068a5c9e2b9e1ddbf1f309c80e617dc9f",
+   "size": 297240
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#0_v3_rr1.wav",
+   "sha": "4e6933681d86ea908000d9319e01db9858b499e1",
+   "size": 828940
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#0_v3_rr2.wav",
+   "sha": "09b455dcad902b0c725168f405e5635c580ed3f2",
+   "size": 910664
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#1_v1_rr1.wav",
+   "sha": "757d0487bc7ad3461aac13cdce1999fabb3952b3",
+   "size": 868632
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_F#1_v1_rr2.wav",
+   "sha": "9a7f711fd6039b0ba71e6061edfb7de9d7102a8a",
+   "size": 1036836
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G#1_v1_rr1.wav",
+   "sha": "1b3774619e9ae958177bc6bd4429d32fbef0c0c8",
+   "size": 601752
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G#1_v1_rr2.wav",
+   "sha": "51b5c8bbabf1760a072fc557652fb84bcaf827d8",
+   "size": 537212
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G#2_v1_rr1.wav",
+   "sha": "b32004f92c141a30ba5e314dd0cc1d2687b92856",
+   "size": 376048
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G#2_v1_rr2.wav",
+   "sha": "425eaabaf3d12ea8da780056e5e1a7ee4ddbde80",
+   "size": 273224
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G0_v1_rr1.wav",
+   "sha": "45d11b0a0545d59407f740b938461b205e8c91cb",
+   "size": 169640
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G0_v1_rr2.wav",
+   "sha": "968cf37ef77070e116c8f665d0242af1287530fc",
+   "size": 240624
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G0_v3_rr1.wav",
+   "sha": "219542998cac263bb0b5bd03ab02fd6bbdcb3d21",
+   "size": 636880
+  },
+  {
+   "path": "Strings/Solo Contrabass/Pizz/BKCtbss_Pizz_G0_v3_rr2.wav",
+   "sha": "09b63873d4e3070f2d0c513f69cb827ed83911c0",
+   "size": 713924
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A3_f.wav",
+   "sha": "82964f15bb0ca3d34dbdfdd43ad0148f9d8767af",
+   "size": 2864482
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A3_p.wav",
+   "sha": "7122b440f4dbd148a81319fca1d04a550710cef3",
+   "size": 2911130
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A4_f.wav",
+   "sha": "3155c72c1f9ea1518ddb6c1a20eb5c0a094bd537",
+   "size": 2488526
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A4_p.wav",
+   "sha": "e8667671328e1cfcd769a7624c26fac133ad7b0f",
+   "size": 2612122
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A5_f.wav",
+   "sha": "eebb9f220dc2a93557acc849d5dd3273b8f0ff8f",
+   "size": 1986834
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A5_p.wav",
+   "sha": "5eb8185d8ca9b3f34110654c2779e587de513921",
+   "size": 2562122
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A6_f.wav",
+   "sha": "c296065592b8adf9e12f51af9d003b7259ecc6e2",
+   "size": 2052254
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_A6_p.wav",
+   "sha": "32e4646793f68c897271fb7f97887c95dbaf59fc",
+   "size": 2614110
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C4_f.wav",
+   "sha": "8a700075b7ae2f19c1c56108738324dfba6959e8",
+   "size": 2334170
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C4_p.wav",
+   "sha": "9f876cafa572a8719e2e93fc994c5303992b8e62",
+   "size": 3096650
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C5_f.wav",
+   "sha": "93e9a2cf8106acc5e49ba18dab112c947473917f",
+   "size": 2497990
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C5_p.wav",
+   "sha": "71f0671d77cf8b79ce1a18ba20d9661e24f086fc",
+   "size": 2498790
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C6_f.wav",
+   "sha": "89f48f37313800df4c5901dc76b49b1c5c69e396",
+   "size": 2162774
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C6_p.wav",
+   "sha": "33bc7e87816637462d6e174da9949eb9b5e45ef4",
+   "size": 2358906
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C7_f.wav",
+   "sha": "2348056e211ef9b6d309f3718d8e4e49471f65ce",
+   "size": 2176486
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_C7_p.wav",
+   "sha": "bc1f4c13bb7c9693f7c5ef5a44bfe27463aa8cda",
+   "size": 2274706
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E4_f.wav",
+   "sha": "6b1bcdf57513dd089a2172adc0ddbac4a335b3a0",
+   "size": 2416566
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E4_p.wav",
+   "sha": "99279ebc21258ab48aae6eb63d1eb7538f28d306",
+   "size": 2600174
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E5_f.wav",
+   "sha": "269658d510e82345227ac10d22f928cfae428c99",
+   "size": 2365174
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E5_p.wav",
+   "sha": "670865e19772aceab538850ea7a0d1a86024d955",
+   "size": 2517094
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E6_f.wav",
+   "sha": "26855bca28a7be29386cbd6db56d2ae6f7c3b66c",
+   "size": 2363554
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_E6_p.wav",
+   "sha": "52407eb061956458643424aa623998ee43ce5136",
+   "size": 2514702
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G3_f.wav",
+   "sha": "a09b038528097878ad6b12d30da4ac1a227d5a98",
+   "size": 2936890
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G3_p.wav",
+   "sha": "bc5f7d33610abbc3000f432562f36063f1d3d725",
+   "size": 2788822
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G4_f.wav",
+   "sha": "f9c1a5547a7e062eb34ee6bef09e559d3839f46e",
+   "size": 2366050
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G4_p.wav",
+   "sha": "7324564c663bf239802020287c217b27c76b8142",
+   "size": 2594066
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G5_f.wav",
+   "sha": "f8745db337ebf8e82d59f90cea7c0f060a3615ce",
+   "size": 2222106
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G5_p.wav",
+   "sha": "a0ac97ce56dcbfb7b622abd2aa3c61678053f791",
+   "size": 2596714
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G6_f.wav",
+   "sha": "9bd2b0d9d6e5505a0c0ce0722bd10db7913ee97d",
+   "size": 2164026
+  },
+  {
+   "path": "Strings/Solo Violin/Arco Vib/LLVln_ArcoVib_G6_p.wav",
+   "sha": "eca2508aa84cef89ee2002953d3b5f9867d53802",
+   "size": 2417222
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_A3_v1_1.wav",
+   "sha": "a57d0e5e328257ef14a3dd09b1debea045671527",
+   "size": 2491352
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_A3_v2_1.wav",
+   "sha": "b479361fe3bed076db011092b8d48bca54daf83f",
+   "size": 2861282
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_B2_v1_1.wav",
+   "sha": "86e2428bca77c49d795e5e3d5be7dd9b022fce65",
+   "size": 2861510
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_B2_v2_1.wav",
+   "sha": "0f7bee6ccadc6e25a101cbd7be1c27ac6e896ea4",
+   "size": 3268364
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_B4_v1_1.wav",
+   "sha": "66520dad5b544b8e93c48e0f3aa941b3e85bc633",
+   "size": 2203118
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_B4_v2_1.wav",
+   "sha": "818ac60340e41f1287024c738d43c5bf3cf7dc9d",
+   "size": 2893766
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_C2_v1_1.wav",
+   "sha": "b1cfb66c1ab03bdb9adac7e347b427bc61524b94",
+   "size": 2642360
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_C2_v2_1.wav",
+   "sha": "7851268d881b226650cba4ef1d4e9578ae212099",
+   "size": 3318188
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_C4_v1_1.wav",
+   "sha": "a88aa6006bbc4ad1b25e4f08eb2d8ac974a7097f",
+   "size": 2289656
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_C4_v2_1.wav",
+   "sha": "4561f010d9b6de44b121246731042d1879d38ab7",
+   "size": 2954936
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D2_v1_1.wav",
+   "sha": "d508161e1c7a255d291f1d32f9605a9c215357aa",
+   "size": 2359898
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D2_v2_1.wav",
+   "sha": "bf8a94de83b7d96375bef7c94e07d616f43f9c14",
+   "size": 3049772
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D3_v1_1.wav",
+   "sha": "9a3a65b93d871964a666d6a86deec4d29425d828",
+   "size": 2789648
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D3_v2_1.wav",
+   "sha": "2f6d74aa54f4f23889de311ff85d9f704fb600b9",
+   "size": 3596756
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D5_v1_1.wav",
+   "sha": "57d1de0867673e6861f318c01ed3358ffbff2996",
+   "size": 2087798
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_D5_v2_1.wav",
+   "sha": "05a181827b7f6b3f339a92fa8eaf648f352651a5",
+   "size": 2638244
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_E2_v1_1.wav",
+   "sha": "6401156b3518b6f39e95fdaefc74cc814d6aceb2",
+   "size": 2520044
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_E2_v2_1.wav",
+   "sha": "764698fba8db1da82ecc6b5ec54fe61c0036e4f2",
+   "size": 3027656
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_E4_v1_1.wav",
+   "sha": "c97e8f4eeffe3fd94afeb8a3d32099105ab270d2",
+   "size": 2044358
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_E4_v2_1.wav",
+   "sha": "c0e669461ba50854dd80e68767604a6f57471cc2",
+   "size": 2559086
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_F3_v1_1.wav",
+   "sha": "f9e0fa27802046cf9ed1e6b5625b6a815b3c09e8",
+   "size": 2487818
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_F3_v2_1.wav",
+   "sha": "e6b387021b4b98c926d737b2d451037aad087d0e",
+   "size": 3471944
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_G2_v1_1.wav",
+   "sha": "7c6dbafbe1f5de539b5861515f1bf39987e354cb",
+   "size": 2001644
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_G2_v2_1.wav",
+   "sha": "e8b4cc651229723bc4dcb781d715d6b995b5589d",
+   "size": 3637364
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_G4_v1_1.wav",
+   "sha": "2f34fb8b8826e09cf0427d1710b650a5c3dd3010",
+   "size": 2542586
+  },
+  {
+   "path": "Strings/Viola Section/susvib/ViolaEns_susvib_G4_v2_1.wav",
+   "sha": "54255fd83b3bf242022e61ff6d9fe518401dc537",
+   "size": 3103628
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A2_v1_rr1.wav",
+   "sha": "93b98c5260e23178abca15764e43b2d61f0ee86a",
+   "size": 220926
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A2_v1_rr2.wav",
+   "sha": "dbdb03af973cfbadefe9c6493dd37d3affaba346",
+   "size": 247290
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A2_v2_rr1.wav",
+   "sha": "67424af2bfc19cbac72eee6a8fdba6acebbf735e",
+   "size": 187354
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A2_v2_rr2.wav",
+   "sha": "537e430bb5d41680acb11848e489708bd6070b82",
+   "size": 315758
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A3_v1_rr1.wav",
+   "sha": "06793268b9279f7cac16e997732515851e619173",
+   "size": 163490
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A3_v1_rr2.wav",
+   "sha": "e9e5a1ce6277be3cee527230e50923ec043d1bdc",
+   "size": 180382
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A3_v2_rr1.wav",
+   "sha": "251db5f874e4d431601a5f76b7a780cc1e5ef489",
+   "size": 194010
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_A3_v2_rr2.wav",
+   "sha": "9e489802b42cd46908eb4244fa8383c287a29bc0",
+   "size": 205482
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B2_v1_rr1.wav",
+   "sha": "3c5e8e9cc23e4832f7cd6e3b467e05edc8375761",
+   "size": 124886
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B2_v1_rr2.wav",
+   "sha": "aafef0e36416a366a75565897e7355b842814194",
+   "size": 116098
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B2_v2_rr1.wav",
+   "sha": "13603a872baf1c825d6f1adea446033872b3995e",
+   "size": 180134
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B2_v2_rr2.wav",
+   "sha": "1d3f09cec45d4ca9ffe3cde92a7122e05a805faa",
+   "size": 292378
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B4_v1_rr1.wav",
+   "sha": "a05d57ce0a3cf310aed9d9349c122a89e5394a0f",
+   "size": 88054
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B4_v1_rr2.wav",
+   "sha": "0fd7442a37efe97c44185386554bd03a9a980b03",
+   "size": 92066
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B4_v2_rr1.wav",
+   "sha": "521e295e499f4b578c6f31f5a26968b03beb77d5",
+   "size": 106362
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_B4_v2_rr2.wav",
+   "sha": "27fcda44d85a84c72ceb69e29260457b6c19bee0",
+   "size": 126302
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_C4_v1_rr1.wav",
+   "sha": "435b07a8821b1ce9bc2c3347faa2304e0075b4c7",
+   "size": 105914
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_C4_v1_rr2.wav",
+   "sha": "9c30ba07f8c7f032ffe9b385fa4f6c15a2f9338a",
+   "size": 122922
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_C4_v2_rr1.wav",
+   "sha": "2321eac4b4d5b26823a89e56a98e232fc143e121",
+   "size": 184590
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_C4_v2_rr2.wav",
+   "sha": "f5123c18b79f336e52489f57edf792768598d70d",
+   "size": 197238
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D3_v1_rr1.wav",
+   "sha": "81edb847a315aaab80bcb96b0531554e5dcd7683",
+   "size": 280306
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D3_v1_rr2.wav",
+   "sha": "823cdc568bb895512620b025abd456f33e720e21",
+   "size": 375514
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D3_v2_rr1.wav",
+   "sha": "72d0589858c7bcd1e8c616c9ae5e384dd53851be",
+   "size": 391226
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D3_v2_rr2.wav",
+   "sha": "d4af565c80bcc9b5946eef87efc94040c3e2922d",
+   "size": 410238
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D5_v1_rr1.wav",
+   "sha": "c5757bfbc85366ee0fb73137a51f36bedbdb3503",
+   "size": 122870
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D5_v1_rr2.wav",
+   "sha": "fd683dfdf89fb6ba82366ebf7758a8164b9bd8fe",
+   "size": 77634
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D5_v2_rr1.wav",
+   "sha": "85833b67611f3bb3e1c082721d62269f305e0afa",
+   "size": 113286
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_D5_v2_rr2.wav",
+   "sha": "e39ebc0f6a7a69115a1ebd1e123766ae1addb2d7",
+   "size": 125806
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_E4_v1_rr1.wav",
+   "sha": "c365d0d634fe675af05e97a90f427c8ed2152d26",
+   "size": 109318
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_E4_v1_rr2.wav",
+   "sha": "158eb24a6e312d10ba81a15de1b8c5e71277aa72",
+   "size": 150326
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_E4_v2_rr1.wav",
+   "sha": "34adeb666686974d1a7c2eab5ff6109014b96908",
+   "size": 146742
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_E4_v2_rr2.wav",
+   "sha": "466e0a071c8a3e00baabda9db655447b30dab2aa",
+   "size": 167882
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_F#3_v1_rr1.wav",
+   "sha": "d8da392b5c5b778897eb9bc4e1e3ccb9cef06941",
+   "size": 197422
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_F#3_v1_rr2.wav",
+   "sha": "b8876db06c7edbbbb828247458e79cb3e659e870",
+   "size": 135562
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_F#3_v2_rr1.wav",
+   "sha": "db2ec270d423f9c4ef156bb11ad96c9d23a36883",
+   "size": 157066
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_F#3_v2_rr2.wav",
+   "sha": "13050c58147c0ade173a32e1167d5c85cef1e082",
+   "size": 176738
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G2_v1_rr1.wav",
+   "sha": "4078199c3a83b088af2374801bf02a69a34e2692",
+   "size": 409242
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G2_v1_rr2.wav",
+   "sha": "ecdd5249b71aaf4147e9ee80f9f3e1221c6c46e1",
+   "size": 459646
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G2_v2_rr1.wav",
+   "sha": "3ec99d0f2abd24e4fc18cf5ce5db320d7974b0ba",
+   "size": 532010
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G2_v2_rr2.wav",
+   "sha": "a8787f3fd98f15b518fd21fb9a0d51e0ac0c397d",
+   "size": 437694
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G4_v1_rr1.wav",
+   "sha": "6854ee3feb04c2ad33290768f4704dee8d73edc1",
+   "size": 148766
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G4_v1_rr2.wav",
+   "sha": "99ac3b68d02d9fec1d569132977d5954bca20b5c",
+   "size": 82618
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G4_v2_rr1.wav",
+   "sha": "9a723d81746d3241c1adcea38fc925fed558c735",
+   "size": 184102
+  },
+  {
+   "path": "Strings/Violin Section/Pizz/VlnEns_Pizz_G4_v2_rr2.wav",
+   "sha": "bb9a2169ec4e0aae4645ca6009f94d16503ba1a0",
+   "size": 170178
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A2_v1_rr1.wav",
+   "sha": "a794cbe840ac88a90b2b23faee573f71e9ef1d91",
+   "size": 327090
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A2_v1_rr2.wav",
+   "sha": "ac8c4f4a4b596ff63600781a9356a94505391577",
+   "size": 339302
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A2_v2_rr1.wav",
+   "sha": "c1cfa82aa2b930acbacb8b1cbffc3a1158a3a0ad",
+   "size": 347066
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A2_v2_rr2.wav",
+   "sha": "b2f9297553bb58fdbc99b8119935d6fa215397d9",
+   "size": 272346
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A3_v1_rr1.wav",
+   "sha": "073f359ff4708b93240798353c79b98c7ba92833",
+   "size": 167582
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A3_v1_rr2.wav",
+   "sha": "4cd283726571e71438974e88361f6b0bc3c05746",
+   "size": 158622
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A3_v2_rr1.wav",
+   "sha": "fb4ac5e085c3d9e4a0623247a74004cbd8881f9b",
+   "size": 213126
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_A3_v2_rr2.wav",
+   "sha": "c93c24bab8ebc7573a91f8763a665876f81febe0",
+   "size": 246210
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B2_v1_rr1.wav",
+   "sha": "21f5bd5721f3e9aa124ad55164127ef80d0caddb",
+   "size": 115554
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B2_v1_rr2.wav",
+   "sha": "367ddae427eb9a12a3a09a432cf6e09ecf941d11",
+   "size": 131774
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B2_v2_rr1.wav",
+   "sha": "11b255c4b3c717ce345ecf3eb0d98638d75e1b1d",
+   "size": 160826
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B2_v2_rr2.wav",
+   "sha": "a1aab1c6b72d88849f17c5ad5372f090f33ff8b9",
+   "size": 172390
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B4_v1_rr1.wav",
+   "sha": "47b96870f42bcba7ce40bf38d330f5a9a04ca580",
+   "size": 182342
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B4_v1_rr2.wav",
+   "sha": "f7d7acb3ee6c33acd24cf0712507a14cc33beecb",
+   "size": 153682
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B4_v2_rr1.wav",
+   "sha": "d91c54ffcecbef31708a0a9439907945f9843a08",
+   "size": 199926
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_B4_v2_rr2.wav",
+   "sha": "3e8898b02d05583d87fdd634266f034ddb583acd",
+   "size": 168810
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_C4_v1_rr1.wav",
+   "sha": "70a464d3dd61d21e36b209573475345f4e36b46b",
+   "size": 130390
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_C4_v1_rr2.wav",
+   "sha": "6b6d5f9f694f94f6023e85d295d6fff6837373a7",
+   "size": 110434
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_C4_v2_rr1.wav",
+   "sha": "ae3b8629fbbdb12ca1c6627ecdc5c0228ecb9ed0",
+   "size": 167454
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_C4_v2_rr2.wav",
+   "sha": "8ce6ba371c35d70704829e8923a0aab4621b1aa1",
+   "size": 124626
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D3_v1_rr1.wav",
+   "sha": "f23740af6543f553cf2e4483d6177f600bc6730d",
+   "size": 212730
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D3_v1_rr2.wav",
+   "sha": "a487a679c85544f696c2bec7e1915dbfb0503913",
+   "size": 251726
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D3_v2_rr1.wav",
+   "sha": "4894f893f93143180d5234212d0440110dac0b8f",
+   "size": 311850
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D3_v2_rr2.wav",
+   "sha": "ec4376833eaffafb05c1895ed2f31b0f22552f57",
+   "size": 290746
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D5_v1_rr1.wav",
+   "sha": "c54eb32ceef868f25e37af20d9c22c2ee9017443",
+   "size": 107654
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D5_v1_rr2.wav",
+   "sha": "f186358c67a144532926b5c3c44ca559436b14dd",
+   "size": 124034
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D5_v2_rr1.wav",
+   "sha": "8eb20bdd3d40ecfc18e2e9c3e59a299710e86d60",
+   "size": 136734
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_D5_v2_rr2.wav",
+   "sha": "828f82b17a84757411474bcd781897b2d42353a9",
+   "size": 124686
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_E4_v1_rr1.wav",
+   "sha": "2449f9d5cd6337530ae52c06b92c0f99b5f81a7d",
+   "size": 87666
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_E4_v1_rr2.wav",
+   "sha": "31306b62cd518bbe0d4e793c2c9eb598c06e9e73",
+   "size": 183402
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_E4_v2_rr1.wav",
+   "sha": "f95512f43f61703daa2c436071627ef6b7bb6a9d",
+   "size": 106314
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_E4_v2_rr2.wav",
+   "sha": "c9b02904df2283cf50b765e9b16c6ccfb4c78042",
+   "size": 134190
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_F#3_v1_rr1.wav",
+   "sha": "a1440411347da6c7ea3e2ea5e23d4ed5c65b5b98",
+   "size": 126294
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_F#3_v1_rr2.wav",
+   "sha": "48ae2a53909309538a65e40184f4d0885b3dbe53",
+   "size": 112254
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_F#3_v2_rr1.wav",
+   "sha": "f08c57a675190d1f562d4055b8fda58064f69cdc",
+   "size": 166870
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_F#3_v2_rr2.wav",
+   "sha": "2e51e90cf6031974c73c1045a7c97f1e6587140b",
+   "size": 192442
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G2_v1_rr1.wav",
+   "sha": "df1b9212691c50ed94ad3b04c6c06d4c3d72bbd9",
+   "size": 544838
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G2_v1_rr2.wav",
+   "sha": "3f58d27e4b2f99a20170a580412eb0199c08aea9",
+   "size": 565874
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G2_v2_rr1.wav",
+   "sha": "617e0e35885885eced13fb75f1d25603e52852ea",
+   "size": 435542
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G2_v2_rr2.wav",
+   "sha": "8f35c6ad7e74d6f48fb8d2fab89490f080b7b8c9",
+   "size": 428774
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G4_v1_rr1.wav",
+   "sha": "6756b5aed1346ee2a4e775906977ef684e8a3627",
+   "size": 193166
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G4_v1_rr2.wav",
+   "sha": "3bcc89bc715de8f6f17feccfb98cc5bb024e142e",
+   "size": 221382
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G4_v2_rr1.wav",
+   "sha": "59f932de2ed91cb8148b600a2a1a4fd0e0914421",
+   "size": 162898
+  },
+  {
+   "path": "Strings/Violin Section/Spic/VlnEns_Spic_G4_v2_rr2.wav",
+   "sha": "56f44b7808cbb5570dbdc90487f1dc1a5b398326",
+   "size": 154078
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_A2_v1.wav",
+   "sha": "b86c2e7000da2a80466196acca2ddbdf6cf83fe8",
+   "size": 1979216
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_A2_v2.wav",
+   "sha": "5960b46c4678a146834594031d0bba1048855102",
+   "size": 2231504
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_A3_v1.wav",
+   "sha": "ec84b89a4b93ecdc7e23d0c023b897b6f151bca7",
+   "size": 1890316
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_A3_v2.wav",
+   "sha": "401653718e521b65712da594a53d22184f4a207a",
+   "size": 1671704
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_B2_v1.wav",
+   "sha": "c2bdf89eed02c0e7fbb11b52799ac62276787ff8",
+   "size": 2314360
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_B2_v2.wav",
+   "sha": "4f54ea9180f4c11ec3d0e92f556003be59cb0f0c",
+   "size": 2373380
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_B4_v1.wav",
+   "sha": "8e22cb66ba5bccb4df68decf98139b3008733e8a",
+   "size": 2056964
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_B4_v2.wav",
+   "sha": "598c11bd6fb25e33c599836428e03336ad5a5031",
+   "size": 1923744
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_C4_v1.wav",
+   "sha": "6d81fcafba04ca992a8b85665a56e60337929ce0",
+   "size": 2063320
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_C4_v2.wav",
+   "sha": "1c8e05059b270f870342a03e19b93882d6dd1e1b",
+   "size": 2017512
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_D3_v1.wav",
+   "sha": "e47f9a53d487475fb049039ca7846e11c1ff830a",
+   "size": 2061808
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_D3_v2.wav",
+   "sha": "31143ae1a31ddd57baa38b3e79a4415b108a0007",
+   "size": 2457908
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_D5_v1.wav",
+   "sha": "fa455a7f8fe8c5c00b36c8e131bbc340204ae1c8",
+   "size": 2116352
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_D5_v2.wav",
+   "sha": "804a72a49c07eed754e377b354f8e54a4805476d",
+   "size": 1976276
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_E4_v1.wav",
+   "sha": "838b43d3c9e763898817869d411ab26463b7464f",
+   "size": 2315540
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_E4_v2.wav",
+   "sha": "2c33cc296b9b3654fd08fc9e9887042eabee738d",
+   "size": 1702620
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_F#3_v1.wav",
+   "sha": "996ca7e6b1d9541d2f2fd7f53ba88294693893e7",
+   "size": 1585612
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_F#3_v2.wav",
+   "sha": "33a19df9d89a5dbb174b9f72e6ae79a07327b2b6",
+   "size": 1720800
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_G2_v1.wav",
+   "sha": "e2de84e8b912dbfb8df3efe7b8ee241e2bcfa027",
+   "size": 2341712
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_G2_v2.wav",
+   "sha": "b7693eb5c9d104fc01e130ee2552dac546ee85f7",
+   "size": 2681324
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_G4_v1.wav",
+   "sha": "81d3994ebbf467cbbc88bb2d2ad0dd94d96e7e04",
+   "size": 2330236
+  },
+  {
+   "path": "Strings/Violin Section/susVib/VlnEns_susVib_G4_v2.wav",
+   "sha": "c36674326c6d0b6ae8bf5d20b52b6ddd005719bb",
+   "size": 2150136
+  },
+  {
+   "path": "VSCO 1 Percussion/drums/other/Bongos/HighBongo1.wav",
+   "sha": "54b6a4bc64beab41072c72dd69c50078828f1278",
+   "size": 214590
+  },
+  {
+   "path": "VSCO 1 Percussion/drums/other/Bongos/HighBongo2.wav",
+   "sha": "4111fe17f30183b03df86f858c70f3d79ab245dd",
+   "size": 201474
+  },
+  {
+   "path": "VSCO 1 Percussion/drums/other/Bongos/LowBongo1.wav",
+   "sha": "c0f78a4a8d3c72ef4d9d53a6b1362379e0b4fcb0",
+   "size": 201710
+  },
+  {
+   "path": "VSCO 1 Percussion/drums/other/Bongos/LowBongo2.wav",
+   "sha": "7b31e312f5fec2724355d2584e40fa3a40f602c1",
+   "size": 190954
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/agogoBell3_f_1.wav",
+   "sha": "30b36f878941a52bf9b1c550d8e8a36bff4ec64d",
+   "size": 308998
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/agogoBell3_f_2.wav",
+   "sha": "fa1488a07a951c17acb74ee7d64a101f676da5fd",
+   "size": 318364
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/agogoBell3_ff_1.wav",
+   "sha": "ce15bb3de995ea053b0e3d57043473c1335a002a",
+   "size": 290278
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/agogoBell3_ff_2.wav",
+   "sha": "40a77f32b9bf23c43ebc9d25b827fc66db698b77",
+   "size": 318358
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/agogoBell3_ff_3.wav",
+   "sha": "5888c2bb2a8c5b629487cfc26cfe822d694049f2",
+   "size": 482200
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_1.wav",
+   "sha": "66cab93114d2d25933841de9aa25fe4d139ec9b7",
+   "size": 160438
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_2.wav",
+   "sha": "e7ee721229e6d5e93dd643b2b04a9103e862b1b0",
+   "size": 206998
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_3.wav",
+   "sha": "88a35a43a63f8fd473f4e9b99191e243e02ad837",
+   "size": 227698
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_4.wav",
+   "sha": "08cc320e5149c56ab4d81df4a4ead78009532a41",
+   "size": 269086
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_5.wav",
+   "sha": "6c6e01f8e639771bddd586da901e5247d9bb3ca4",
+   "size": 217348
+  },
+  {
+   "path": "VSCO 1 Percussion/varMetal/various/cabasa_6.wav",
+   "sha": "ef4a53dc0237302e12e3a43208f94c6939364367",
+   "size": 196654
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake1.wav",
+   "sha": "225b49db7d0ade84173cca842fdc90220663a8d9",
+   "size": 39210
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake2.wav",
+   "sha": "2aec3707990bb742c0f98377abc07468d192fa67",
+   "size": 40534
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake3.wav",
+   "sha": "b1cd372f9dd44263d173d7efecdfa5e242c4c69e",
+   "size": 51852
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake4.wav",
+   "sha": "62fc12f841e5843113f6af65c794ed8b67750128",
+   "size": 35846
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake5.wav",
+   "sha": "bce075db09cbcb0c3ac32866ec6298d617977e0c",
+   "size": 35326
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake6.wav",
+   "sha": "c54afd4bda234560295d657b8eb5041db8432564",
+   "size": 55446
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake7.wav",
+   "sha": "d22d4b8ed59460cd46f205694244d843bddc812a",
+   "size": 48510
+  },
+  {
+   "path": "VSCO 1 Percussion/varWood/Camo's Shaker/shake8.wav",
+   "sha": "90a4e3a600f698daef0854c608caaa8526fadcd0",
+   "size": 35114
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A#0_v2_rr1.wav",
+   "sha": "ce2bc4094565345f44b5cf850b9e57026d58c6c4",
+   "size": 122556
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A#0_v2_rr2.wav",
+   "sha": "720a5c636ef8be4bd0929b33273e2bc1a7bf1b49",
+   "size": 126684
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A1_v1_rr1.wav",
+   "sha": "cd178513ae9774f303d9436a0335d7f66ae5e4f5",
+   "size": 106804
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A1_v1_rr2.wav",
+   "sha": "22cbef86155cfc3a2ccc4a0ac85c6928361d33c1",
+   "size": 104220
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A1_v2_rr1.wav",
+   "sha": "37450504ae6befd51050d5cd96f800d57de44674",
+   "size": 120412
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A1_v2_rr2.wav",
+   "sha": "5a55df6e1acd17fbbc17a7c74b97db769dcf4107",
+   "size": 119848
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A2_v1_rr1.wav",
+   "sha": "d45730d343860402cc4e32d7edb9eda1cfd41f0b",
+   "size": 102420
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A2_v1_rr2.wav",
+   "sha": "6e97c6292ae8ad07d824577b571c4454f2503e2f",
+   "size": 97760
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A2_v2_rr1.wav",
+   "sha": "d445fde73e3a391d86e28f8eb63fcb91754ebe79",
+   "size": 132928
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_A2_v2_rr2.wav",
+   "sha": "1fd0821a3dbd67b72987eac167eca3570f0fd301",
+   "size": 123256
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C2_v1_rr1.wav",
+   "sha": "b79049b29c83c481c5000af8103d506cb42dd32b",
+   "size": 117316
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C2_v1_rr2.wav",
+   "sha": "49dc81c8573368743c4b66647d43b90053e9e04d",
+   "size": 120260
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C2_v2_rr1.wav",
+   "sha": "09c3c9fc98e243d444e282a7db4fcfc9c600ba33",
+   "size": 125524
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C2_v2_rr2.wav",
+   "sha": "6e99494f058964f7fb2242adfa61f5f8b33b515f",
+   "size": 130840
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C3_v1_rr1.wav",
+   "sha": "d2c2b2d05947226c4b77bb48af6cc3ce33602a24",
+   "size": 117228
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C3_v1_rr2.wav",
+   "sha": "6c3cc54c5de792097a5d1756a067b8e5489f7a13",
+   "size": 115880
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C3_v2_rr1.wav",
+   "sha": "3b45a2db7642213a94f9082ec5869c1e626f2328",
+   "size": 126972
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C3_v2_rr2.wav",
+   "sha": "a5458c14b2a0f0d230264d657b1da04b284c7b68",
+   "size": 129144
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C4_v1_rr1.wav",
+   "sha": "672f772dae0e8f846309d4ffe3bc2940d65362c9",
+   "size": 116356
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C4_v1_rr2.wav",
+   "sha": "a5b53cc0ccfa11a5bb4a763a37e6374c37a043f9",
+   "size": 122468
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C4_v2_rr1.wav",
+   "sha": "43e21c5ea380df6a4a5da45e4976fc8573f3f828",
+   "size": 124568
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_C4_v2_rr2.wav",
+   "sha": "0a82462a15b8856418e92250d08339a7961ba980",
+   "size": 122732
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_D#2_v2_rr1.wav",
+   "sha": "93dfa97f79e0057c227723ffd7642386070ea7e8",
+   "size": 132692
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_D#2_v2_rr2.wav",
+   "sha": "bf8fe365924d2cca9f3dd5d970c00c98c7225884",
+   "size": 138780
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_D1_v2_rr1.wav",
+   "sha": "edaa84851385133fcfff9f5c3d34d254d4254b58",
+   "size": 122984
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_D1_v2_rr2.wav",
+   "sha": "428ab847a9ae70c1595a83f91063d66478187316",
+   "size": 128184
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E2_v1_rr1.wav",
+   "sha": "5a54606185a6f609b755606f19bdf5d85519bea7",
+   "size": 133028
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E2_v1_rr2.wav",
+   "sha": "31163aaed492a2ba4dd61d378ff27f76850a998e",
+   "size": 125288
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E2_v2_rr1.wav",
+   "sha": "cd2fbaee22fc1b7f4564a6362163cadee36dd4fb",
+   "size": 137972
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E2_v2_rr2.wav",
+   "sha": "02536f5989e5c71b190f001a0b0cfa3ef511e723",
+   "size": 136176
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E3_v1_rr1.wav",
+   "sha": "cf0656d519a542051f1e831ae0945ba8d25b4fb9",
+   "size": 126936
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E3_v1_rr2.wav",
+   "sha": "a5e302a1facb78a5353001c5ea033a6a8f738229",
+   "size": 124928
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E3_v2_rr1.wav",
+   "sha": "074cd8414e2c0fa7d55176d2ac3cc2fb5c8552e5",
+   "size": 125328
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_E3_v2_rr2.wav",
+   "sha": "eccb61086fa0f4b5e4d61a0f2aef5a5f1bfd5a6c",
+   "size": 125344
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_F1_v1_rr1.wav",
+   "sha": "538154e1284a919b92d040da9903f464bc65a82f",
+   "size": 120488
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_F1_v1_rr2.wav",
+   "sha": "080ccf5bb02b67b5469740d216d4bfc93be8824c",
+   "size": 114000
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_F1_v2_rr1.wav",
+   "sha": "5c48832f84e3a49419ab17814f0caf276030725f",
+   "size": 131620
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_F1_v2_rr2.wav",
+   "sha": "6a672091b73d543124f48c782749fbda6f0d8872",
+   "size": 143496
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G2_v1_rr1.wav",
+   "sha": "4cabb830d1d6595fd57f88c214cb19fa061215d3",
+   "size": 114008
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G2_v1_rr2.wav",
+   "sha": "4ff26462048d34fffc00bb77a6bec6e4b1df6085",
+   "size": 117340
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G2_v2_rr1.wav",
+   "sha": "5d238aedb1eeec47fb0831eb44a9c01400d9aa38",
+   "size": 134460
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G2_v2_rr2.wav",
+   "sha": "fd2ed32fbf198d0f279d6de73bb81eb64e5966d6",
+   "size": 143912
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G3_v1_rr1.wav",
+   "sha": "62cc463dd7e17de25cf8ba47252fbe165e458f47",
+   "size": 122860
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G3_v1_rr2.wav",
+   "sha": "a41a94c33ba537f1025f0772dcc9b8fc80b68ef4",
+   "size": 128528
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G3_v2_rr1.wav",
+   "sha": "70a76ab5128efc3d23beb138fa8cf7d7b3fb7fea",
+   "size": 131664
+  },
+  {
+   "path": "Woodwinds/Bassoon/stac/PSBassoon_G3_v2_rr2.wav",
+   "sha": "23158586d9c8cc62e9dc450a3856451fa7f010bc",
+   "size": 129804
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A#0_v1_1.wav",
+   "sha": "f99b00f4944c8571dabc04683549935e4a81c987",
+   "size": 1604336
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A#0_v2_1.wav",
+   "sha": "40be07cae85c8038a0bc2790f55391ba05bfd9ca",
+   "size": 1277208
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A#1_v1_1.wav",
+   "sha": "ddd0d4eace186255cb3cd3fe1f9bfa4bc8507947",
+   "size": 1305956
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A#1_v2_1.wav",
+   "sha": "d216c128e16b6e82e203e65cb3e5374873125b95",
+   "size": 1139172
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A1_v1_1.wav",
+   "sha": "cb1109d73a34b69c08b52a2398fb0ba4b775f852",
+   "size": 1590160
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A1_v2_1.wav",
+   "sha": "1c0cbd04167c64567abd3e292c2ba20602f22cea",
+   "size": 1272168
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A3_v1_1.wav",
+   "sha": "59c1fb41b41670807ad44d06d0f54fecac4fa0ae",
+   "size": 1713280
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_A3_v2_1.wav",
+   "sha": "b0056a9582d14d97ca93d3c0b3b67637ad444bfe",
+   "size": 1711380
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C#1_v1_1.wav",
+   "sha": "b79ee313cb48502ab0aa8dec46bc9fb5e4077988",
+   "size": 1090836
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C#1_v2_1.wav",
+   "sha": "2f91082298b60cf5a3b04b2f089ff7380e6ba90d",
+   "size": 1053324
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C2_v1_1.wav",
+   "sha": "10ff119e43e0785b606bd4c1586dcb62bf6be6b5",
+   "size": 1121404
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C2_v2_1.wav",
+   "sha": "14b9d5e95ccd565ea9e3eb2b8ef8c641ac3ac022",
+   "size": 1118832
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C3_v1_1.wav",
+   "sha": "346fcf577136aac725b49419a915c92efa078d6a",
+   "size": 1540544
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C3_v2_1.wav",
+   "sha": "7778b0fa352d6466272f2e0a7b053ca38ac1e35f",
+   "size": 1394452
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C4_v1_1.wav",
+   "sha": "b046554b78d5edaaeb4a81d045833365253bae60",
+   "size": 1969476
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_C4_v2_1.wav",
+   "sha": "0c1d22dd2f18c5dabfcb6a5d6ac694f3f0c8dd71",
+   "size": 1737168
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_D#3_v1_1.wav",
+   "sha": "f11eba53f3d278cb38b79af9d62b5b769393bbdd",
+   "size": 1524036
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_D#3_v2_1.wav",
+   "sha": "567d185f861d30cde23a3843f86fc907cf130720",
+   "size": 1111204
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_D#4_v2_1.wav",
+   "sha": "1302bf15411e3bc017686c9094c6bfa1563ed176",
+   "size": 1304912
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_F1_v1_1.wav",
+   "sha": "ef632d2b0dc9970afb62c5945413d4da628883fb",
+   "size": 1751604
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_F1_v2_1.wav",
+   "sha": "6b6c81a47d6e77853dd711a471e97ee631ae7f78",
+   "size": 1418740
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_G#3_v1_1.wav",
+   "sha": "9d5e0ac1c1fafd0b650e249a3fc799b9685b4d38",
+   "size": 1405324
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_G#3_v2_1.wav",
+   "sha": "c88e1744e0298c353479a08c607fe13469cef2b6",
+   "size": 1271796
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_G2_v1_1.wav",
+   "sha": "1802d35ea36b486169050595296b758b41b3bfc7",
+   "size": 1509644
+  },
+  {
+   "path": "Woodwinds/Bassoon/sus/PSBassoon_G2_v2_1.wav",
+   "sha": "95a39a3c70c033e7167792f0e9d7f592a252044f",
+   "size": 1273248
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v1_rr1_sum.wav",
+   "sha": "8e204e51e6821182479ee9da0524bbd9de881a56",
+   "size": 99496
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v1_rr2_sum.wav",
+   "sha": "a12e429978d2e905397463952834ddbd0ff438d6",
+   "size": 98508
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v2_rr1_sum.wav",
+   "sha": "ad969a7692cc00d47902b2544c77fed82dbd2c6f",
+   "size": 103516
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v2_rr2_sum.wav",
+   "sha": "e198a7d79c06106ffae1366698852d47ea4ff01e",
+   "size": 110812
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v3_rr1_sum.wav",
+   "sha": "7b33fd7d87a5d2c9a545743d9b05a917c9883be3",
+   "size": 103712
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#2_v3_rr2_sum.wav",
+   "sha": "56981b94da9d2cd9b675cab138ab57e0bcd476db",
+   "size": 104200
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v1_rr1_sum.wav",
+   "sha": "1d64739ac14897f9bed78f0f817641e37446aec0",
+   "size": 89440
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v1_rr2_sum.wav",
+   "sha": "2dc1266c7b8facbebbca7b2d493e3deb9039a2d4",
+   "size": 101440
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v2_rr1_sum.wav",
+   "sha": "3b76ffe7306ee10cec51da68441dc68aed73d4b4",
+   "size": 115828
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v2_rr2_sum.wav",
+   "sha": "ae7537ac099fc27d001dee335517862c2ac9316b",
+   "size": 93840
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v3_rr1_sum.wav",
+   "sha": "23ee0ea355f2bca5632b1f6cf3bc506919c248d6",
+   "size": 108136
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#3_v3_rr2_sum.wav",
+   "sha": "67bb9ccc457e926986fd4fba52b55ec733d93885",
+   "size": 128332
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v1_rr1_sum.wav",
+   "sha": "6d3ef3420e297cc1fae9fd77dac5b7a9957ea5fb",
+   "size": 105220
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v1_rr2_sum.wav",
+   "sha": "855c14d97061ea9ba87c46b991344d22cde6b240",
+   "size": 108592
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v2_rr1_sum.wav",
+   "sha": "e16969d2bcb5432ba1ed0ce542d513c8cbe0a113",
+   "size": 113488
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v2_rr2_sum.wav",
+   "sha": "b6fb39c7e60971de354f6f40bf0fd7c96ed5d2dd",
+   "size": 109304
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v3_rr1_sum.wav",
+   "sha": "30d19c8a7937acb797fe2e8df0d201dd6805a3d2",
+   "size": 111108
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_A#4_v3_rr2_sum.wav",
+   "sha": "f10e306eed5ce13b8bcf159e0b549bbea7ffde82",
+   "size": 116068
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v1_rr1_sum.wav",
+   "sha": "207f69ca8003c63b41328aef948ba1201964ac6d",
+   "size": 93372
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v1_rr2_sum.wav",
+   "sha": "e8d1ada067a73c481c4c81ee1cac685a75c98fb9",
+   "size": 94044
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v2_rr1_sum.wav",
+   "sha": "7580349cc2aab832adfef800be622165f56fc05e",
+   "size": 101608
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v2_rr2_sum.wav",
+   "sha": "e27783e5b349e7da016fcb90df289bc5b6ee3303",
+   "size": 97340
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v3_rr1_sum.wav",
+   "sha": "cd4533bbc9483d174414a1c77d333e15de3b08b1",
+   "size": 101936
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D2_v3_rr2_sum.wav",
+   "sha": "d364feb266202fce154b4be2e7538c5a88fa8c0c",
+   "size": 98436
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v1_rr1_sum.wav",
+   "sha": "d42f438f95cfaf1aff4752f1845da355593350b5",
+   "size": 92400
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v1_rr2_sum.wav",
+   "sha": "51b1dda28be2e94b4bcad4c4e42b7a383079116c",
+   "size": 94472
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v2_rr1_sum.wav",
+   "sha": "39dd33d152d2ee22c2b21a7d927d4dd0ca2159f9",
+   "size": 101040
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v2_rr2_sum.wav",
+   "sha": "427b15b5095b5bfc8995a66a623fc6b51c4424fb",
+   "size": 101680
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v3_rr1_sum.wav",
+   "sha": "890f4fbc6a2d06bbdc466fada3b9bd66ed385c35",
+   "size": 117624
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D3_v3_rr2_sum.wav",
+   "sha": "c03bb50baff0a710203a670812bd4af1ae8979b6",
+   "size": 111700
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v1_rr1_sum.wav",
+   "sha": "09a335aec0aa6104edcf63685cd43dc31a19486e",
+   "size": 122248
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v1_rr2_sum.wav",
+   "sha": "fd49da708dd7266384b2b241dd307f37e87c0d20",
+   "size": 119296
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v2_rr1_sum.wav",
+   "sha": "15cae66a6eeaa570819a580f1673d52af9518929",
+   "size": 116956
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v2_rr2_sum.wav",
+   "sha": "b5405eaa3fb5297518f0e08a4b295fd9f09164f5",
+   "size": 110680
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v3_rr1_sum.wav",
+   "sha": "e33170237affdce445a484f80315a83a93c80cb9",
+   "size": 110360
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D4_v3_rr2_sum.wav",
+   "sha": "23dd7b8d1a679c1fdad3ff779ff559a13678e8e2",
+   "size": 118440
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D5_v2_rr1_sum.wav",
+   "sha": "645dd468534f708adf69efe4d8058a41b10e17d2",
+   "size": 101480
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D5_v2_rr2_sum.wav",
+   "sha": "d1792cea3ff99c3359c7c22395d47493aaceffa0",
+   "size": 105860
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D5_v3_rr1_sum.wav",
+   "sha": "b92a44637cf7d584ae4f2a871f19d3008a367069",
+   "size": 98224
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_D5_v3_rr2_sum.wav",
+   "sha": "9c0d0013d5d172d50340c58e06894c4d62d183ce",
+   "size": 111700
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v1_rr1_sum.wav",
+   "sha": "b8d72deac510901f6742275b17e419a8dde4f9bd",
+   "size": 81372
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v1_rr2_sum.wav",
+   "sha": "0c27dc18e339f775b4a389906efb251914c968bd",
+   "size": 79300
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v2_rr1_sum.wav",
+   "sha": "754fb641bfa15a3cf411cc3f55231ad613236b74",
+   "size": 91188
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v2_rr2_sum.wav",
+   "sha": "9788b1a080a45c1c48e3ad41d25a2d9bc6d6f723",
+   "size": 86608
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v3_rr1_sum.wav",
+   "sha": "637121f7093ac7da16947dd73687f10b2daa3eb6",
+   "size": 92644
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F2_v3_rr2_sum.wav",
+   "sha": "63c8a401e134b4559016f2d7ecd3b774d8ab399e",
+   "size": 89504
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v1_rr1_sum.wav",
+   "sha": "e6b1eda50209e95c2a41f465c64f55e3b59eef2a",
+   "size": 94108
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v1_rr2_sum.wav",
+   "sha": "c78f0754b80a9cc67423d7f26545443af140e191",
+   "size": 93172
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v2_rr1_sum.wav",
+   "sha": "41c5423b1db6d061c6066c695c7f2dd93eecc400",
+   "size": 98364
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v2_rr2_sum.wav",
+   "sha": "c9d9aa09ab452ceb008a466f722dcea873d49c35",
+   "size": 98020
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v3_rr1_sum.wav",
+   "sha": "53a65ea09cd886c3e3e68d584865adc99362becd",
+   "size": 94568
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F3_v3_rr2_sum.wav",
+   "sha": "79c394bff353086d23b2a9337bbd5d36804ad0ec",
+   "size": 94872
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v1_rr1_sum.wav",
+   "sha": "5f477c9dfb1ba405665538cf38a2455b239dd0ee",
+   "size": 123916
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v1_rr2_sum.wav",
+   "sha": "efa30e04d81508399459e2bab9dae406a4f0f4d1",
+   "size": 114456
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v2_rr1_sum.wav",
+   "sha": "495948a7a2bd8cfee15d6679a54e299d8b7845a5",
+   "size": 105552
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v2_rr2_sum.wav",
+   "sha": "90d355caaa581690746cadba02f5d0b6e0d9c66b",
+   "size": 117176
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v3_rr1_sum.wav",
+   "sha": "ff0800e937194cbe9f630683470d316918b7783e",
+   "size": 107756
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F4_v3_rr2_sum.wav",
+   "sha": "c57e9646c4d2e7fa0729d235f6945f9d92ce180f",
+   "size": 108896
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v1_rr1_sum.wav",
+   "sha": "8d84c59441195fd793ccf8c3be08ef76241e81ea",
+   "size": 99084
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v1_rr2_sum.wav",
+   "sha": "4c1f0bc71cb7222091c90087872a686b6ad507ab",
+   "size": 110972
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v2_rr1_sum.wav",
+   "sha": "5906891ce346b6134f3377aef9734bbd28215f0b",
+   "size": 100148
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v2_rr2_sum.wav",
+   "sha": "a8f4c6c3897786e81b7bc531939814f35655f81a",
+   "size": 145576
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v3_rr1_sum.wav",
+   "sha": "b8974a290592529e307f2b905a152806dc39b047",
+   "size": 117132
+  },
+  {
+   "path": "Woodwinds/Clarinet/stac/DCClar_stac_F5_v3_rr2_sum.wav",
+   "sha": "d675fa7048e4a453183c304cb7010e1b3d0a3596",
+   "size": 117868
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#2_v1_rr1_sum.wav",
+   "sha": "c02251ea67183260dd5f3b4cca97eeb0e8f23bed",
+   "size": 1825324
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#2_v2_rr1_sum.wav",
+   "sha": "4ab307dd0c82ce0900eb7439bdb8d0a1008d4034",
+   "size": 1909388
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#2_v3_rr1_sum.wav",
+   "sha": "d08b0b0242b1695b533f14c7774c4e5bd7f83646",
+   "size": 2335540
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#3_v1_rr1_sum.wav",
+   "sha": "f8db827226f661779d8965737fa0850d8275be9a",
+   "size": 1599888
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#3_v2_rr1_sum.wav",
+   "sha": "c80415402c31b050eb51796e17fba541a24a57a0",
+   "size": 1791140
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#3_v3_rr1_sum.wav",
+   "sha": "08f1508a646a60a8795861688932e38955cc8ba0",
+   "size": 2059160
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#4_v1_rr1_sum.wav",
+   "sha": "27315505c21685cdc911e3ae30ce8712c712da26",
+   "size": 1996064
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#4_v2_rr1_sum.wav",
+   "sha": "4250227b229f8f94ea73ecb3ff4e996bfa1cf91b",
+   "size": 1823220
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_A#4_v3_rr1_sum.wav",
+   "sha": "bc184323f783462fb1bbb3f49ad57ddaaac2cb11",
+   "size": 1885948
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D2_v1_rr1_sum.wav",
+   "sha": "22e4849edce9f5f75473852d71b1a71e75502505",
+   "size": 806612
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D2_v2_rr1_sum.wav",
+   "sha": "e435f825232aff390c93e0462d9e93e9e488d7ed",
+   "size": 1689164
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D2_v3_rr1_sum.wav",
+   "sha": "3d40552dd6d2dead91c702fe68175869a988009d",
+   "size": 1381704
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D3_v1_rr1_sum.wav",
+   "sha": "8f3f973a0d69c3c721f1eb8b27f208c80bd17ceb",
+   "size": 2230948
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D3_v2_rr1_sum.wav",
+   "sha": "dfffae60b3793d9687b2cb2c9b3850f593c723c6",
+   "size": 1876188
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D3_v3_rr1_sum.wav",
+   "sha": "aa7a1f5f31cef8d36552072d9f275b7940c879c0",
+   "size": 1856124
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v1_rr1_sum.wav",
+   "sha": "c3284691eb2dfe4f1be1b116b804a2e41062bb9c",
+   "size": 1987372
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v2_rr1_sum.wav",
+   "sha": "9efaf747591d3c39b7b6e87a077963a1ac71ae45",
+   "size": 2047596
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D4_v3_rr1_sum.wav",
+   "sha": "119bec0bc1ad924b04e416966239d6af3a67a764",
+   "size": 2087348
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D5_v1_rr1_sum.wav",
+   "sha": "ee07579d393b6c9a43aaf65f375d2012c3d0c774",
+   "size": 1692352
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D5_v2_rr1_sum.wav",
+   "sha": "d2c1fa23c73a15d50b581b6f83aa9e56e7e01a0c",
+   "size": 1772224
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_D5_v3_rr1_sum.wav",
+   "sha": "a06b19f95d397920e21a56cdb85223a39e860d47",
+   "size": 1593652
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F#5_v1_rr1_sum.wav",
+   "sha": "0e30b7890f8c35943fa4eb693c704ce5c595acec",
+   "size": 1025344
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F#5_v2_rr1_sum.wav",
+   "sha": "5e103799bb30ef1afa405511230c852b942a9d7c",
+   "size": 1252444
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F#5_v3_rr1_sum.wav",
+   "sha": "9655d9014a2500386d01f80bf0d7e3100e8caa59",
+   "size": 1586272
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F2_v1_rr1_sum.wav",
+   "sha": "a8b913d7e923c58f150e757f1748da37c80587b4",
+   "size": 1527412
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F2_v2_rr1_sum.wav",
+   "sha": "090db5da13fb0ec67673b6a656887644c923d341",
+   "size": 1835164
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F2_v3_rr1_sum.wav",
+   "sha": "04b88f5463edcbdfb44e64826d26d8528b4a12f6",
+   "size": 1747440
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F3_v1_rr1_sum.wav",
+   "sha": "31ac755ac1dff319c409505d26706d9851bb7e92",
+   "size": 1762976
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F3_v2_rr1_sum.wav",
+   "sha": "1a445b0610a060c571574916d140344fc60922b2",
+   "size": 2069572
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F3_v3_rr1_sum.wav",
+   "sha": "fc79b6d0f5b3420f4e24b0392484b43a864a6d50",
+   "size": 1743712
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F4_v1_rr1_sum.wav",
+   "sha": "04e3a4727ee49ff915baeb65c1d32ee4e9ec37e2",
+   "size": 2034208
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F4_v2_rr1_sum.wav",
+   "sha": "9188e6eb2204ec227bac95cf254b9ce20e5d9d58",
+   "size": 2142808
+  },
+  {
+   "path": "Woodwinds/Clarinet/susLong/DCClar_susLong_F4_v3_rr1_sum.wav",
+   "sha": "086d21e2c435964f31b77df757b763e6d6b5eb54",
+   "size": 2373520
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v1_rr1.wav",
+   "sha": "2a0f3517af9d4836f1574514f6aa94c2e9af2587",
+   "size": 169494
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v1_rr2.wav",
+   "sha": "8773c79e9469125ac23c82652314cf136957d709",
+   "size": 274506
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v2_rr1.wav",
+   "sha": "407b5658d6f53afc6cc4bee0ba6d8227cef2d547",
+   "size": 206022
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v2_rr2.wav",
+   "sha": "7811d912a561d82476b05ccf12357b09718c17cc",
+   "size": 188274
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v3_rr1.wav",
+   "sha": "a6f3702c0ab6f9e8f49e89fbcfb14714c1299dba",
+   "size": 223920
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A3_v3_rr2.wav",
+   "sha": "1e1de61cec1374b07093c7f0ba9e4b4917f8aff9",
+   "size": 190524
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v1_rr1.wav",
+   "sha": "dc9bc75e007375269560cff1c5d655bb6dad8025",
+   "size": 208560
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v1_rr2.wav",
+   "sha": "b435c8c507f7552cf1918867ed76f1e565c22878",
+   "size": 193008
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v2_rr1.wav",
+   "sha": "157ada54c6bcf37349297082a8f5ccb25aeaf15f",
+   "size": 200514
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v2_rr2.wav",
+   "sha": "4bba068a8af95507335db23039f76c5020870076",
+   "size": 189954
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v3_rr1.wav",
+   "sha": "f8a11712d8d5c9b00c39ba552cad6c04a99886a4",
+   "size": 197358
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A4_v3_rr2.wav",
+   "sha": "732d10c72e0e4338b850db5395e2535f9605cf82",
+   "size": 195228
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v1_rr1.wav",
+   "sha": "83f13ab29896ddf57e1815b1d1096a8382009312",
+   "size": 204132
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v1_rr2.wav",
+   "sha": "d563733ab363be8c350cada4f14e622f0e92a450",
+   "size": 336732
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v2_rr1.wav",
+   "sha": "77e478a0cd26e6c95f65abba86a4b596f5ef3afb",
+   "size": 228906
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v2_rr2.wav",
+   "sha": "5f60918a36e5e7ffdd1c15bb96b175f375207843",
+   "size": 210618
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v3_rr1.wav",
+   "sha": "978fcc6601c4a22da897daf27478f2a3a87142e2",
+   "size": 271494
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_A5_v3_rr2.wav",
+   "sha": "304cdc1b7b585401196affc64e8c91d5d0d246f7",
+   "size": 214248
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v1_rr1.wav",
+   "sha": "cc11ab21c37ceee6267a791a9358d5ac9860362a",
+   "size": 209538
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v1_rr2.wav",
+   "sha": "1a973d51468fd947bef76659027f23cb158d98cb",
+   "size": 179586
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v2_rr1.wav",
+   "sha": "77cda69826c9ca4cd3e2b9512676b88ee12cc6ec",
+   "size": 159558
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v2_rr2.wav",
+   "sha": "6c825fb1110cc9bce3d86c9950f098c07faf84f5",
+   "size": 164928
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v3_rr1.wav",
+   "sha": "681ee8fa3bf49317d8c42f4ae46cbc5d920db08a",
+   "size": 216276
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v3_rr2.wav",
+   "sha": "cb05fb2c3bdf95dd5dbce91140bbd05a395689d2",
+   "size": 178608
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v4_rr1.wav",
+   "sha": "2ce4efec9fbd90f4c4c10c62e02e75642ff94afc",
+   "size": 222498
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C4_v4_rr2.wav",
+   "sha": "c8af86c554c183b4ee9af8354a32c7405edf2a03",
+   "size": 240540
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v1_rr1.wav",
+   "sha": "2ad0bdf7c8f63a27ceba44e55a66f678aec5ac66",
+   "size": 163326
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v1_rr2.wav",
+   "sha": "08a4d87be820f096522e2e7cdd98d15728b97972",
+   "size": 193542
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v2_rr1.wav",
+   "sha": "8da3b215649aacc8e0590080987034bddbcaac16",
+   "size": 176460
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v2_rr2.wav",
+   "sha": "0316fbb6ccd256ec3608a19960088e12d42509ad",
+   "size": 183138
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v3_rr1.wav",
+   "sha": "0db3fd155b3d492e05fbcbcb6293ce3d1a369d8b",
+   "size": 195378
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C5_v3_rr2.wav",
+   "sha": "7895f93485086509368fddda659a686ea7f36874",
+   "size": 185748
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C6_v1_rr1.wav",
+   "sha": "5f25219f618d81218fc21ffa0aa6984c4ae792d5",
+   "size": 211494
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C6_v1_rr2.wav",
+   "sha": "3e85d1ce95de1e6a44d61278393cf2becaef2dff",
+   "size": 204558
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C6_v2_rr1.wav",
+   "sha": "da1e5de1f88dc57eb5132bc45c891324386498f3",
+   "size": 230808
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_C6_v2_rr2.wav",
+   "sha": "d2a1a315f83727b56cf8a3ae4e7252ce0785788f",
+   "size": 224082
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v1_rr1.wav",
+   "sha": "5889259f046de2eb164eab673df185fa0c3ac57c",
+   "size": 180558
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v1_rr2.wav",
+   "sha": "708bd49a52938f62eff5f283b9bac864f47931b0",
+   "size": 176736
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v2_rr1.wav",
+   "sha": "dba5a5b646d5229dab45ba98f947459e08aae9f8",
+   "size": 252444
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v2_rr2.wav",
+   "sha": "e2360dcb699e7ad82cc2e5a2e11bc273b5a6c82a",
+   "size": 247578
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v3_rr1.wav",
+   "sha": "a22d5efeba91a8852b08e52b8d735e1f3e72f258",
+   "size": 235668
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E4_v3_rr2.wav",
+   "sha": "9a8b8dc1f0ba7b5c5e90eb9ecb1d3f58c3dd2dc3",
+   "size": 247992
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v1_rr1.wav",
+   "sha": "f2b06b1570e41b20609cdc92d03796de1038a749",
+   "size": 208020
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v1_rr2.wav",
+   "sha": "a8df869a4c18de9c0c4d67ace8a567c56146c7bc",
+   "size": 287886
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v2_rr1.wav",
+   "sha": "ab73651d5fdd1ab9a807f1087ef2403c8d54d6b2",
+   "size": 231450
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v2_rr2.wav",
+   "sha": "4f817cd09481652addcc9b97b7851a61d3069f8e",
+   "size": 199128
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v3_rr1.wav",
+   "sha": "9cf88368de0a36a26d1ab170ec38c07a785c488b",
+   "size": 220758
+  },
+  {
+   "path": "Woodwinds/Flute/stac/LDFlute_stac_E5_v3_rr2.wav",
+   "sha": "d77b4c5111ce18d4517d200cac675fb92988dd64",
+   "size": 218706
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A3_v1_1.wav",
+   "sha": "b690a4d0006b73699176dd2fab82a9249966e33b",
+   "size": 2706216
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A3_v3_1.wav",
+   "sha": "75a6dbb605779e3eaef2a265b6857142211a5837",
+   "size": 2765718
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A4_v1_1.wav",
+   "sha": "3007213aa6264efe0619c7321bf2e8df7966b0a2",
+   "size": 3460842
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A4_v3_1.wav",
+   "sha": "fa6e9dc8429dc62ae37eb6e61cf63aed8ca38529",
+   "size": 2147490
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A5_v1_1.wav",
+   "sha": "3f6ea8e543310a6e97ed97ac5b74c9e53ee3b05e",
+   "size": 2885970
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_A5_v3_1.wav",
+   "sha": "cbcfcd8aef190cf811e141bf9c602953a4c2d935",
+   "size": 2100774
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C3_v1_1.wav",
+   "sha": "ac3b6e4b90480a5a64798c2c399f16ea95754015",
+   "size": 2642490
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C3_v3_1.wav",
+   "sha": "18b1fa490327f38057a2edbaca4f000cffbf633d",
+   "size": 2729730
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C4_v1_1.wav",
+   "sha": "ea9cc7ff40975e8d3917c6e8fa13f67167e142f2",
+   "size": 2722056
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C4_v3_1.wav",
+   "sha": "850db1f598b5ba7a88ec2f929f8b832fb83cdd66",
+   "size": 2539512
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C5_v1_1.wav",
+   "sha": "093129d6a876ce5f004279b2979894d0ed637a8d",
+   "size": 2491416
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C5_v2_1.wav",
+   "sha": "c781084689262db0267e3b888ac9a9244f32dbd7",
+   "size": 2382720
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_C6_v1_1.wav",
+   "sha": "8b69c3cd65834619ad9c1389b3c9f8d50fab15f5",
+   "size": 1618152
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E3_v1_1.wav",
+   "sha": "7a921854e39f8addf99a4dc8e4b3f27e187142c2",
+   "size": 2874126
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E3_v3_1.wav",
+   "sha": "66390898fca3d96f65bbc2bffd26c55af56db11e",
+   "size": 2814822
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E4_v1_1.wav",
+   "sha": "3f351c4623be881464381ac8de2c3cfef99ac646",
+   "size": 2591256
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E4_v3_1.wav",
+   "sha": "67357c844a8c88034431d83438bd8ddea729e805",
+   "size": 2449278
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E5_v1_1.wav",
+   "sha": "4017163d62316f9eb0a4a5d375de9f7d110dda64",
+   "size": 2956800
+  },
+  {
+   "path": "Woodwinds/Flute/susNV/LDFlute_susNV_E5_v2_1.wav",
+   "sha": "cc70b43ccea6a87ac5677483c206b7905d510874",
+   "size": 2121246
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v1_rr1_Main.wav",
+   "sha": "79054559972e5c5377b262de5de10a3de7ece7a9",
+   "size": 179156
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v1_rr2_Main.wav",
+   "sha": "c1bd34d76e977944e7397b7c8963e98434b62551",
+   "size": 148000
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v2_rr1_Main.wav",
+   "sha": "e5cfa4df3c4676eaa16bfc7f8f92915479d1d572",
+   "size": 177684
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v2_rr2_Main.wav",
+   "sha": "a887c3d36a84757fa13dc34227aad8ab86008b4e",
+   "size": 161668
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v3_rr1_Main.wav",
+   "sha": "d9c2f6b09c3904fcd6d30e2fe49878f36079f14b",
+   "size": 179104
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#2_v3_rr2_Main.wav",
+   "sha": "034f7f0f789e0d5fa3425644b7a5e1905e62af28",
+   "size": 148052
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v1_rr1_Main.wav",
+   "sha": "fd684d1d29615eb1c19ed5167c94de90d8544105",
+   "size": 172608
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v1_rr2_Main.wav",
+   "sha": "02aa97783bcd0cb1cf42f57c10becc6c240a4a63",
+   "size": 150876
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v2_rr1_Main.wav",
+   "sha": "a521c7bfc79c6a70f275eddb630920c48e62ed80",
+   "size": 130932
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v2_rr2_Main.wav",
+   "sha": "3564bd4b50b9cb3a95f161eaffa41c042a500212",
+   "size": 123824
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v3_rr1_Main.wav",
+   "sha": "0a5fbae398b8183d234a880b21a18ad9495afa3d",
+   "size": 136532
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#3_v3_rr2_Main.wav",
+   "sha": "e01394514e079f1dd2f250f3a221841f537646ae",
+   "size": 173120
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v1_rr1_Main.wav",
+   "sha": "1dc8580ae286c57ba826fcdb5a9571d6f6221f77",
+   "size": 120952
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v1_rr2_Main.wav",
+   "sha": "4f8927aa2f3ccf7c4e74a061ac3cc61d07443bc7",
+   "size": 90204
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v2_rr1_Main.wav",
+   "sha": "a6b0d7e68d80ef0bb06379dca767aaa3f62f56bc",
+   "size": 136052
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v2_rr2_Main.wav",
+   "sha": "0208ff17565ab874b7333f0555d655a76f31d5b9",
+   "size": 125544
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v3_rr1_Main.wav",
+   "sha": "385e08172ee97656d8d2297943e4cfee35042048",
+   "size": 119560
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_A#4_v3_rr2_Main.wav",
+   "sha": "e9e839ea8eb90d8d0449aa4af90a2ad2f54c74bc",
+   "size": 126048
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v1_rr1_Main.wav",
+   "sha": "b9808f5c9a3bb0b27f907093274e0f6aede07549",
+   "size": 170168
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v1_rr2_Main.wav",
+   "sha": "523064fc8787eecf661f9cf87de90aea64c32fda",
+   "size": 176892
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v2_rr1_Main.wav",
+   "sha": "a140e6fff5be48ac562a6a6d982ad443f9024bae",
+   "size": 173736
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v2_rr2_Main.wav",
+   "sha": "1f255ab321c8b0fec0f55639914375dd2436dc7f",
+   "size": 177116
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v3_rr1_Main.wav",
+   "sha": "ed7bd5aae34cd1ff3a6a336b6510db8fa86ade9b",
+   "size": 174404
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D3_v3_rr2_Main.wav",
+   "sha": "2c41ff1c51f8acf9c63b35bc7c06e6237d7d9a2f",
+   "size": 176348
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v1_rr1_Main.wav",
+   "sha": "72da676bbc1df494e629fc6c9708f0cf3e9926c2",
+   "size": 131148
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v1_rr2_Main.wav",
+   "sha": "176a68cecc019896ebe3144ffc683b3f0b0c7616",
+   "size": 117704
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v2_rr1_Main.wav",
+   "sha": "f412b48c67279b314d5c6bf98c713acba83c9277",
+   "size": 138192
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v2_rr2_Main.wav",
+   "sha": "6e7907f807ff984e3b88150f2a6e5e7e4cc0b5db",
+   "size": 127196
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v3_rr1_Main.wav",
+   "sha": "14e2e5e0488bccc9821f090667e3b275cbd95062",
+   "size": 135980
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D4_v3_rr2_Main.wav",
+   "sha": "b5afcf7c47ed74115412bd9b7b24b04c461d5b6d",
+   "size": 120724
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D5_v1_rr1_Main.wav",
+   "sha": "d6473b4de454a88d73ffe577697abbe8a04f2545",
+   "size": 92036
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D5_v1_rr2_Main.wav",
+   "sha": "63285bcb4cfd52c6f0a5cec307931806acd9e6f7",
+   "size": 113312
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_D5_v3_rr1_Main.wav",
+   "sha": "50d761049d830f5a0d5c668eea9d0fde74422a98",
+   "size": 126928
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v1_rr1_Main.wav",
+   "sha": "ae2820f0c4d159c72b54046bc545795560fbba22",
+   "size": 174700
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v1_rr2_Main.wav",
+   "sha": "6bc18af05a80152f796d3f1b4782dc4ca4c5f0ea",
+   "size": 174428
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v2_rr1_Main.wav",
+   "sha": "4fd46551f8220d8c5c91625705fb925ed81cd41e",
+   "size": 146872
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v2_rr2_Main.wav",
+   "sha": "f3b41c2c485a32d5f318ef143727f945874b9e6f",
+   "size": 144260
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v3_rr1_Main.wav",
+   "sha": "1399dff8123fd54f19fb0c6a64af6ca997bb10c1",
+   "size": 164116
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F3_v3_rr2_Main.wav",
+   "sha": "f1e68dddb75aaa839f93980e8c924d979e81f73f",
+   "size": 141868
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v1_rr1_Main.wav",
+   "sha": "3db807f214205f86523502c038e2f76ef5f065cd",
+   "size": 124312
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v1_rr2_Main.wav",
+   "sha": "a314a32b624a4fba61e8a398b20f6d73441da189",
+   "size": 115856
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v2_rr1_Main.wav",
+   "sha": "af74c705817f03f33ba27db20caa8151b77b370d",
+   "size": 118292
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v2_rr2_Main.wav",
+   "sha": "af75d72bb7b8239f5ada3d7c494e48a311f3f9b6",
+   "size": 118264
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v3_rr1_Main.wav",
+   "sha": "2dadbaea99b455f486173f2d754b54e52f9ebc37",
+   "size": 122556
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F4_v3_rr2_Main.wav",
+   "sha": "6d96ae424a232156598fbd15c8306ddd75ed5fa8",
+   "size": 125664
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v1_rr1_Main.wav",
+   "sha": "bf1fdf201f73588094cd11b5e8a012c6d419bfe8",
+   "size": 111424
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v1_rr2_Main.wav",
+   "sha": "90b84e8963c658b5a62f6c887a95d6c5cf73e57c",
+   "size": 120092
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v2_rr1_Main.wav",
+   "sha": "cfd503800cac3438951f8dbc38e475cec8ea17c0",
+   "size": 108120
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v2_rr2_Main.wav",
+   "sha": "2dea6b26ba2b0d2d80c6781575a8a75bf3140005",
+   "size": 112480
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v3_rr1_Main.wav",
+   "sha": "2a4b5d12fbe20069fc11617055a3195d76d3f825",
+   "size": 100276
+  },
+  {
+   "path": "Woodwinds/Oboe/Stacc/Oboe_Stacc_F5_v3_rr2_Main.wav",
+   "sha": "388aef85d5996bb0ef6d426f8fe189c3e37edbf1",
+   "size": 104592
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#2_v1_Main.wav",
+   "sha": "d1ee9884155ae8a6f67279452de23713f8f8b4e9",
+   "size": 4783096
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#2_v3_Main.wav",
+   "sha": "46e3ba91c7ed6e5f0e952e1c57738e91bd8dfbb1",
+   "size": 2377080
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#3_v1_Main.wav",
+   "sha": "6cf66ef2acdc033553930396a94a933f9276d418",
+   "size": 1899732
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#3_v3_Main.wav",
+   "sha": "a647e2253125834b891e8eedb594a3902c8a1def",
+   "size": 1793592
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#4_v1_Main.wav",
+   "sha": "13a008ba5705481fe2112af6d0a7a5cbb008892f",
+   "size": 1855232
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_A#4_v3_Main.wav",
+   "sha": "d41287e7cd6043ce9081ff49dd03c6e4ddc6730d",
+   "size": 1546676
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D3_v1_Main.wav",
+   "sha": "5b4e7daa195485f09934d9f63f78fa7bf3578a16",
+   "size": 1966552
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D3_v3_Main.wav",
+   "sha": "807d1b60150381bcbbfa7adba01f6c9d1d9e56f2",
+   "size": 2219916
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D4_v1_Main.wav",
+   "sha": "d96212fefd5d0e4a798a05ef0c9b4be2a3c2370e",
+   "size": 1747332
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D4_v3_Main.wav",
+   "sha": "c2d464efea3547555666a781f4873c7f80dd1393",
+   "size": 1699340
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D5_v1_Main.wav",
+   "sha": "243f0462e803ec0af99421ac60dd5c9ee3a91659",
+   "size": 1564292
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_D5_v3_Main.wav",
+   "sha": "9374b432947c30aa361dafae72ea0ef9b1cc730b",
+   "size": 1650952
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F3_v1_Main.wav",
+   "sha": "2e634363e4273a6adfd9df3496db3f265fd921ac",
+   "size": 1542764
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F3_v3_Main.wav",
+   "sha": "2024bd3888a256f86d7b9c1fdf7f06fc0877135e",
+   "size": 1717152
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F4_v1_Main.wav",
+   "sha": "9e4ae9bc39bc906e21c7796e0e2c5eb5ef943dce",
+   "size": 1666300
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F4_v3_Main.wav",
+   "sha": "4f2c0ca39a4604d8493367eaf953e8756bc0bf90",
+   "size": 1452368
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F5_v1_Main.wav",
+   "sha": "e551ce12b3644639707243f02178f45010c78d1a",
+   "size": 1652712
+  },
+  {
+   "path": "Woodwinds/Oboe/Sus/Oboe_Sus_F5_v3_Main.wav",
+   "sha": "55038a3b147179cef644aa58b390160ed37dcee5",
+   "size": 1722672
+  }
+ ]
+}

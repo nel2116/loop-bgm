@@ -1,0 +1,33 @@
+[project]
+name = "loop-bgm"
+version = "0.1.0"
+description = "Compose looping background music as text and render it with CC0 samples"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "soundfile>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+include = ["bgm*"]
+
+[tool.pytest.ini_options]
+testpaths = ["Tests"]
+markers = [
+    "slow: renders audio or needs downloaded samples",
+    "samples: needs samples downloaded with `python -m bgm.fetch`",
+]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+extend-exclude = [".venv", "samples", "tmp"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I"]
