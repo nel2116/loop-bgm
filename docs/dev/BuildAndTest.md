@@ -44,6 +44,12 @@ Remote access and the full listening UI are separate tasks.
 - Engine tests are `Tests/test_*.py`. They must not need downloaded samples: use the synth instruments (`bass`, `pad`, `square`, ...) and synth drums (`kick`, `snare`, `hat`, ...). A test that needs samples is marked `@pytest.mark.samples` and is skipped in CI.
 - `Tests/` is one folder for everything: on Windows `tests/` and `Tests/` are the same folder.
 
+## Phase 1 audio regression
+
+`python Tests/verify_phase1_render.py` reproduces the phase 1 audio evidence without samples. It needs Git and the historical commit `17dddfed1fbda3f105737307896f78ebdd56a910` locally (`git fetch origin` in a full clone). It exports only that commit's `bgm/` into a disposable temporary directory, renders the historical `SYNTH_SONG` fixture in separate old/new processes, and requires exact sample-array equality for the mix and all four stems. No checkout or root workspace is modified.
+
+The script also renders C major/minor copies of `phase1_degrees`, checks third 64→63, a changed WAV, unchanged absolute stem, two identical forced mixes/stems per key, and loop checks. Artifacts and complete compiled notes/harmony are kept under `songs/phase1_degrees/build/verification/` (`--output` overrides it), including `verification.json`. Nonzero exit means failure. These are local evidence, not subjective listening; use [ListeningCheck](../ListeningCheck.md) at the phase boundary.
+
 ## CI
 
 `.github/workflows/ci.yml` runs on `windows-latest` for pushes to `develop`/`main` and PRs: ruff, `check_conventions.py`, pytest, and the PowerShell script tests. `.github/workflows/pr-automation.yml` provides `No hold label`, the optional `Merge approved` gate and closing `Closes #N` issues on merges into `develop` (copied from DXForgeEX; see `ReviewAndMerge.md`).
