@@ -13,8 +13,8 @@
 	そのまま再実行しない(failedStage と Orca の復旧ガイド recovery-and-cleanup.md に従う)。
 	- -Task と -RetryOf: 失敗した Task をそのまま再試行する。Orca は --retry-of に --task を求め、仕様は Task に
 	  入っているので -SpecFile は渡せない。worktree は引き継がれないので -Worktree も指定する。
-	- -SpecFile(引き継ぎを書いた仕様)と -Worktree path:<パス>: 新しい Task として同じ worktree で続ける。
-	  前のワーカーが止まったことを確かめてから使う(生きているか分からない worktree は再利用しない)。
+	既存 Task の復旧は現行ガイドに従う。-SpecFile は新規 Task を作るため、失敗した Task の復旧には使わない。
+	生きているか分からない worktree は再利用しない。引き継ぎ完了だけでもプロセスの終了の証拠にはならない。
 
 .PARAMETER SpecFile
 	タスクの仕様のファイル(UTF-8)。-RetryOf のとき以外は必須。
