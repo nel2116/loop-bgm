@@ -3,6 +3,7 @@
 import math
 import re
 
+from .structure import meter_to_beats
 from .theory import degree_to_midi, parse_key
 
 _ROMANS = ("I", "II", "III", "IV", "V", "VI", "VII")
@@ -71,19 +72,6 @@ def parse_roman_chord(token, key, *, base_octave=3):
                 role=role, pitches=pitches, root=root, bass=pitches[0])
 
 
-def _bar_beats(meter):
-    match = re.fullmatch(r"([1-9]\d*)/([1-9]\d*)", meter) if isinstance(meter, str) else None
-    if not match:
-        raise ValueError("[harmony] 拍子 meter: 正の整数による拍子を指定してください")
-    numerator, denominator = map(int, match.groups())
-    if denominator & (denominator - 1):
-        raise ValueError("[harmony] 拍子 meter: 分母は2の累乗で指定してください")
-    beats = numerator * 4 / denominator
-    if not math.isfinite(beats) or beats <= 0:
-        raise ValueError("[harmony] 拍子 meter: 拍数が範囲外です")
-    return beats
-
-
 def compile_progression(song, occurrences, *, base_octave=3):
     """展開済みoccurrencesに従って時刻付き和音dictのリストを返す。
 
@@ -101,7 +89,10 @@ def compile_progression(song, occurrences, *, base_octave=3):
         degree_to_midi("1", key, base_octave=base_octave)
     except ValueError as exc:
         raise ValueError(f"[harmony] 調 key / 基準オクターブ: {exc}") from exc
-    bar_beats = _bar_beats(song.get("meter"))
+    try:
+        bar_beats = meter_to_beats(song.get("meter"))
+    except ValueError as exc:
+        raise ValueError(f"[harmony] {exc}") from exc
     sections = song.get("sections")
     if not isinstance(sections, dict):
         raise ValueError("[harmony] セクション sections: オブジェクトを指定してください")

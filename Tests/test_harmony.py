@@ -3,6 +3,7 @@ import copy
 import pytest
 
 from bgm.harmony import compile_progression, parse_roman_chord
+from bgm.structure import expand_form, meter_to_beats
 
 
 @pytest.mark.parametrize("mode,roots,qualities", [
@@ -142,6 +143,26 @@ def test_compile_minor_extensions_inversions_and_borrowing():
     assert [chord["beat"] for chord in result] == [0, 4, 6, 8, 12]
 
 
+@pytest.mark.parametrize("meter", ["4/4", "3/4", "6/8", "5/8", "2/2", "1/16", "11/32"])
+def test_structure_connection_and_meter_agreement(meter):
+    song, _ = make_song("I | V", bars=2, meter=meter)
+    song["form"] = ["A", "A'", "A"]
+    result = compile_progression(song, expand_form(song))
+    beats = meter_to_beats(meter)
+    assert [chord["beat"] for chord in result] == pytest.approx([index * beats for index in range(6)])
+    assert [chord["bar"] for chord in result] == list(range(1, 7))
+    assert [chord["section"] for chord in result] == ["A", "A", "A'", "A'", "A", "A"]
+
+
+@pytest.mark.parametrize("meter", ["4/3", "0/4", "4/0", "04/4", "4/04", "4/４", " 4/4", None, 4])
+def test_structure_and_harmony_reject_same_meters(meter):
+    song, occurrences = make_song(meter=meter)
+    with pytest.raises(ValueError):
+        meter_to_beats(meter)
+    with pytest.raises(ValueError, match=r"\[harmony\].*拍子"):
+        compile_progression(song, occurrences)
+
+
 @pytest.mark.parametrize("chords,bars,error_bar", [("I | X", 2, 6), ("I | ", 2, 6),
     ("", 1, 5), ("I || V", 3, 6), ("I", 2, 5), ("I | V | vi", 2, 6)])
 def test_bad_bars_have_global_japanese_locations(chords, bars, error_bar):
@@ -190,4 +211,4 @@ def test_invalid_song_and_out_of_range_chord_location():
     song, occurrences = make_song("Iadd9", bars=1)
     song["key"] = "B major"
     with pytest.raises(ValueError, match=r"\[harmony\] 1番目の小節:.*MIDI"):
-        compile_progression(song, occurrences, base_octave=9)
+        compile_progression(song, occurrences, base_octave=8)
