@@ -45,21 +45,53 @@ def load_song(ref: str):
         song = json.loads(f.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         raise SongError(f"song.json の書式エラー: {e}") from e
+    if not isinstance(song, dict):
+        raise SongError(f"song.json の中身は {{\"tempo\": ..., \"bars\": ..., \"parts\": [...]}} の形の"
+                        f"オブジェクトにしてください（いまは{_kind(song)}です）")
     song.setdefault("id", d.name)
+    if not isinstance(song["id"], str) or not song["id"]:
+        raise SongError(f"song.json の id は空でない文字列にしてください（いまは{_kind(song['id'])}です）")
     song.setdefault("beats_per_bar", 4)
     song.setdefault("swing", 0)
     song.setdefault("swing_unit", 0.5)
     song.setdefault("loop", True)
     song.setdefault("master", {})
+    if not isinstance(song["master"], dict):
+        raise SongError(f"song.json の master は {{\"reverb\": \"room\"}} の形のオブジェクトにしてください"
+                        f"（いまは{_kind(song['master'])}です）")
     song["master"].setdefault("reverb", "room")
     song["master"].setdefault("gain_db", 0)
     for k in ("tempo", "bars", "parts"):
         if k not in song:
             raise SongError(f"song.json に {k} がありません")
+    if not isinstance(song["parts"], list):
+        raise SongError(f"song.json の parts はパートの配列 [...] にしてください（いまは{_kind(song['parts'])}です）")
+    for i, part in enumerate(song["parts"]):
+        if not isinstance(part, dict):
+            raise SongError(f"parts の {i + 1}番目のパートは {{\"name\": ..., \"bars\": [...]}} の形の"
+                            f"オブジェクトにしてください（いまは{_kind(part)}です）")
+        name = part.get("name")
+        if name is not None and (not isinstance(name, str) or not name):
+            raise SongError(f"parts の {i + 1}番目のパートの name は空でない文字列にしてください（いまは{_kind(name)}です）")
     names = [p.get("name") for p in song["parts"]]
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
     return d, song
+
+
+def _kind(value):
+    """Describe a JSON value's type in Japanese for error messages."""
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "真偽値"
+    if isinstance(value, (int, float)):
+        return "数値"
+    if isinstance(value, str):
+        return "文字列" if value else "空の文字列"
+    if isinstance(value, list):
+        return "配列"
+    return "オブジェクト"
 
 
 # ---------------------------------------------------------------- parsing
