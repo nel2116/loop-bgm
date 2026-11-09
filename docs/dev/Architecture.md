@@ -12,7 +12,7 @@ The target design is `docs/spec.md` sections 2-9. This file describes what the c
 
 | Module | Role |
 |---|---|
-| `__main__.py` | CLI: `render`, `fetch`, `status` |
+| `__main__.py` | CLI: `render`, `fetch`, `status`, `listen` |
 | `paths.py` | repository paths, sample rate (44.1 kHz) |
 | `theory.py` | note names ↔ MIDI, chord-name tokens |
 | `instruments.py` | catalog: sampled instruments (VSCO 2 CE folder + filename regex, range, gain, Japanese name), percussion, synth instruments |
@@ -20,6 +20,7 @@ The target design is `docs/spec.md` sections 2-9. This file describes what the c
 | `synth.py` | synth voices (e-piano, bass, plucked strings by Karplus-Strong, pad, square/pulse/triangle/saw) and synth drums |
 | `render.py` | song loading, parsing, per-part render with hash cache, loop folding, mix, seam check |
 | `fetch.py` | sample download and verification against `data/vsco2-lock.json` |
+| `listen.py` | minimal read-only local listening page, Web Audio loop playback, localhost HTTP server (`bgm listen`) |
 
 ## Prototype song format (current)
 
