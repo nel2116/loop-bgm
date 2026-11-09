@@ -5,9 +5,9 @@ description: Propose what to work on next in loop-bgm from the repository's stat
 
 # Proposing the next task
 
-<!-- last-reviewed: 2026-10-29 -->
+<!-- last-reviewed: 2026-11-09 -->
 
-After this question the user usually follows with 「そのためのプロンプトを提示して」, so **only propose; do not start the work**. The instructions for the chosen task are written with the `orchestration-prompt` skill.
+After this question the user usually follows with 「そのためのプロンプトを提示して」, so **only propose; do not start the work**. The instructions for the chosen task are written with the `orchestration-prompt` skill; that text delegates the work to Orca workers (`/orchestration`), so even a small task is not started from this conversation.
 
 ## 1. Gather the state
 
@@ -20,7 +20,7 @@ git worktree list
 python Tests/check_conventions.py | grep '^warning:'   # docs not reviewed for over 90 days
 ```
 
-- For each open PR, find out from its body and comments why it is still open (waiting for a GUI check, `hold` label, pending Codex findings, ...).
+- For each open PR, find out from its body and comments why it is still open (`hold` label, pending Codex findings, a worker still on it, ...).
 - Collect pending checks from memory and from PR bodies' 「マージ後に確かめる項目」 and 「試聴メモ」, and the open listening-check issue of the current phase.
 - Judge progress against the phases in `docs/spec.md` section 10.1. Items of the current phase without an issue yet are candidates too. At the end of a phase, the listening check (`docs/ListeningCheck.md`) is the next task.
 
@@ -37,7 +37,7 @@ Higher items first:
 
 Also note for each:
 
-- **Changes the sound?** Then it needs a 「試聴メモ」; prefer work that can be verified by tests when the user is away.
+- **Changes the sound?** Then it needs a 「試聴メモ」; the user listens at the end of the phase, not per PR. Prefer work that can be verified by tests when the user is away.
 - **Parallelizable?** Work that edits disjoint files can go to separate workers in parallel.
 - **Size**: does it fit one PR? If not, show how to split it.
 
@@ -46,6 +46,6 @@ Also note for each:
 Briefly, in Japanese:
 
 - State summary (2-3 lines): develop CI, open PRs, pending checks.
-- Candidate table (3-5 rows): task (issue number), reason, size, GUI check needed, parallel partner.
+- Candidate table (3-5 rows): task (issue number), reason, size, changes the sound, parallel partner.
 - **Recommendation**: one (or a parallel combination) and why.
 - End by asking 「この作業のプロンプトを作りますか?」 and stop.

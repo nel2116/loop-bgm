@@ -5,7 +5,7 @@ description: Take a loop-bgm PR all the way through CI check -> Codex review -> 
 
 # Taking a PR to the merge
 
-<!-- last-reviewed: 2026-11-05 -->
+<!-- last-reviewed: 2026-11-09 -->
 
 `CodexReview.ps1` and `CleanupMerged.ps1` automate the individual steps; this file says in what order, when and how far to run them. Mechanism details and verified pitfalls are in `docs/dev/ReviewAndMerge.md`.
 
@@ -29,14 +29,14 @@ Don't use `-SetStatus` until all of these hold (with no findings it schedules th
 ./CodexReview.ps1 -Pr <N> -Post     # 1 to a few minutes; comments the result on the PR
 ```
 
-In orchestration the worker runs this in its own worktree (#195). The coordinator checks the 「PR 準備完了」 report and the PR comment and does not review again. When the coordinator handles a PR without a worker, it runs it in a detached worktree created from origin/develop without switching the root checkout, and deletes the worktree afterwards. Waiting for CI and the review are independent and may run in parallel.
+In orchestration the worker runs this in its own worktree and reports 「PR 準備完了」 in `worker_done`. The coordinator checks that report and the PR comment and does not review again. When the coordinator handles a PR without a worker, it runs it in a detached worktree created from origin/develop without switching the root checkout, and deletes the worktree afterwards. Waiting for CI and the review are independent and may run in parallel.
 
 Handle each finding (lines `- [P0-P3] ...`), whatever its severity, in one of two ways:
 
 - **Fix it**: first add a test that fails on the finding's input, confirm it fails before the fix and passes after (`git stash push -- <fixed files>` applies just the test to the old code). Then comment on the PR which finding was fixed how and what the test verifies.
 - **Don't fix it**: if the finding is wrong or out of scope, reply on the PR with the reason. A reply alone does not pass the gate; if the same finding comes back in the next review, consult the user.
 
-Workers verify and handle findings themselves and send unfixed ones with reasons via `ask`. The coordinator checks the reasons and, if they don't hold, sends them back (`send --to dispatch:<id>`).
+Workers verify and handle findings themselves and list unfixed ones with reasons in `worker_done`. The coordinator checks the reasons and, if they don't hold, sends them back (`send --to dispatch:<id>`; a finished worker gets it as a follow-up Task).
 
 Pushing a fix detaches the `codex-review` status from the commit. Wait for CI and review again.
 
@@ -58,7 +58,7 @@ When the conditions hold and the last review had no findings, the coordinator ru
 
 If the PR has a PASS for the current head, it skips Codex, sets `codex-review` to success and schedules the auto-merge. Otherwise it reviews; with no findings it proceeds the same way, with findings go back to 2. Add `-ForceReview` to redo the review.
 
-Then wait for the merge. Only when branch protection also requires `Merge approved` (approval required again), report 「承認待ち」 to the user with the PR number and the CI/Codex/GUI results, and have them add `merge-ok`.
+Then wait for the merge. Only when branch protection also requires `Merge approved` (approval required again), report 「承認待ち」 to the user with the PR number and the CI/Codex results, and have them add `merge-ok`.
 
 ```bash
 gh pr view <N> --json state --jq .state     # until MERGED; wait with gh pr checks <N> --watch
@@ -73,6 +73,7 @@ git switch develop      # if you are on the PR's branch
 ./CleanupMerged.ps1
 ```
 
+- Before that, release a worker in a new worktree whose chat nobody needs any more (`worker-release --dispatch <id>`, or what `worker-list`'s `next` says); `CleanupMerged.ps1` keeps the worktree of any unreleased worker.
 - Report warnings (`Orcaの削除が終わりませんでした`, `worktreeのフォルダが残っています`, `ブランチを削除できませんでした`) to the user as real problems.
 - Confirm develop's CI succeeded: `gh run list --branch develop --workflow ci.yml --limit 1`.
 - Run the PR body's 「マージ後に確かめる項目」 if any.
