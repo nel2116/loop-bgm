@@ -14,8 +14,11 @@ import numpy as np
 import soundfile as sf
 
 from . import ENGINE_VERSION
+from .harmony import compile_progression
 from .instruments import PERCUSSION, SAMPLED, SYNTH_DRUMS, SYNTH_PITCHED
+from .melody import compile_melody
 from .paths import SONGS, SR
+from .structure import expand_form, meter_to_beats
 from .theory import midi_to_hz, parse_pitches
 
 MIX_ONLY_KEYS = {"volume", "pan", "mute", "solo", "note"}
@@ -52,7 +55,11 @@ def load_song(ref: str):
     song.setdefault("id", d.name)
     if not isinstance(song["id"], str) or not song["id"]:
         raise SongError(f"song.json の id は空でない文字列にしてください（いまは{_kind(song['id'])}です）")
-    song.setdefault("beats_per_bar", 4)
+    if is_structured(song):
+        _, bars, beats = _structure(song)
+        song["bars"], song["beats_per_bar"] = bars, beats
+    else:
+        song.setdefault("beats_per_bar", 4)
     song.setdefault("swing", 0)
     song.setdefault("swing_unit", 0.5)
     song.setdefault("loop", True)
@@ -78,7 +85,50 @@ def load_song(ref: str):
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
     _validate_song(song)
+    if is_structured(song):
+        compile_song(song)
     return d, song
+
+
+def is_structured(song):
+    return any(field in song for field in ("meter", "form", "sections"))
+
+
+def _structure(song):
+    for field in ("key", "meter", "form", "sections"):
+        if field not in song:
+            raise SongError(f"song.json に {field} がありません（構造付きの曲では必須です）")
+    try:
+        occurrences = expand_form(song)
+        beats = meter_to_beats(song["meter"])
+    except OverflowError as exc:
+        raise SongError("song.json の meter / form / sections: 拍数を有限数で計算できる範囲にしてください") from exc
+    except ValueError as exc:
+        raise SongError(str(exc)) from exc
+    bars = sum(occ["bars"] for occ in occurrences)
+    for field, expected in (("bars", bars), ("beats_per_bar", beats)):
+        if field in song and (type(song[field]) not in (int, float) or song[field] != expected):
+            raise SongError(f"song.json の {field} が meter / form の展開結果（{expected}）と競合しています")
+    return occurrences, bars, beats
+
+
+def compile_song(song):
+    """構造付き設計図を変更せず、音符と将来の伴奏用の和音データを返す。"""
+    occurrences, bars, beats = _structure(song)
+    timing = dict(song, bars=bars, beats_per_bar=beats)
+    notes = {}
+    try:
+        harmony = compile_progression(song, occurrences)
+        for part in song["parts"]:
+            degree = "phrases" in part or "grid" in part
+            if degree and ("bars" in part or part.get("type") == "drums"):
+                raise SongError(f"[{part['name']}] phrases / grid と bars / drums は併用できません")
+            if part.get("type") != "drums":
+                notes[part["name"]] = (compile_melody(part, song, occurrences, base_octave=4) if degree
+                                        else parse_note_bars(part, timing))
+    except ValueError as exc:
+        raise SongError(str(exc)) from exc
+    return {"occurrences": occurrences, "notes": notes, "harmony": harmony, "bars": bars, "beats_per_bar": beats}
 
 
 def _kind(value):
@@ -214,6 +264,16 @@ def _num(s):
 
 def parse_note_bars(part, song):
     """Return list of (beat, [midi...], dur_beats, vel) for a note part."""
+    if "phrases" in part or "grid" in part:
+        if not is_structured(song):
+            raise SongError(f"[{part['name']}] phrases / grid には key / meter / form / sections が必要です")
+        if "bars" in part:
+            raise SongError(f"[{part['name']}] phrases / grid と bars は併用できません")
+        try:
+            occurrences, _, _ = _structure(song)
+            return compile_melody(part, song, occurrences, base_octave=4)
+        except ValueError as exc:
+            raise SongError(str(exc)) from exc
     bpb = song["beats_per_bar"]
     total_bars = song["bars"]
     segs = part.get("bars") or []
@@ -429,6 +489,9 @@ def part_hash(part, song):
     ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
     ctx["reverb"] = song["master"]["reverb"]
     ctx["engine"] = ENGINE_VERSION
+    if is_structured(song):
+        ctx.update({k: song[k] for k in ("key", "meter", "form", "sections")})
+        ctx["events"] = parse_drum_bars(part, song) if part.get("type") == "drums" else parse_note_bars(part, song)
     blob = json.dumps([key, ctx], sort_keys=True, ensure_ascii=False)
     return hashlib.sha1(blob.encode()).hexdigest()[:16]
 
