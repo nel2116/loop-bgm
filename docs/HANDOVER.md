@@ -69,3 +69,9 @@ AIにテキストの「設計図」（song.json）を書かせ、プログラム
 2. `PrePr.ps1` にはまだテストがない（DXForgeEX の `PrePr.Tests.ps1` は C++ 向けで移していない）。
 3. 小さな PR を 1 本、Issue から自動マージまで通す（手順 8）。
 4. その後フェーズ1（spec 10.1）。
+
+## 進捗（2026-11-09 追記、Codex）
+
+- GitHub の公開リポジトリ、`main` / `develop`、`develop` の保護設定を確認済み。必須チェックは `Python checks & tests`、`PowerShell script tests`、`No hold label`、`codex-review` で、管理者にも適用される。
+- Issue #1 で `PrePr.ps1` の回帰テストと CI への登録を追加。PR の検証結果は GitHub の Issue #1 を参照する。
+- 次の区切りは、フェーズ0の PR 運用確認を終えてからフェーズ1（spec 10.1）へ進むこと。

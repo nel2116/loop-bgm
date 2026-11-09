@@ -37,3 +37,5 @@ Output: `songs/<song>/<song>.wav` (loop, 44.1 kHz/16 bit), per-part stems in `st
 ## CI
 
 `.github/workflows/ci.yml` runs on `windows-latest` for pushes to `develop`/`main` and PRs: ruff, `check_conventions.py`, pytest, and the PowerShell script tests. `.github/workflows/pr-automation.yml` provides `No hold label`, the optional `Merge approved` gate and closing `Closes #N` issues on merges into `develop` (copied from DXForgeEX; see `ReviewAndMerge.md`).
+
+`Tests/PrePr.Tests.ps1` checks PrePr's step selection, deduplication, failure handling, dirty-tree refusal and HEAD stamp using a temporary copy and fake commands. It does not run the selected checks or contact GitHub.

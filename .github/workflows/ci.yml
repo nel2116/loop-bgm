@@ -48,3 +48,6 @@ jobs:
       - name: CleanupMerged.ps1 tests
         shell: pwsh
         run: ./Tests/CleanupMerged.Tests.ps1
+      - name: PrePr.ps1 tests
+        shell: pwsh
+        run: ./Tests/PrePr.Tests.ps1
