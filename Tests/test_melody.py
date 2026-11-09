@@ -74,7 +74,7 @@ def test_source_lookup_and_occurrence_selection():
 
 
 @pytest.mark.parametrize("field,value", [
-    ("grid", None), ("grid", "2/4"), ("phrases", []), ("sections", ["B"]), ("sections", "A"),
+    ("grid", None), ("grid", "2/4"), ("grid", "1/3"), ("phrases", []), ("sections", ["B"]), ("sections", "A"),
     ("octave", True), ("octave", 1.5), ("transpose", 0.5), ("velocity", float("nan")),
     ("velocity", float("inf")), ("velocity", 0), ("velocity", 128), ("velocity", True),
 ])
@@ -98,13 +98,16 @@ def test_compound_meter_eighth_grid_and_base_octave():
     events = compile_melody(part, {"key": "A minor", "meter": "6/8"}, occurrences(), base_octave=3)
     assert events[0] == (8, [57], 0.5, 90)
     assert events[-1] == (10.5, [65], 0.5, 90)
-    part["grid"] = "1/7"
+    part["grid"] = "1/2"
     with pytest.raises(ValueError, match="grid.*均等"):
-        compile_melody(part, {"key": "A minor", "meter": "6/8"}, occurrences())
+        compile_melody(part, {"key": "A minor", "meter": "5/8"}, occurrences())
+    part = {"grid": "1/8", "phrases": {"A": "1 2 3 4 5"}}
+    assert compile_melody(part, {"key": "C major", "meter": "5/8"}, occurrences())[-1] == (10, [67], 0.5, 90)
 
 
 @pytest.mark.parametrize("song,field", [
     ({"key": "bad", "meter": "4/4"}, "key"), ({"key": "C major", "meter": "0/4"}, "meter"),
+    ({"key": "C major", "meter": "4/3"}, "meter"),
 ])
 def test_invalid_song_fields(song, field):
     with pytest.raises(ValueError, match=field):

@@ -24,6 +24,10 @@ def compile_melody(part, song, occurrences, *, base_octave=4):
         raise field_error("grid", "1/8 などの正の分割を指定してください")
     if not isinstance(meter, str) or not re.fullmatch(r"[1-9][0-9]*/[1-9][0-9]*", meter):
         raise field_error("meter", "4/4 などの拍子を指定してください")
+    for field, value in (("grid", grid), ("meter", meter)):
+        denominator = int(value.split("/")[1])
+        if denominator & (denominator - 1):
+            raise field_error(field, "分母は2の累乗で指定してください")
     step = 4 * Fraction(grid)
     bar_beats = 4 * Fraction(meter)
     count = bar_beats / step
