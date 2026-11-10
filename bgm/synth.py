@@ -5,8 +5,6 @@ import numpy as np
 from .paths import SR
 from .theory import midi_to_hz
 
-_rng = np.random.default_rng(1234)
-
 
 def _t(n):
     return np.arange(n, dtype=np.float32) / SR
@@ -34,7 +32,7 @@ def _attack(n, a_s):
 
 
 def bandpass_noise(n, lo, hi, seed=None):
-    rng = np.random.default_rng(seed) if seed is not None else _rng
+    rng = np.random.default_rng(1234 if seed is None else seed)
     x = rng.standard_normal(n).astype(np.float32)
     X = np.fft.rfft(x)
     f = np.fft.rfftfreq(n, 1 / SR)
@@ -57,7 +55,7 @@ def karplus(f, n, decay_s=2.0, bright=0.5, seed=None):
     f_int = SR / P
     ratio = f / f_int
     n_int = int(n * ratio) + P + 2
-    rng = np.random.default_rng(seed) if seed is not None else _rng
+    rng = np.random.default_rng(1234 if seed is None else seed)
     exc = rng.uniform(-1, 1, P).astype(np.float32)
     # soften the excitation for darker tones
     k = max(1, int((1 - bright) * 8))
@@ -90,7 +88,7 @@ def _wave(kind, f, t):
     raise KeyError(kind)
 
 
-def render_pitched(kind, midi, vel, dur_s):
+def render_pitched(kind, midi, vel, dur_s, *, seed=None):
     f = midi_to_hz(midi)
     amp = (vel / 127) ** 0.8
     if kind == "e_piano":
@@ -104,13 +102,13 @@ def render_pitched(kind, midi, vel, dur_s):
         return _stereo(x * 0.5 * amp)
     if kind == "bass":
         n = int((dur_s + 0.15) * SR)
-        x = karplus(f, n, decay_s=3.0, bright=0.15)
+        x = karplus(f, n, decay_s=3.0, bright=0.15, seed=seed)
         x = lowpass(x, 900) * 1.4 + np.sin(2 * np.pi * f * _t(n)) * 0.35 * np.exp(-_t(n) * 1.5)
         x *= _release_env(n, dur_s, 0.06) * _attack(n, 0.003)
         return _stereo(x * 0.8 * amp)
     if kind == "nylon_guitar":
         n = int((dur_s + 1.2) * SR)
-        x = karplus(f, n, decay_s=3.5, bright=0.55)
+        x = karplus(f, n, decay_s=3.5, bright=0.55, seed=seed)
         x = lowpass(x, 4500)
         x *= _release_env(n, dur_s, 0.4)
         return _stereo(x * 0.7 * amp)
@@ -119,7 +117,7 @@ def render_pitched(kind, midi, vel, dur_s):
         t = _t(n)
         x = np.sin(2 * np.pi * f * t) * np.exp(-t * 2.5)
         x += 0.25 * np.sin(2 * np.pi * f * 6.3 * t) * np.exp(-t * 25)
-        x += 0.15 * bandpass_noise(n, 1500, 5000) * np.exp(-t * 300)
+        x += 0.15 * bandpass_noise(n, 1500, 5000, seed=seed) * np.exp(-t * 300)
         x *= _release_env(n, dur_s + 1.0, 0.3)
         return _stereo(x * 0.6 * amp)
     if kind == "music_box":
@@ -144,7 +142,7 @@ def render_pitched(kind, midi, vel, dur_s):
     raise KeyError(kind)
 
 
-def render_drum(kind, vel):
+def render_drum(kind, vel, *, seed=None):
     amp = (vel / 127) ** 0.8
     if kind == "kick":
         n = int(0.45 * SR)
@@ -186,6 +184,7 @@ def render_drum(kind, vel):
         n = int(0.12 * SR)
         t = _t(n)
         step = 32
-        nz = np.repeat(_rng.choice([-1.0, 1.0], n // step + 1), step)[:n]
+        rng = np.random.default_rng(1234 if seed is None else seed)
+        nz = np.repeat(rng.choice([-1.0, 1.0], n // step + 1), step)[:n]
         return _stereo(nz * np.exp(-t * 30) * 0.35 * amp)
     raise KeyError(kind)
