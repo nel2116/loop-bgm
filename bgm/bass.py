@@ -8,9 +8,9 @@ def _number(value):
 
 
 def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
-    """根音基準の伴奏を (拍, MIDI一覧, 長さ, velocity) で返す。
+    """和声の伴奏を (拍, MIDI一覧, 長さ, velocity) で返す。
 
-    転回形のbassは使わず、rootを1オクターブ下げてから相対移調する。
+    arpeggioは転回後の構成音、他はrootを1オクターブ下げて相対移調する。
     音源を参照せず、呼び出し側から渡された音域へオクターブ補正する。
     """
     name = part.get("name", "bass") if isinstance(part, dict) else "bass"
@@ -21,8 +21,8 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
     if not isinstance(part, dict) or not isinstance(song, dict):
         raise error("part/songはオブジェクトで指定してください")
     style = part.get("style")
-    if style not in ("root_whole", "root_quarter", "root_fifth"):
-        raise error("styleはroot_whole/root_quarter/root_fifthから指定してください")
+    if style not in ("root_whole", "root_quarter", "root_fifth", "octave_8th", "walking", "arpeggio"):
+        raise error("styleはroot_whole/root_quarter/root_fifth/octave_8th/walking/arpeggioから指定してください")
     if part.get("role", "bass") != "bass" or part.get("type", "notes") != "notes":
         raise error("ベース伴奏はrole=bass、type=notesで指定してください")
     if any(field in part for field in ("bars", "phrases", "grid", "groove")):
@@ -67,6 +67,13 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
                 or chord.get("quality") not in ("major", "minor", "diminished", "sus4")):
             raise error("harmonyの開始拍・長さ・根音・品質が不正です", bar)
         by_bar.setdefault(bar, []).append(chord)
+        if style == "arpeggio" and (not isinstance(chord.get("pitches"), list) or not chord["pitches"]
+                                     or any(type(p) is not int or not 0 <= p <= 127 for p in chord["pitches"])
+                                     or chord["pitches"] != sorted(chord["pitches"])):
+            raise error("harmonyの構成音は昇順のMIDI整数リストで指定してください", bar)
+    # 入力の並び順によらず、直後の実際の和声を参照する。
+    ordered = sorted(harmony, key=lambda c: c["beat"])
+    following = {id(c): ordered[(i + 1) % len(ordered)] for i, c in enumerate(ordered)}
     events = []
     for occ in occurrences:
         for index in range(occ["bars"]):
@@ -88,32 +95,60 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
                 pattern = {0: False}
             elif style == "root_quarter":
                 pattern = dict.fromkeys(range(bar_beats), False)
-            else:
+            elif style == "root_fifth":
                 pattern = {0: False, 1.5 if meter == "6/8" else 2: True}
+            else:
+                step = 1 if style == "walking" else 0.5
+                pattern = dict.fromkeys((i * step for i in range(int(bar_beats / step))), False)
             attacks = {start + offset: fifth for offset, fifth in pattern.items()}
             for chord in chords:
-                # 同時刻の固定パターンよりコード境界の根音を優先する。
+                # 同時刻の固定パターンより和声境界の音列先頭を優先する。
                 for beat in list(attacks):
                     if math.isclose(beat, chord["beat"], rel_tol=0, abs_tol=1e-9):
                         del attacks[beat]
                 attacks[chord["beat"]] = False
             times = sorted(attacks)
             chord_index = 0
+            tone_index = 0
             for i, beat in enumerate(times):
                 while chord_index + 1 < len(chords) and chords[chord_index + 1]["beat"] <= beat:
                     chord_index += 1
                 chord = chords[chord_index]
+                if math.isclose(beat, chord["beat"], rel_tol=0, abs_tol=1e-9):
+                    tone_index = 0
                 pitch = chord["root"] - 12 + octave * 12 + transpose
                 if attacks[beat]:
                     pitch += 6 if chord["quality"] == "diminished" else 7
-                low, high = note_range
-                # 整数演算で巨大な移調にも対応し、同距離なら低い音を選ぶ。
-                lower = -((pitch - low) // 12)
-                upper = (high - pitch) // 12
-                if lower > upper:
-                    raise error("オクターブ補正で音域内に収められません", bar)
-                shift = min(max(0, lower), upper)
-                pitch += shift * 12
+                if style == "octave_8th":
+                    pitch += 12 * (tone_index % 2)
+                elif style == "walking":
+                    third = 4 if chord["quality"] == "major" else 5 if chord["quality"] == "sus4" else 3
+                    pitch += (0, third, 6 if chord["quality"] == "diminished" else 7)[tone_index % 3]
+                    target = following[id(chord)]
+                    # beat+durationの丸め差を避け、次和声の実際の開始位置を使う。
+                    chord_stop = chords[chord_index + 1]["beat"] if chord_index + 1 < len(chords) else stop
+                    last = i + 1 == len(times) or times[i + 1] >= chord_stop
+                    if tone_index > 0 and last and (selected is None or target.get("section") in selected):
+                        pitch = target["root"] - 13 + octave * 12 + transpose
+                elif style == "arpeggio":
+                    tones = [p - 12 + octave * 12 + transpose for p in chord["pitches"]]
+                    low, high = note_range
+                    lower = -((min(tones) - low) // 12)
+                    upper = (high - max(tones)) // 12
+                    if lower > upper:
+                        raise error("全構成音を共通のオクターブ補正で音域内に収められません", bar)
+                    shift = min(max(0, lower), upper)
+                    pitch = tones[tone_index % len(tones)] + shift * 12
+                tone_index += 1
+                if style != "arpeggio":
+                    low, high = note_range
+                    # 整数演算で巨大な移調にも対応し、同距離なら低い音を選ぶ。
+                    lower = -((pitch - low) // 12)
+                    upper = (high - pitch) // 12
+                    if lower > upper:
+                        raise error("オクターブ補正で音域内に収められません", bar)
+                    shift = min(max(0, lower), upper)
+                    pitch += shift * 12
                 next_attack = times[i + 1] if i + 1 < len(times) else stop
                 duration = (next_attack - beat) * (1 if style == "root_whole" else 0.9)
                 duration = min(duration, chord["beat"] + chord["duration"] - beat, stop - beat, end - beat)
