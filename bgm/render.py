@@ -558,11 +558,16 @@ def _synth_seed(part_name, voice, beat, ordinal, chord_index=None, midi=None):
 
 def _generated_window(beat, onset, duration, compiled, sec_per_beat):
     # 元の拍の和音・選択区間の外へ、揺らぎやgateで持続音を延ばさない。余韻はDSPが担当する。
-    chord = next(c for c in compiled["harmony"] if c["beat"] <= beat < c["beat"] + c["duration"])
+    harmony = compiled["harmony"]
+    index = next(i for i in range(len(harmony) - 1, -1, -1) if harmony[i]["beat"] <= beat)
+    chord = harmony[index]
+    chord_end = chord["beat"] + chord["duration"]
+    if index + 1 < len(harmony):
+        chord_end = min(chord_end, harmony[index + 1]["beat"])
     occurrence = next(o for o in compiled["occurrences"]
                       if o["start_beat"] <= beat < o["start_beat"] + o["bars"] * compiled["beats_per_bar"])
     start = max(chord["beat"], occurrence["start_beat"]) * sec_per_beat
-    end = min(chord["beat"] + chord["duration"],
+    end = min(chord_end,
               occurrence["start_beat"] + occurrence["bars"] * compiled["beats_per_bar"],
               compiled["bars"] * compiled["beats_per_bar"]) * sec_per_beat
     onset = max(start, onset)
