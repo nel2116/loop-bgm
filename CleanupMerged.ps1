@@ -170,7 +170,12 @@ try {
 			try { $page = $json | ConvertFrom-Json }
 			catch { return $null }
 			if ($page.ok -isnot [bool] -or -not $page.ok -or $page.result.$property -isnot [array]) { return $null }
-			if ($page.result.truncated -and -not $page.result.nextCursor) { return $null }
+			foreach ($flag in 'truncated', 'hasMore') {
+				if ($null -ne $page.result.$flag -and $page.result.$flag -isnot [bool]) { return $null }
+			}
+			$next = $page.result.nextCursor
+			if ($null -ne $next -and ($next -isnot [string] -or [string]::IsNullOrWhiteSpace($next))) { return $null }
+			if (($page.result.truncated -or $page.result.hasMore) -and -not $next) { return $null }
 			$page.result.$property | ForEach-Object { $items.Add($_) }
 			$cursor = $page.result.nextCursor
 			if ($cursor -and ($cursor -isnot [string] -or -not $seen.Add($cursor))) { return $null }

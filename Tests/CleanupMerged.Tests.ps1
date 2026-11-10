@@ -701,6 +701,31 @@ $cases['transfer-safety'] = {
 	finally { Remove-Sandbox $sb }
 }
 
+$cases['pagination-schema'] = {
+	$sb = New-Sandbox
+	try {
+		$wt = New-Branch $sb 'fix/page' -Worktree -Merge
+		foreach ($mode in 'zero-cursor', 'object-cursor', 'empty-cursor', 'has-more') {
+			$data = New-TransferFixture $wt 'legacy'
+			$result = @{ workers = @() }
+			switch ($mode) {
+				'zero-cursor' { $result.nextCursor = 0 }
+				'object-cursor' { $result.nextCursor = @{} }
+				'empty-cursor' { $result.nextCursor = '' }
+				'has-more' { $result.hasMore = $true }
+			}
+			$data['worker-list|run_b'].result = $result
+			$fixture = Join-Path $sb.Dir 'fixture.json'
+			$data | ConvertTo-Json -Depth 20 | Set-Content $fixture
+			$r = Invoke-Cleanup $sb @('-DryRun') -Workers "fixture:$fixture"
+			Check ($r.ExitCode -eq 0) "$mode : 終了コード0"
+			Check ($r.Text -match 'Orcaのworkerを確認できない') "$mode : 不完全な一覧は全保持"
+			Check ((Get-OrcaCalls $sb).Count -eq 0) "$mode : 削除呼出し0回"
+		}
+	}
+	finally { Remove-Sandbox $sb }
+}
+
 $cases['transfer-path-scope'] = {
 	$sb = New-Sandbox
 	try {
