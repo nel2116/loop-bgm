@@ -203,6 +203,9 @@ try {
 		if ($successors.Count -ne 1) { return $false }
 		$new = $successors[0]
 		if ($new.dispatchId -eq $old.dispatchId -or $new.terminalState -ne 'released') { return $false }
+		foreach ($row in $old, $new) {
+			if ($row.liveness -eq 'live' -or $row.projection.liveness.verdict -eq 'live') { return $false }
+		}
 		if (@($all | Where-Object { $_.dispatchId -eq $old.dispatchId }).Count -ne 1 -or
 			@($all | Where-Object { $_.dispatchId -eq $new.dispatchId }).Count -ne 1 -or
 			@($all | Where-Object { $_.resource.originDispatchId -eq $new.dispatchId }).Count) { return $false }
@@ -212,6 +215,12 @@ try {
 		$b = Read-WorkerShow $new.dispatchId
 		if (-not $a -or -not $b -or $a.dispatch.followUpOf -or $b.dispatch.followUpOf -ne $old.dispatchId) { return $false }
 		foreach ($show in $a, $b) {
+			foreach ($value in $show.dispatch.id, $show.dispatch.runId, $show.worker.dispatchId,
+				$show.worker.worktreeId, $show.dispatch.assigneeHandle, $show.dispatch.processIncarnation,
+				$show.worker.agentTerminalHandle, $show.observation.status, $show.dispatch.hostScope.kind,
+				$show.dispatch.hostScope.hostId) {
+				if ($value -isnot [string] -or -not $value) { return $false }
+			}
 			if ($show.observation.exactWorker -isnot [bool] -or -not $show.observation.exactWorker -or
 				$show.observation.status -ne 'exited' -or $show.projection.liveness.verdict -eq 'live' -or
 				$show.dispatch.runId -ne $old.runId -or $show.worker.worktreeId -ne $workspace -or
@@ -252,7 +261,9 @@ try {
 			$workers = Read-OrcaPages @("orchestration", "worker-list", "--run", $run.id) "workers"
 			if ($null -eq $workers) { return $null }
 			foreach ($worker in $workers) {
-				if (-not (Get-WorkerWorkspace $worker) -or -not $worker.dispatchId) { return $null }
+				if (-not (Get-WorkerWorkspace $worker) -or $worker.dispatchId -isnot [string] -or -not $worker.dispatchId) { return $null }
+				if ($null -ne $worker.terminalState -and $worker.terminalState -isnot [string]) { return $null }
+				if ($null -ne $worker.runId -and $worker.runId -isnot [string]) { return $null }
 				if ($worker.runId -and $worker.runId -ne $run.id) { return $null }
 				$all.Add($worker)
 			}

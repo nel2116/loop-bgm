@@ -628,6 +628,8 @@ function New-TransferFixture([string]$path, [string]$mode) {
 	if ($mode -eq 'current-live') { $shows.new.observation.status = 'live' }
 	if ($mode -eq 'conflict') { $old.projection = @{ workspace = @{ id = 'repo-id::C:/other' } } }
 	if ($mode -eq 'liveness-conflict') { $shows.old.projection = @{ liveness = @{ verdict = 'live' } } }
+	if ($mode -eq 'list-live') { $old.projection = @{ liveness = @{ verdict = 'live' } } }
+	if ($mode -eq 'state-array') { $old.terminalState = @('released') }
 	if ($mode -eq 'old-unknown') { $shows.old.observation.status = 'unverifiable' }
 	if ($mode -eq 'inexact') { $shows.old.observation.exactWorker = $false }
 	if ($mode -eq 'handle') { $shows.new.dispatch.assigneeHandle = 'other' }
@@ -687,7 +689,7 @@ $cases['transfer-safety'] = {
 	$sb = New-Sandbox
 	try {
 		$wt = New-Branch $sb 'fix/transfer' -Worktree -Merge
-		foreach ($mode in 'live', 'current-live', 'unknown', 'old-unknown', 'inexact', 'handle', 'incarnation', 'workspace', 'host', 'followup', 'owner', 'transferred', 'cycle', 'multihop', 'multiple', 'show-fail', 'show-json', 'schema', 'array-schema', 'list-json', 'late-fail', 'cursor-loop', 'truncated', 'conflict', 'liveness-conflict', 'run-mismatch', 'runs-late-fail') {
+		foreach ($mode in 'live', 'current-live', 'unknown', 'old-unknown', 'inexact', 'handle', 'incarnation', 'workspace', 'host', 'followup', 'owner', 'transferred', 'cycle', 'multihop', 'multiple', 'show-fail', 'show-json', 'schema', 'array-schema', 'list-json', 'late-fail', 'cursor-loop', 'truncated', 'conflict', 'liveness-conflict', 'list-live', 'state-array', 'run-mismatch', 'runs-late-fail') {
 			$fixture = Join-Path $sb.Dir 'fixture.json'
 			New-TransferFixture $wt $mode | ConvertTo-Json -Depth 20 | Set-Content $fixture
 			$r = Invoke-Cleanup $sb -Workers "fixture:$fixture"
@@ -695,6 +697,24 @@ $cases['transfer-safety'] = {
 			Check ((Test-Registered $sb $wt) -and (Test-Path $wt) -and (Test-BranchExists $sb 'fix/transfer')) "$mode : 登録・フォルダ・ブランチ各1を保持"
 			Check ((Get-OrcaCalls $sb).Count -eq 0) "$mode : 削除呼出し0回"
 		}
+	}
+	finally { Remove-Sandbox $sb }
+}
+
+$cases['transfer-path-scope'] = {
+	$sb = New-Sandbox
+	try {
+		$wt = New-Branch $sb 'fix/transfer' -Worktree -Merge
+		$done = New-Branch $sb 'fix/unrelated' -Worktree -Merge
+		$fixture = Join-Path $sb.Dir 'fixture.json'
+		$data = New-TransferFixture $wt 'show-fail'
+		$data['worker-list|run_b'].result.workers += @{ dispatchId = 'unrelated'; terminalState = 'released'; workspace = "repo-id::$done" }
+		$data | ConvertTo-Json -Depth 20 | Set-Content $fixture
+		$r = Invoke-Cleanup $sb -Workers "fixture:$fixture"
+		Check ($r.ExitCode -eq 0) 'show失敗の局所化: 終了コード0'
+		Check ((Test-Registered $sb $wt) -and (Test-BranchExists $sb 'fix/transfer')) 'show失敗のpathは保持'
+		Check (-not (Test-Registered $sb $done) -and -not (Test-Path $done) -and -not (Test-BranchExists $sb 'fix/unrelated')) '他pathの通常releasedは削除'
+		Check ((Get-OrcaCalls $sb).Count -eq 1) '無関係の削除1回だけ'
 	}
 	finally { Remove-Sandbox $sb }
 }
