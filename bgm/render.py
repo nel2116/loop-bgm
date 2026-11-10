@@ -14,10 +14,13 @@ import numpy as np
 import soundfile as sf
 
 from . import ENGINE_VERSION
+from .bass import compile_bass
+from .chords import compile_chords
 from .harmony import compile_progression
 from .instruments import PERCUSSION, SAMPLED, SYNTH_DRUMS, SYNTH_PITCHED
 from .melody import compile_melody
 from .paths import SONGS, SR
+from .rhythm import compile_rhythm
 from .structure import expand_form, meter_to_beats
 from .theory import midi_to_hz, parse_pitches
 
@@ -113,22 +116,59 @@ def _structure(song):
 
 
 def compile_song(song):
-    """構造付き設計図を変更せず、音符と将来の伴奏用の和音データを返す。"""
+    """構造付き設計図を変更せず、音符・打楽器・和音データを返す。"""
     occurrences, bars, beats = _structure(song)
     timing = dict(song, bars=bars, beats_per_bar=beats)
     notes = {}
+    rhythm = {}
     try:
         harmony = compile_progression(song, occurrences)
         for part in song["parts"]:
+            _validate_notation(part, song)
+            if "style" in part:
+                inst = part.get("instrument")
+                if not isinstance(inst, str) or inst not in SAMPLED and inst not in SYNTH_PITCHED:
+                    raise SongError(f"[{part['name']}] 1番目の小節: instrument に存在する楽器名が必要です")
+                compiler = compile_bass if part["role"] == "bass" else compile_chords
+                notes[part["name"]] = compiler(part, song, occurrences, harmony,
+                                               note_range=SAMPLED.get(inst, {}).get("range", (0, 127)))
+                continue
+            if "groove" in part:
+                rhythm[part["name"]] = compile_rhythm(part, song, occurrences,
+                                                      available_voices=set(PERCUSSION) | set(SYNTH_DRUMS))
+                continue
             degree = "phrases" in part or "grid" in part
             if degree and ("bars" in part or part.get("type") == "drums"):
                 raise SongError(f"[{part['name']}] phrases / grid と bars / drums は併用できません")
             if part.get("type") != "drums":
                 notes[part["name"]] = (compile_melody(part, song, occurrences, base_octave=4) if degree
                                         else parse_note_bars(part, timing))
+            else:
+                _validate_drums(part)
+                rhythm[part["name"]] = parse_drum_bars(part, timing)
     except ValueError as exc:
         raise SongError(str(exc)) from exc
-    return {"occurrences": occurrences, "notes": notes, "harmony": harmony, "bars": bars, "beats_per_bar": beats}
+    return {"occurrences": occurrences, "notes": notes, "rhythm": rhythm,
+            "harmony": harmony, "bars": bars, "beats_per_bar": beats}
+
+
+def _is_drums(part):
+    return "groove" in part or part.get("type") == "drums"
+
+
+def _validate_notation(part, song):
+    where = f"[{part['name']}] 1番目の小節"
+    if "style" in part or "groove" in part:
+        if not is_structured(song):
+            raise SongError(f"{where}: style / groove には key / meter / form / sections が必要です")
+        if any(field in part for field in ("bars", "phrases", "grid")) or "style" in part and "groove" in part:
+            raise SongError(f"{where}: style / groove と bars / phrases / grid は併用できません（空の指定も含む）")
+        if "style" in part and (part.get("role") not in ("bass", "chords") or part.get("type", "notes") != "notes"):
+            raise SongError(f"{where}: style は role=bass / chords、type=notes で指定してください")
+        if "groove" in part and (part.get("role", "rhythm") != "rhythm" or part.get("type", "drums") != "drums"):
+            raise SongError(f"{where}: groove は role=rhythm、type=drums で指定してください")
+        if "groove" in part and "role" not in part and part.get("type") != "drums":
+            raise SongError(f"{where}: groove には role=rhythm または type=drums が必要です")
 
 
 def _kind(value):
@@ -196,6 +236,7 @@ def _validate_song(song):
         raise SongError("song.json の parts には1つ以上のパートが必要です")
     for part in song["parts"]:
         where = f"[{part['name']}]"
+        _validate_notation(part, song)
         if part.get("type") is not None and not isinstance(part["type"], str):
             raise SongError(f"{where} type は文字列または null にしてください")
         for key in ("mute", "solo"):
@@ -208,7 +249,7 @@ def _validate_song(song):
         # 省略、null、空文字列は従来どおり無音。空配列もそのまま使う。
         if segs is not None and segs != "" and not isinstance(segs, list):
             raise SongError(f"{where} bars は小節の配列 [...] または null にしてください")
-        if part.get("type") == "drums":
+        if _is_drums(part):
             _validate_drums(part)
         else:
             inst = part.get("instrument")
@@ -264,6 +305,9 @@ def _num(s):
 
 def parse_note_bars(part, song):
     """Return list of (beat, [midi...], dur_beats, vel) for a note part."""
+    if "style" in part:
+        _validate_notation(part, song)
+        return compile_song(song)["notes"][part["name"]]
     if "phrases" in part or "grid" in part:
         if not is_structured(song):
             raise SongError(f"[{part['name']}] phrases / grid には key / meter / form / sections が必要です")
@@ -339,6 +383,9 @@ def parse_note_bars(part, song):
 
 
 def parse_drum_bars(part, song):
+    if "groove" in part:
+        _validate_notation(part, song)
+        return compile_song(song)["rhythm"][part["name"]]
     bpb = song["beats_per_bar"]
     segs = part.get("bars") or []
     base_vel = part.get("velocity", 95)
@@ -491,7 +538,7 @@ def part_hash(part, song):
     ctx["engine"] = ENGINE_VERSION
     if is_structured(song):
         ctx.update({k: song[k] for k in ("key", "meter", "form", "sections")})
-        ctx["events"] = parse_drum_bars(part, song) if part.get("type") == "drums" else parse_note_bars(part, song)
+        ctx["events"] = parse_drum_bars(part, song) if _is_drums(part) else parse_note_bars(part, song)
     blob = json.dumps([key, ctx], sort_keys=True, ensure_ascii=False)
     return hashlib.sha1(blob.encode()).hexdigest()[:16]
 
@@ -503,6 +550,19 @@ def _synth_seed(part_name, voice, beat, ordinal, chord_index=None, midi=None):
     identity = ["synth-v1", part_name, voice, beat, ordinal, chord_index, midi]
     blob = json.dumps(identity, ensure_ascii=False, separators=(",", ":"))
     return int.from_bytes(hashlib.sha256(blob.encode("utf-8")).digest()[:16], "big")
+
+
+def _generated_window(beat, onset, duration, compiled, sec_per_beat):
+    # 元の拍の和音・選択区間の外へ、揺らぎやgateで持続音を延ばさない。余韻はDSPが担当する。
+    chord = next(c for c in compiled["harmony"] if c["beat"] <= beat < c["beat"] + c["duration"])
+    occurrence = next(o for o in compiled["occurrences"]
+                      if o["start_beat"] <= beat < o["start_beat"] + o["bars"] * compiled["beats_per_bar"])
+    start = max(chord["beat"], occurrence["start_beat"]) * sec_per_beat
+    end = min(chord["beat"] + chord["duration"],
+              occurrence["start_beat"] + occurrence["bars"] * compiled["beats_per_bar"],
+              compiled["bars"] * compiled["beats_per_bar"]) * sec_per_beat
+    onset = max(start, onset)
+    return onset, min(duration, end - onset)
 
 
 def render_part(part, song):
@@ -519,7 +579,7 @@ def render_part(part, song):
     def jitter_v(v):
         return int(np.clip(v + (rng.normal(0, 5 * hum) if hum else 0), 1, 127))
 
-    if part.get("type") == "drums":
+    if _is_drums(part):
         for beat, voice, vel in parse_drum_bars(part, song):
             fn = get_drum(voice)
             t = _swing(beat, song) * sec_per_beat + jitter_t()
@@ -541,6 +601,7 @@ def render_part(part, song):
         fn = get_instrument(part["instrument"])
         gate = float(part.get("gate", 1.0))
         strum = float(part.get("strum", 0))  # seconds between chord notes
+        compiled = compile_song(song) if "style" in part else None
         for beat, pitches, dur, vel in parse_note_bars(part, song):
             t0 = _swing(beat, song) * sec_per_beat + jitter_t()
             dur_s = max(0.02, dur * sec_per_beat * gate)
@@ -549,13 +610,18 @@ def render_part(part, song):
             ordinal = duplicates.get(identity, 0)
             duplicates[identity] = ordinal + 1
             for k, m in enumerate(pitches):
+                onset, length = t0 + k * strum, dur_s
+                if compiled is not None:
+                    onset, length = _generated_window(beat, onset, length, compiled, sec_per_beat)
+                    if length <= 0:
+                        continue
                 if part["instrument"] in ("bass", "nylon_guitar", "kalimba"):
                     from .synth import render_pitched
                     seed = _synth_seed(part["name"], part["instrument"], beat, ordinal, k, m)
-                    audio = render_pitched(part["instrument"], m, v, dur_s, seed=seed)
+                    audio = render_pitched(part["instrument"], m, v, length, seed=seed)
                 else:
-                    audio = fn(m, v, dur_s)
-                buf = place(buf, audio, int((t0 + k * strum) * SR))
+                    audio = fn(m, v, length)
+                buf = place(buf, audio, int(onset * SR))
     send = float(part.get("reverb", 0.2))
     ir = reverb_ir(song["master"]["reverb"])
     if ir is not None and send > 0:
