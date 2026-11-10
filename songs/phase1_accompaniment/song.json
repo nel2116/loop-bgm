@@ -1,0 +1,28 @@
+{
+  "id": "phase1_accompaniment",
+  "key": "C major",
+  "tempo": 144,
+  "meter": "4/4",
+  "form": ["A", "B", "A"],
+  "sections": {
+    "A": {"bars": 2, "chords": "I | IV V"},
+    "B": {"bars": 2, "chords": "ii | V"}
+  },
+  "master": {"reverb": "none"},
+  "parts": [
+    {"name": "melody", "role": "melody", "instrument": "triangle_wave", "grid": "1/4",
+     "phrases": {"A": "1 3 5 3 | 4 3 2 1", "B": "2 4 6 4 | 5 4 2 7,"},
+     "volume": 0.5, "humanize": 0, "reverb": 0},
+    {"name": "bass", "role": "bass", "instrument": "bass", "style": "root_fifth",
+     "volume": 0.45, "humanize": 0.2, "reverb": 0},
+    {"name": "chords", "role": "chords", "instrument": "pad", "style": "pad",
+     "volume": 0.3, "humanize": 0.2, "reverb": 0, "strum": 0.015},
+    {"name": "rhythm", "role": "rhythm", "groove": "8beat",
+     "volume": 0.3, "humanize": 0.2, "reverb": 0},
+    {"name": "absolute", "instrument": "square", "bars": ["C5:1 r:3"],
+     "volume": 0.12, "humanize": 0, "reverb": 0},
+    {"name": "direct_drums", "type": "drums", "bars": [{"rim": "....x..."}],
+     "volume": 0.1, "humanize": 0, "reverb": 0}
+  ]
+}
+
