@@ -61,8 +61,10 @@ $ScriptPath = (Resolve-Path $ScriptPath).Path
 if ($BaselineScriptPath) { $BaselineScriptPath = (Resolve-Path $BaselineScriptPath).Path }
 
 $failures = [System.Collections.Generic.List[string]]::new()
+$script:checks = 0
 $currentCase = ""
 function Check([bool]$condition, [string]$message) {
+	$script:checks++
 	if ($condition) { Write-Host "  ok: $message" }
 	else {
 		Write-Host "  NG: $message" -ForegroundColor Red
@@ -111,6 +113,21 @@ if ($args[0] -eq "terminal" -and $args[1] -eq "list") {
 # run_a と run_b を返し、worker はすべて2ページ目の run_b にいる(ページをたどらないと見つからない)。
 # runs-fail なら run-list が、workers-fail なら worker-list が失敗する(#166)
 $workersMode = "$env:LOOPBGM_TEST_ORCA_WORKERS"
+if ($workersMode.StartsWith('fixture:') -and $args[0] -eq 'orchestration') {
+	# 現行 CLI の簡潔表示では resource/runId が省略される。実装が詳細表示を要求することも検証する。
+	if ($args[1] -in 'run-list', 'worker-list', 'worker-show' -and $args -notcontains '--full') {
+		Write-Output '{"ok":false}'; exit 1
+	}
+	$fixture = Get-Content -LiteralPath $workersMode.Substring(8) -Raw | ConvertFrom-Json -AsHashtable
+	$key = $args[1]
+	foreach ($flag in '--run', '--dispatch', '--cursor') {
+		if ($args -contains $flag) { $key += '|' + $args[[array]::IndexOf($args, $flag) + 1] }
+	}
+	if (-not $fixture.ContainsKey($key)) { Write-Output '{"ok":false}'; exit 1 }
+	if ($fixture[$key] -is [string]) { Write-Output $fixture[$key]; exit 0 }
+	ConvertTo-Json -Depth 20 -InputObject $fixture[$key]
+	exit 0
+}
 if ($args[0] -eq "orchestration" -and $args[1] -eq "run-list") {
 	if ($workersMode -eq "runs-fail") { Write-Output '{"ok": false, "error": {"code": "runtime_unavailable"}}'; exit 1 }
 	$cursor = if ($args -contains "--cursor") { $args[[array]::IndexOf($args, "--cursor") + 1] } else { $null }
@@ -590,6 +607,98 @@ $cases["worker-unknown"] = {
 	finally { Remove-Sandbox $sb }
 }
 
+function New-TransferFixture([string]$path, [string]$mode) {
+	$workspace = "repo-id::$path"
+	$old = @{ dispatchId = 'old'; runId = 'run_b'; terminalState = $null; resource = $null; workspace = $workspace }
+	$new = @{ dispatchId = 'new'; runId = 'run_b'; terminalState = 'released'; workspace = $workspace
+		resource = @{ originDispatchId = 'old'; ownerDispatchId = 'new'; worktreeId = $workspace
+			terminalHandle = 'handle'; endpointIncarnation = 'incarnation'; ownershipState = 'released'; releaseState = 'released' } }
+	$shows = @{}
+	foreach ($id in 'old', 'new') {
+		$shows[$id] = @{ dispatch = @{ id = $id; runId = 'run_b'; hostScope = @{ kind = 'local'; hostId = 'local' }
+			assigneeHandle = 'handle'; processIncarnation = 'incarnation'; followUpOf = $(if ($id -eq 'new') { 'old' }) }
+			worker = @{ dispatchId = $id; worktreeId = $workspace; agentTerminalHandle = 'handle' }
+			observation = @{ exactWorker = $true; status = 'exited' }
+			terminalResource = $(if ($id -eq 'new') { $new.resource }) }
+	}
+	if ($mode -in 'current', 'current-live') {
+		foreach ($row in $old, $new) { $row.Remove('workspace'); $row.projection = @{ workspace = @{ id = $workspace } } }
+	}
+	if ($mode -in 'live', 'unknown') { $shows.new.observation.status = $mode }
+	if ($mode -eq 'current-live') { $shows.new.observation.status = 'live' }
+	if ($mode -eq 'conflict') { $old.projection = @{ workspace = @{ id = 'repo-id::C:/other' } } }
+	if ($mode -eq 'liveness-conflict') { $shows.old.projection = @{ liveness = @{ verdict = 'live' } } }
+	if ($mode -eq 'old-unknown') { $shows.old.observation.status = 'unverifiable' }
+	if ($mode -eq 'inexact') { $shows.old.observation.exactWorker = $false }
+	if ($mode -eq 'handle') { $shows.new.dispatch.assigneeHandle = 'other' }
+	if ($mode -eq 'incarnation') { $shows.new.dispatch.processIncarnation = 'other' }
+	if ($mode -eq 'workspace') { $shows.new.worker.worktreeId = 'repo-id::C:/other' }
+	if ($mode -eq 'host') { $shows.new.dispatch.hostScope.hostId = 'remote' }
+	if ($mode -eq 'followup') { $shows.new.dispatch.followUpOf = 'other' }
+	if ($mode -eq 'owner') { $new.resource.ownerDispatchId = 'other' }
+	if ($mode -eq 'transferred') { $new.terminalState = 'retained'; $new.resource.ownershipState = 'ownership_transferred' }
+	if ($mode -eq 'cycle') { $shows.old.dispatch.followUpOf = 'new' }
+	if ($mode -eq 'multihop') { $shows.old.dispatch.followUpOf = 'earlier' }
+	$rows = @($old, $new)
+	if ($mode -eq 'multiple') { $extra = $new.Clone(); $extra.dispatchId = 'new2'; $rows += $extra }
+	$fixture = @{
+		'run-list' = @{ ok = $true; result = @{ runs = @(@{ id = 'run_b' }) } }
+		'worker-list|run_b' = @{ ok = $true; result = @{ workers = $rows } }
+		'worker-show|old' = @{ ok = $true; result = $shows.old }
+		'worker-show|new' = @{ ok = $true; result = $shows.new }
+	}
+	if ($mode -eq 'show-fail') { $fixture['worker-show|old'] = @{ ok = $false } }
+	if ($mode -eq 'show-json') { $fixture['worker-show|new'] = 'invalid json' }
+	if ($mode -eq 'schema') { $fixture['worker-list|run_b'].result.workers = @(@{ dispatchId = 'unknown' }) }
+	if ($mode -eq 'list-json') { $fixture['worker-list|run_b'] = 'invalid json' }
+	if ($mode -eq 'array-schema') { $fixture['worker-list|run_b'].result.workers = @{ dispatchId = 'old' } }
+	if ($mode -eq 'run-mismatch') { $old.runId = 'another-run' }
+	if ($mode -eq 'runs-late-fail') {
+		$fixture['run-list'].result.nextCursor = 'next'
+		$fixture['run-list|next'] = @{ ok = $false }
+	}
+	if ($mode -in 'paged', 'late-fail', 'cursor-loop', 'truncated') {
+		$fixture['worker-list|run_b'].result = @{ workers = @($old); nextCursor = 'next' }
+		$fixture['worker-list|run_b|next'] = @{ ok = $true; result = @{ workers = @($new) } }
+		if ($mode -eq 'late-fail') { $fixture['worker-list|run_b|next'].ok = $false }
+		if ($mode -eq 'cursor-loop') { $fixture['worker-list|run_b|next'].result.nextCursor = 'next' }
+		if ($mode -eq 'truncated') { $fixture['worker-list|run_b'].result = @{ workers = @(); truncated = $true } }
+	}
+	return $fixture
+}
+
+$cases['transfer'] = {
+	foreach ($mode in 'legacy', 'current', 'paged') {
+		$sb = New-Sandbox
+		try {
+			$wt = New-Branch $sb 'fix/transfer' -Worktree -Merge
+			$fixture = Join-Path $sb.Dir 'fixture.json'
+			New-TransferFixture $wt $mode | ConvertTo-Json -Depth 20 | Set-Content $fixture
+			$r = Invoke-Cleanup $sb -Workers "fixture:$fixture"
+			Check ($r.ExitCode -eq 0) "$mode : 終了コード0"
+			Check ((Get-OrcaCalls $sb).Count -eq 1) "$mode : 終了を証明した直接移譲は削除1回"
+			Check (-not (Test-Registered $sb $wt) -and -not (Test-Path $wt) -and -not (Test-BranchExists $sb 'fix/transfer')) "$mode : 登録・フォルダ・ブランチ残数0"
+		}
+		finally { Remove-Sandbox $sb }
+	}
+}
+
+$cases['transfer-safety'] = {
+	$sb = New-Sandbox
+	try {
+		$wt = New-Branch $sb 'fix/transfer' -Worktree -Merge
+		foreach ($mode in 'live', 'current-live', 'unknown', 'old-unknown', 'inexact', 'handle', 'incarnation', 'workspace', 'host', 'followup', 'owner', 'transferred', 'cycle', 'multihop', 'multiple', 'show-fail', 'show-json', 'schema', 'array-schema', 'list-json', 'late-fail', 'cursor-loop', 'truncated', 'conflict', 'liveness-conflict', 'run-mismatch', 'runs-late-fail') {
+			$fixture = Join-Path $sb.Dir 'fixture.json'
+			New-TransferFixture $wt $mode | ConvertTo-Json -Depth 20 | Set-Content $fixture
+			$r = Invoke-Cleanup $sb -Workers "fixture:$fixture"
+			Check ($r.ExitCode -eq 0) "$mode : 終了コード0"
+			Check ((Test-Registered $sb $wt) -and (Test-Path $wt) -and (Test-BranchExists $sb 'fix/transfer')) "$mode : 登録・フォルダ・ブランチ各1を保持"
+			Check ((Get-OrcaCalls $sb).Count -eq 0) "$mode : 削除呼出し0回"
+		}
+	}
+	finally { Remove-Sandbox $sb }
+}
+
 $cases["review-free"] = {
 	$sb = New-Sandbox
 	try {
@@ -714,5 +823,5 @@ if ($failures.Count) {
 	$failures | ForEach-Object { Write-Host "  $_" }
 	exit 1
 }
-Write-Host "すべて成功しました。"
+Write-Host "すべて成功しました。検証 $script:checks 件。"
 exit 0
