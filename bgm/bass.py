@@ -23,7 +23,7 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
     style = part.get("style")
     if style not in ("root_whole", "root_quarter", "root_fifth"):
         raise error("styleはroot_whole/root_quarter/root_fifthから指定してください")
-    if part.get("role") != "bass" or part.get("type", "notes") != "notes":
+    if part.get("role", "bass") != "bass" or part.get("type", "notes") != "notes":
         raise error("ベース伴奏はrole=bass、type=notesで指定してください")
     if any(field in part for field in ("bars", "phrases", "grid", "groove")):
         raise error("styleとbars/phrases/grid/grooveは併用できません（空の指定も含む）")
@@ -61,7 +61,8 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
         if not isinstance(chord, dict) or type(chord.get("bar")) is not int or not 1 <= chord["bar"] < next_bar:
             raise error("harmonyの小節位置が不正です")
         bar = chord["bar"]
-        if (not _number(chord.get("beat")) or not _number(chord.get("duration")) or chord["duration"] <= 0
+        if (not _number(chord.get("beat")) or not 0 <= chord["beat"] < end
+                or not _number(chord.get("duration")) or not 0 < chord["duration"] <= bar_beats
                 or type(chord.get("root")) is not int or not 0 <= chord["root"] <= 127
                 or chord.get("quality") not in ("major", "minor", "diminished", "sus4")):
             raise error("harmonyの開始拍・長さ・根音・品質が不正です", bar)

@@ -205,3 +205,15 @@ def test_fifth_corrects_its_own_register():
 def test_huge_velocity_rejected_as_value_error():
     with pytest.raises(ValueError, match="velocity"):
         bass(fixture(), velocity=10 ** 1000)
+
+
+def test_direct_api_defaults_role_and_type():
+    assert compile_bass({"style": "root_whole"}, *fixture()) == [(0, [36], 4, 90)]
+
+
+@pytest.mark.parametrize("field", ["beat", "duration"])
+def test_huge_harmony_time_rejected(field):
+    data = fixture()
+    data[2][0][field] = 10 ** 1000
+    with pytest.raises(ValueError, match="1番目の小節"):
+        bass(data)
