@@ -126,7 +126,7 @@ def test_impossible_range_is_positioned():
 
 @pytest.mark.parametrize("field,value", [
     ("bars", []), ("bars", ""), ("phrases", {}), ("phrases", ""), ("grid", None), ("groove", None),
-    ("role", "chords"), ("role", None), ("type", "drums"), ("style", "walking"), ("style", []),
+    ("role", "chords"), ("role", None), ("type", "drums"), ("style", "unknown"), ("style", []),
     ("octave", True), ("octave", 1.0), ("transpose", False), ("transpose", "2"),
     ("velocity", True), ("velocity", float("nan")), ("velocity", float("inf")),
     ("velocity", 0), ("velocity", 128), ("sections", ["B"]), ("sections", None), ("sections", "A"),
@@ -217,3 +217,189 @@ def test_huge_harmony_time_rejected(field):
     data[2][0][field] = 10 ** 1000
     with pytest.raises(ValueError, match="1番目の小節"):
         bass(data)
+
+
+NEW_STYLES = ("octave_8th", "walking", "arpeggio")
+
+
+def assert_events(events, times, pitches, durations, velocities):
+    assert [e[0] for e in events] == pytest.approx(times)
+    assert [e[1] for e in events] == [[p] for p in pitches]
+    assert [e[2] for e in events] == pytest.approx(durations)
+    assert [e[3] for e in events] == velocities
+
+
+@pytest.mark.parametrize("meter", ["4/4", "3/4", "6/8"])
+@pytest.mark.parametrize("style", NEW_STYLES)
+def test_new_meter_numeric(meter, style):
+    beats = 4 if meter == "4/4" else 3
+    count = beats if style == "walking" else beats * 2
+    step = 1 if style == "walking" else .5
+    times = [i * step for i in range(count)]
+    pitches = ([36, 40, 43, 35] if beats == 4 else [36, 40, 35]) if style == "walking" else [
+        (36, 48)[i % 2] if style == "octave_8th" else (36, 40, 43)[i % 3] for i in range(count)]
+    strong = (0, 2) if meter == "4/4" else (0, 1.5) if meter == "6/8" else (0,)
+    assert_events(bass(fixture(meter=meter), style), times, pitches, [step * .9] * count,
+                  [90 if t in strong else 72 for t in times])
+
+
+@pytest.mark.parametrize("style,rows", [
+    ("octave_8th", [[36, 48] * 4, [45, 57] * 4, [41, 53] * 4, [43, 55] * 4]),
+    ("arpeggio", [[36, 40, 43, 36, 40, 43, 36, 40], [45, 48, 52, 45, 48, 52, 45, 48],
+                  [41, 45, 48, 41, 45, 48, 41, 45], [43, 47, 50, 43, 47, 50, 43, 47]]),
+    ("walking", [[36, 40, 43, 44], [45, 48, 52, 40], [41, 45, 48, 42], [43, 47, 50, 35]]),
+])
+def test_new_axis_numeric(style, rows):
+    step = 1 if style == "walking" else .5
+    pitches = sum(rows, [])
+    times = [i * step for i in range(len(pitches))]
+    assert_events(bass(fixture("I | vi | IV | V"), style), times, pitches, [.9 * step] * len(times),
+                  [90 if t % 4 in (0, 2) else 72 for t in times])
+
+
+@pytest.mark.parametrize("style,pitches", [
+    ("octave_8th", [38, 50, 38, 50, 43, 55, 43, 55]),
+    ("arpeggio", [38, 41, 45, 38, 43, 47, 50, 43]),
+    ("walking", [38, 42, 43, 37]),
+])
+def test_new_ii_v_numeric(style, pitches):
+    step = 1 if style == "walking" else .5
+    times = [i * step for i in range(len(pitches))]
+    assert_events(bass(fixture("ii V"), style), times, pitches, [.9 * step] * len(times),
+                  [90 if t in (0, 2) else 72 for t in times])
+
+
+@pytest.mark.parametrize("style,pitches", [
+    ("octave_8th", [36, 48, 36, 41, 53, 41, 53, 43, 55, 43]),
+    ("arpeggio", [36, 40, 43, 41, 45, 48, 41, 43, 47, 50]),
+    ("walking", [36, 40, 41, 42, 43, 35]),
+])
+def test_new_fractional_boundaries_numeric(style, pitches):
+    times = [0, 1, 4 / 3, 2, 8 / 3, 3] if style == "walking" else [0, .5, 1, 4 / 3, 1.5, 2, 2.5, 8 / 3, 3, 3.5]
+    durations = [(b - a) * .9 for a, b in zip(times, times[1:] + [4], strict=True)]
+    assert_events(bass(fixture("I IV V"), style), times, pitches, durations,
+                  [90 if t in (0, 2) else 72 for t in times])
+
+
+@pytest.mark.parametrize("token,key,tones", [
+    ("I/3", "C major", [40, 43, 48]), ("I/3", "C minor", [39, 43, 48]),
+    ("vii°7/3", "C major", [50, 53, 57, 59]), ("Imaj7/3", "C major", [40, 43, 47, 48]),
+    ("Iadd9/3", "C major", [40, 43, 48, 50]), ("Isus4", "C major", [36, 41, 43]),
+    ("iv", "C major", [41, 44, 48]), ("bVII", "C minor", [46, 50, 53]),
+    ("ii°7", "C minor", [38, 41, 44, 48]),
+])
+def test_arpeggio_preserves_complete_voicing(token, key, tones):
+    events = bass(fixture(token, key=key), "arpeggio")
+    assert [e[1][0] for e in events] == [tones[i % len(tones)] for i in range(8)]
+
+
+@pytest.mark.parametrize("style", ["octave_8th", "walking"])
+@pytest.mark.parametrize("key,token,third,fifth", [
+    ("C major", "I/3", 4, 7), ("C minor", "I/3", 3, 7),
+    ("C minor", "ii°7/3", 3, 6), ("C major", "Isus4", 5, 7),
+    ("C major", "iv", 3, 7), ("C minor", "bVII", 4, 7),
+])
+def test_root_styles_ignore_inversion_extensions(style, key, token, third, fifth):
+    data = fixture(token, key=key)
+    root = data[2][0]["root"] - 12
+    expected = [root, root + third, root + fifth, root - 1] if style == "walking" else [root, root + 12] * 4
+    assert [e[1][0] for e in bass(data, style)] == expected
+
+
+@pytest.mark.parametrize("style", NEW_STYLES)
+def test_new_occurrences_selection_purity(style):
+    song = {"key": "C major", "meter": "4/4", "form": ["A", "B", "A", "A'"],
+            "sections": {"A": {"bars": 1, "chords": "I"}, "B": {"bars": 1, "chords": "V"}}}
+    occ = expand_form(song)
+    data = (song, occ, compile_progression(song, occ))
+    part = {"name": "low", "style": style, "sections": ["A"], "octave": 1, "transpose": 2}
+    before = copy.deepcopy((part, data))
+    events = compile_bass(part, *data)
+    assert events == compile_bass(part, *data)
+    assert (part, data) == before
+    assert [e[0] for e in events] == ([0, 1, 2, 3, 8, 9, 10, 11] if style == "walking" else
+                                     [0, .5, 1, 1.5, 2, 2.5, 3, 3.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5])
+    if style == "walking":
+        assert [e[1][0] for e in events] == [50, 54, 57, 50] * 2
+        assert [e[1][0] for e in bass(data, style)][-1] == 35
+        assert [e[1][0] for e in bass(data, style, sections=["A'"])][-1] == 36
+    assert bass(data, style, sections=[]) == []
+    assert all(12 <= e[0] < 16 for e in bass(data, style, sections=["A'"]))
+
+
+def test_walking_one_onset_is_root():
+    assert [e[1][0] for e in bass(fixture("I ii iii IV"), "walking")] == [36, 38, 40, 41]
+
+
+def test_walking_fractional_late_bar_approach():
+    events = bass(fixture("I | I | I IV V"), "walking")
+    assert_events(events[8:], [8, 9, 8 + 4 / 3, 10, 8 + 8 / 3, 11],
+                  [36, 40, 41, 42, 43, 35], [.9, .3, .6, .6, .3, .9], [90, 72, 72, 90, 72, 72])
+
+
+@pytest.mark.parametrize("style", NEW_STYLES)
+def test_new_octave_transpose_range_and_errors(style):
+    part = {"name": "low", "style": style, "octave": 1000000, "transpose": 2}
+    events = compile_bass(part, *fixture(), note_range=(38, 62))
+    expected = ([62, 54, 57, 61] if style == "walking" else [62, 62] * 4 if style == "octave_8th"
+                else [50, 54, 57, 50, 54, 57, 50, 54])
+    assert [e[1][0] for e in events] == expected
+    with pytest.raises(ValueError, match=r"\[low\] 2番目の小節:.*オクターブ"):
+        compile_bass({"name": "low", "style": style}, *fixture("I | V"),
+                     note_range=(36, 48) if style == "arpeggio" else (36, 43) if style == "walking" else (36, 36))
+
+
+def test_arpeggio_common_shift_and_impossible_span():
+    data = fixture("Iadd9/3")
+    assert [e[1][0] for e in compile_bass({"style": "arpeggio", "octave": 1, "transpose": 2},
+                                       *data, note_range=(30, 40))] == [30, 33, 38, 40] * 2
+    with pytest.raises(ValueError, match="全構成音"):
+        compile_bass({"style": "arpeggio"}, *data, note_range=(40, 49))
+
+
+@pytest.mark.parametrize("pitches", [None, [], [48, 52.0], [True], [128], [55, 48]])
+def test_arpeggio_invalid_pitches(pitches):
+    data = fixture()
+    data[2][0]["pitches"] = pitches
+    with pytest.raises(ValueError, match=r"\[low\] 1番目の小節:.*構成音"):
+        bass(data, "arpeggio")
+
+
+@pytest.mark.parametrize("style", ["root_whole", "root_quarter", "root_fifth"])
+def test_old_axis_complete_numeric_regression(style):
+    roots = [36, 45, 41, 43]
+    if style == "root_whole":
+        times, pitches, durations, velocities = [0, 4, 8, 12], roots, [4] * 4, [90] * 4
+    elif style == "root_quarter":
+        times = list(range(16))
+        pitches = [r for r in roots for _ in range(4)]
+        durations, velocities = [.9] * 16, [90, 72, 90, 72] * 4
+    else:
+        times = list(range(0, 16, 2))
+        pitches = [p for r in roots for p in (r, r + 7)]
+        durations, velocities = [1.8] * 8, [90] * 8
+    assert_events(bass(fixture("I | vi | IV | V"), style), times, pitches, durations, velocities)
+
+
+@pytest.mark.parametrize("meter", ["4/4", "3/4", "6/8"])
+@pytest.mark.parametrize("style", NEW_STYLES)
+def test_new_boundaries_all_meters(style, meter):
+    data = fixture("ii V I ii V", meter=meter, form=["A", "A'"])
+    events = bass(data, style, sections=["A'"])
+    for beat, _, duration, _ in events:
+        chord = next(c for c in reversed(data[2]) if c["beat"] <= beat)
+        assert duration > 0
+        assert beat + duration <= chord["beat"] + chord["duration"] + 1e-9
+        assert beat + duration <= (8 if meter == "4/4" else 6)
+    for chord in data[2][5:]:
+        event = next(e for e in events if math.isclose(e[0], chord["beat"]))
+        assert event[1] == [chord["pitches"][0] - 12 if style == "arpeggio" else chord["root"] - 12]
+
+
+@pytest.mark.parametrize("style", NEW_STYLES)
+@pytest.mark.parametrize("meter", ["2/4", "7/8", None])
+def test_new_unsupported_meter_position(style, meter):
+    data = fixture()
+    data[0]["meter"] = meter
+    with pytest.raises(ValueError, match=r"\[low\] 1番目の小節:.*meter"):
+        bass(data, style)
