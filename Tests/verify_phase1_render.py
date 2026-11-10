@@ -13,7 +13,8 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from bgm.render import check_loop, compile_song, load_song, render_song
+from bgm.paths import SR
+from bgm.render import check_loop, compile_song, load_song, pan_gains, render_song
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = "17dddfed1fbda3f105737307896f78ebdd56a910"
@@ -32,6 +33,66 @@ def compare_audio(before, after):
     return {"samples": len(left), "channels": left.shape[1], "equal": True}
 
 
+def _read_stereo(path):
+    audio, sr = sf.read(path, dtype="float32", always_2d=True)
+    if sr != SR or audio.shape[1] != 2 or not np.isfinite(audio).all():
+        raise AssertionError(f"音声形式が不正: {path}")
+    return audio
+
+
+def _normalized_pcm_mix(stems, fixture):
+    # FLOAT stemから元のパート順・音量・定位で合成し、PCM16書き出しも再現する。
+    mix = np.zeros((max(len(a) for a in stems.values()), 2), np.float32)
+    for part in fixture["parts"]:
+        audio = stems[part["name"]]
+        gains = np.array(pan_gains(part.get("pan", 0)), np.float32) * np.float32(part.get("volume", 0.8))
+        mix[:len(audio)] += audio * gains
+    target = 10 ** (-1 / 20) * 10 ** (min(0, fixture.get("master", {}).get("gain_db", 0)) / 20)
+    peak = np.abs(mix).max()
+    gain = target / peak if peak > 0 else 1.0
+    mix *= np.float32(gain)
+    stream = io.BytesIO()
+    sf.write(stream, mix, SR, format="WAV", subtype="PCM_16")
+    stream.seek(0)
+    return sf.read(stream, dtype="float32", always_2d=True)[0], float(gain)
+
+
+def compare_legacy(old, new, fixture):
+    # この歴史的fixtureの意図した変更はbassだけ。その他の差分は許可しない。
+    bass = [part for part in fixture["parts"] if part.get("instrument") == "bass"]
+    if len(bass) != 1 or bass[0]["name"] != "bass":
+        raise AssertionError("歴史的fixtureにbassパートが1つ必要です")
+    regression, old_stems, new_stems = {}, {}, {}
+    for part in fixture["parts"]:
+        name = part["name"]
+        before, after = old / "stems" / f"{name}.wav", new / "stems" / f"{name}.wav"
+        left, right = _read_stereo(before), _read_stereo(after)
+        if left.shape != right.shape:
+            raise AssertionError(f"stemの形が不一致: {name}")
+        old_stems[name], new_stems[name] = left, right
+        if name == "bass":
+            if np.array_equal(left, right):
+                raise AssertionError("bassに意図したイベントseedの変更がありません")
+            regression[name] = {"equal": False, "intentional_change": "#24: shared RNG → stable event seed",
+                                "unequal_samples": int(np.count_nonzero(left != right)),
+                                "max_abs_difference": float(np.max(np.abs(left - right)))}
+        else:
+            regression[name] = compare_audio(before, after)
+    left_mix, right_mix = _read_stereo(old / "legacy_synth.wav"), _read_stereo(new / "legacy_synth.wav")
+    # 非対象stemが同一なので、bassだけ置換したmixを同じ正規化で再構成できる必要がある。
+    replaced = dict(old_stems, bass=new_stems["bass"])
+    old_expected, old_gain = _normalized_pcm_mix(old_stems, fixture)
+    new_expected, new_gain = _normalized_pcm_mix(replaced, fixture)
+    if not np.array_equal(left_mix, old_expected) or not np.array_equal(right_mix, new_expected):
+        raise AssertionError("mix差分をbass置換とピーク正規化だけでは説明できません")
+    if np.array_equal(left_mix, right_mix):
+        raise AssertionError("bass変更後のmixが旧版と同じです")
+    regression["mix"] = {"equal": False, "explained_by_bass_and_normalization": True,
+                         "old_gain": old_gain, "new_gain": new_gain,
+                         "old_pcm_reconstructed_equal": True, "new_pcm_reconstructed_equal": True}
+    return regression
+
+
 def verify(output, baseline):
     output.mkdir(parents=True, exist_ok=True)
     source = subprocess.check_output(["git", "show", f"{baseline}:Tests/test_engine.py"], cwd=ROOT).decode("utf-8")
@@ -48,11 +109,8 @@ def verify(output, baseline):
         for cwd, folder in ((Path(scratch), old), (ROOT, new)):
             command = [sys.executable, "-m", "bgm", "render", str(folder), "--force", "--no-mp3"]
             subprocess.run(command, cwd=cwd, check=True)
-    regression = {"mix": compare_audio(old / "legacy_synth.wav", new / "legacy_synth.wav")}
-    for part in fixture["parts"]:
-        file = f"{part['name']}.wav"
-        regression[part["name"]] = compare_audio(old / "stems" / file, new / "stems" / file)
-    print("旧曲: mix + 4 stems の全配列が変更前と一致")
+    regression = compare_legacy(old, new, fixture)
+    print("旧曲: 非対象stem全配列一致、bassの意図した変更と正規化でmix差分を説明")
 
     design = json.loads((ROOT / "songs/phase1_degrees/song.json").read_text(encoding="utf-8"))
     reports, arrays = {}, {}
