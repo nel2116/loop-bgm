@@ -78,11 +78,13 @@ def test_interleaved_calls_partial_cache_and_separate_process(tmp_path):
             (tmp_path / "stems" / f"{kind}.wav").unlink()
     render.render_song(str(tmp_path), mp3=False, log=lambda *_: None)
     assert_snapshot_equal(first, snapshot(tmp_path))
-    subprocess.run([
+    result = subprocess.run([
         sys.executable, "-c",
-        "from bgm.render import render_song; import sys; render_song(sys.argv[1], force=True, mp3=False)",
+        "from bgm.render import render_song; import sys; "
+        "render_song(sys.argv[1], force=True, mp3=False, log=lambda *_: None)",
         str(tmp_path),
-    ], check=True, capture_output=True, text=True)
+    ], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
     assert_snapshot_equal(first, snapshot(tmp_path))
     for part in design["parts"]:
         part.update(volume=0.3, pan=0.7, mute=True, solo=True, note="注釈")
