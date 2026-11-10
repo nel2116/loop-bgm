@@ -496,12 +496,22 @@ def part_hash(part, song):
     return hashlib.sha1(blob.encode()).hexdigest()[:16]
 
 
+def _synth_seed(part_name, voice, beat, ordinal, chord_index=None, midi=None):
+    # 数値表現やプロセス、キャッシュ、ミックス設定によらないイベントの識別子。
+    beat = float(beat)
+    beat = 0.0 if beat == 0 else beat
+    identity = ["synth-v1", part_name, voice, beat, ordinal, chord_index, midi]
+    blob = json.dumps(identity, ensure_ascii=False, separators=(",", ":"))
+    return int.from_bytes(hashlib.sha256(blob.encode("utf-8")).digest()[:16], "big")
+
+
 def render_part(part, song):
     sec_per_beat = 60.0 / song["tempo"]
     n_loop = int(round(song_seconds(song) * SR))
     buf = np.zeros((n_loop + SR * 2, 2), np.float32)
     rng = np.random.default_rng(int(hashlib.md5(part["name"].encode()).hexdigest()[:8], 16))
     hum = float(part.get("humanize", 0.2))
+    duplicates = {}
 
     def jitter_t():
         return rng.normal(0, 0.004 * hum) if hum else 0.0
@@ -513,7 +523,15 @@ def render_part(part, song):
         for beat, voice, vel in parse_drum_bars(part, song):
             fn = get_drum(voice)
             t = _swing(beat, song) * sec_per_beat + jitter_t()
-            audio = fn(jitter_v(vel))
+            v = jitter_v(vel)
+            if voice == "noise_hit":
+                from .synth import render_drum
+                identity = (beat, voice, vel)
+                ordinal = duplicates.get(identity, 0)
+                duplicates[identity] = ordinal + 1
+                audio = render_drum(voice, v, seed=_synth_seed(part["name"], voice, beat, ordinal))
+            else:
+                audio = fn(v)
             vp = part.get("voices", {}).get(voice, {})
             if vp:
                 gl, gr = pan_gains(vp.get("pan", 0))
@@ -527,8 +545,16 @@ def render_part(part, song):
             t0 = _swing(beat, song) * sec_per_beat + jitter_t()
             dur_s = max(0.02, dur * sec_per_beat * gate)
             v = jitter_v(vel)
+            identity = (beat, tuple(pitches), dur, vel)
+            ordinal = duplicates.get(identity, 0)
+            duplicates[identity] = ordinal + 1
             for k, m in enumerate(pitches):
-                audio = fn(m, v, dur_s)
+                if part["instrument"] in ("bass", "nylon_guitar", "kalimba"):
+                    from .synth import render_pitched
+                    seed = _synth_seed(part["name"], part["instrument"], beat, ordinal, k, m)
+                    audio = render_pitched(part["instrument"], m, v, dur_s, seed=seed)
+                else:
+                    audio = fn(m, v, dur_s)
                 buf = place(buf, audio, int((t0 + k * strum) * SR))
     send = float(part.get("reverb", 0.2))
     ir = reverb_ir(song["master"]["reverb"])
