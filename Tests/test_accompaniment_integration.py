@@ -166,6 +166,24 @@ def test_non_grid_harmony_boundaries_and_song_end(tmp_path, monkeypatch, design,
         assert onset + duration <= (chord_index + 1) * span + 1 / render.SR
 
 
+def test_rounding_overlap_chooses_chord_at_its_own_start(tmp_path, monkeypatch, design):
+    design.update(tempo=60, form=["A"], sections={"A": {"bars": 3, "chords": "I | I | I ii iii IV V"}})
+    part = {"name": "rounding", "role": "chords", "style": "pad", "instrument": "square", "humanize": 0, "reverb": 0}
+    design["parts"] = [part]
+    _, song = render.load_song(write_song(tmp_path, design))
+    calls = []
+
+    def voice(midi, velocity, duration):
+        calls.append((midi, duration))
+        return np.zeros((1, 2), np.float32)
+
+    monkeypatch.setattr(render, "get_instrument", lambda *_: voice)
+    render.render_part(part, song)
+    # 9.6拍のiiiは直前iiの計算上の終端9.600000000000001と重なるが、約0.8拍鳴る。
+    assert [midi for midi, _ in calls[12:15]] == [52, 55, 59]
+    assert [duration for _, duration in calls[12:15]] == pytest.approx([.8, .8, .8])
+
+
 def test_key_changes_generated_pitches_but_preserves_absolute_and_direct_drums(design):
     major = render.compile_song(design)
     design["key"] = "C minor"
