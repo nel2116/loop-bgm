@@ -58,6 +58,8 @@ def verify(output):
     (output / "major-events.json").write_text(json.dumps(compiled, ensure_ascii=False, indent=2), encoding="utf-8")
     render.render_song(str(folder), force=True, mp3=False, log=lambda *_: None)
     report["comparisons"]["same_process_force"] = exact(reference, arrays(folder, design))
+    render.render_song(str(folder), force=True, mp3=False, log=lambda *_: None)
+    report["comparisons"]["same_process_force_again"] = exact(reference, arrays(folder, design))
     other = copy.deepcopy(design)
     other["id"], other["key"] = "interleaved", "D minor"
     write_design(output / "interleaved", other)
@@ -87,6 +89,7 @@ def verify(output):
     assert json.loads(cache.read_text(encoding="utf-8")) == hashes
     assert times == {p.name: p.stat().st_mtime_ns for p in (folder / "stems").glob("*.wav")}
     report["mix_only_preserves_hash_and_mtime"] = True
+    report["hash_dependencies"] = hash_dependencies(song)
     write_design(folder, design)
     render.render_song(str(folder), mp3=False, log=lambda *_: None)
     exact(reference, arrays(folder, design))
@@ -129,6 +132,36 @@ def verify(output):
     report["success"] = True
     (output / "verification.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     return report
+
+
+def hash_dependencies(song):
+    original = {p["name"]: render.part_hash(p, song) for p in song["parts"]}
+    changes = {}
+    for field in ("key", "form", "chords", "style", "groove", "volume", "pan"):
+        variant = copy.deepcopy(song)
+        if field == "key":
+            variant["key"] = "C minor"
+        elif field == "form":
+            variant["form"] = ["B", "A", "A"]
+        elif field == "chords":
+            variant["sections"]["A"]["chords"] = "vi | IV V"
+        elif field == "style":
+            variant["parts"][1]["style"] = "root_quarter"
+        elif field == "groove":
+            variant["parts"][3]["groove"] = "march"
+        else:
+            for part in variant["parts"]:
+                part[field] = .2
+        updated = {p["name"]: render.part_hash(p, variant) for p in variant["parts"]}
+        changed = sorted(name for name in original if original[name] != updated[name])
+        if field in ("volume", "pan"):
+            assert not changed
+        elif field in ("style", "groove"):
+            assert changed == (["bass"] if field == "style" else ["rhythm"])
+        else:
+            assert {"melody", "bass", "chords"}.issubset(changed)
+        changes[field] = changed
+    return changes
 
 
 if __name__ == "__main__":
