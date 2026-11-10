@@ -75,7 +75,7 @@ def assert_early_error(tmp_path, monkeypatch, design):
 
 
 @pytest.mark.parametrize("command", ["render", "listen"])
-@pytest.mark.parametrize("invalid", ["meter", "voice", "style", "groove", "conflict"])
+@pytest.mark.parametrize("invalid", ["meter", "voice", "style", "groove", "conflict", "later_part"])
 def test_cli_validation_shared_and_japanese(tmp_path, design, command, invalid):
     if invalid == "meter":
         design["meter"] = "5/4"
@@ -86,6 +86,8 @@ def test_cli_validation_shared_and_japanese(tmp_path, design, command, invalid):
         design["parts"][1]["style"] = "bad"
     elif invalid == "groove":
         design["parts"][3]["groove"] = "bad"
+    elif invalid == "later_part":
+        design["parts"][4]["bars"] = [123]
     else:
         design["parts"][1]["bars"] = []
     ref = write_song(tmp_path, design)

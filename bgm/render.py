@@ -261,6 +261,10 @@ def _validate_song(song):
             for i, seg in enumerate(segs or []):
                 if not isinstance(seg, str):
                     raise SongError(f"{where} {i + 1}番目の小節: bars の各要素は音符を並べた文字列にしてください")
+    # 生成パートは共通compileを使うため、後方のパートも形式検査してから展開する。
+    for part in song["parts"]:
+        if not _is_drums(part):
+            where = f"[{part['name']}]"
             for beat, _, dur, _ in parse_note_bars(part, song):
                 if not math.isfinite(dur * sec_per_beat * part.get("gate", 1) * SR):
                     bar = int(beat / song["beats_per_bar"]) + 1
