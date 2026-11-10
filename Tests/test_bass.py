@@ -331,6 +331,12 @@ def test_walking_one_onset_is_root():
     assert [e[1][0] for e in bass(fixture("I ii iii IV"), "walking")] == [36, 38, 40, 41]
 
 
+def test_walking_fractional_late_bar_approach():
+    events = bass(fixture("I | I | I IV V"), "walking")
+    assert_events(events[8:], [8, 9, 8 + 4 / 3, 10, 8 + 8 / 3, 11],
+                  [36, 40, 41, 42, 43, 35], [.9, .3, .6, .6, .3, .9], [90, 72, 72, 90, 72, 72])
+
+
 @pytest.mark.parametrize("style", NEW_STYLES)
 def test_new_octave_transpose_range_and_errors(style):
     part = {"name": "low", "style": style, "octave": 1000000, "transpose": 2}

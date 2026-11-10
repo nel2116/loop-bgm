@@ -125,7 +125,9 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
                     third = 4 if chord["quality"] == "major" else 5 if chord["quality"] == "sus4" else 3
                     pitch += (0, third, 6 if chord["quality"] == "diminished" else 7)[tone_index % 3]
                     target = following[id(chord)]
-                    last = i + 1 == len(times) or times[i + 1] >= chord["beat"] + chord["duration"]
+                    # beat+durationの丸め差を避け、次和声の実際の開始位置を使う。
+                    chord_stop = chords[chord_index + 1]["beat"] if chord_index + 1 < len(chords) else stop
+                    last = i + 1 == len(times) or times[i + 1] >= chord_stop
                     if tone_index > 0 and last and (selected is None or target.get("section") in selected):
                         pitch = target["root"] - 13 + octave * 12 + transpose
                 elif style == "arpeggio":
