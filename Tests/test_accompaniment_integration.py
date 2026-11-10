@@ -54,6 +54,12 @@ def test_invalid_generated_drums_fail_before_side_effects(tmp_path, monkeypatch,
     assert_early_error(tmp_path, monkeypatch, design)
 
 
+@pytest.mark.parametrize("change", [{"bars": [{"bad": "x..."}]}])
+def test_unknown_direct_drum_names_fail_early(tmp_path, monkeypatch, design, change):
+    design["parts"][-1].update(change)
+    assert_early_error(tmp_path, monkeypatch, design)
+
+
 def assert_early_error(tmp_path, monkeypatch, design):
     ref = write_song(tmp_path, design)
 
@@ -127,6 +133,35 @@ def test_dsp_calls_obey_harmony_and_occurrence_windows(tmp_path, monkeypatch, de
         assert 8 * seconds - 1 / render.SR <= onset < 16 * seconds
         boundary = 12 * seconds if onset < 12 * seconds - 1 / render.SR else 16 * seconds
         assert onset + duration <= boundary + 1 / render.SR
+
+
+@pytest.mark.parametrize("role,style,tones", [("bass", "root_whole", 1), ("chords", "pad", 3)])
+def test_non_grid_harmony_boundaries_and_song_end(tmp_path, monkeypatch, design, role, style, tones):
+    design.update(form=["A"], sections={"A": {"bars": 1, "chords": "I ii V"}}, swing=.7)
+    part = {"name": "generated", "role": role, "style": style, "instrument": "square",
+            "humanize": .5, "gate": 8, "strum": .06, "reverb": 0}
+    design["parts"] = [part]
+    _, song = render.load_song(write_song(tmp_path, design))
+    durations, onsets = [], []
+
+    def voice(midi, velocity, duration):
+        durations.append(duration)
+        return np.zeros((1, 2), np.float32)
+
+    def placed(buffer, audio, start):
+        onsets.append(start / render.SR)
+        return buffer
+
+    monkeypatch.setattr(render, "get_instrument", lambda *_: voice)
+    monkeypatch.setattr(render, "place", placed)
+    render.render_part(part, song)
+    assert len(durations) == 3 * tones
+    span = (4 / 3) * 60 / song["tempo"]
+    for index, (onset, duration) in enumerate(zip(onsets, durations, strict=True)):
+        chord_index = index // tones
+        assert chord_index * span - 1 / render.SR <= onset < (chord_index + 1) * span
+        assert 0 < duration
+        assert onset + duration <= (chord_index + 1) * span + 1 / render.SR
 
 
 def test_key_changes_generated_pitches_but_preserves_absolute_and_direct_drums(design):
