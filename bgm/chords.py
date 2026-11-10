@@ -3,7 +3,7 @@
 import math
 
 _METERS = {"4/4": (4, (0, 2)), "3/4": (3, (0,)), "6/8": (3, (0, 1.5))}
-_STYLES = ("pad", "block", "offbeat")
+_STYLES = ("pad", "block", "offbeat", "arpeggio_up", "broken", "strum", "waltz")
 
 
 def _finite(value):
@@ -19,7 +19,10 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
     """承認済みの固定拍型を (拍, MIDI一覧, 長さ, 強さ) へ変換する。
 
     padは各和声開始から持続、blockは四分拍ごとに0.8拍、offbeatは
-    各四分拍の裏から0.4拍。6/8も四分拍単位で、強拍のみ0と1.5。
+    各四分拍の裏から0.4拍。分散2型は八分拍ごとに0.4拍、strumは
+    四分拍ごとに全構成音を0.8拍。strumの秒単位の遅延は描画側が担う。
+    waltzは3/4の0拍に最低音、1・2拍に残りの構成音を0.8拍。
+    6/8も四分拍単位で、強拍のみ0と1.5。
     長さは和声・出現・曲の終端で切り、入力の和音は共通オクターブで移す。
     """
     name = part.get("name", "chords") if isinstance(part, dict) else "chords"
@@ -36,11 +39,13 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
         raise error("style と bars/phrases/grid/groove は同時に指定できません")
     style = part.get("style")
     if not isinstance(style, str) or style not in _STYLES:
-        raise error("style は pad/block/offbeat から指定してください")
+        raise error(f"style は {'/'.join(_STYLES)} から指定してください")
     meter = song.get("meter")
     if not isinstance(meter, str) or meter not in _METERS:
         raise error("meter は 4/4、3/4、6/8 に対応しています")
     bar_beats, accents = _METERS[meter]
+    if style == "waltz" and meter != "3/4":
+        raise error("style=waltz は meter=3/4 にのみ対応しています", 1)
     octave, transpose = part.get("octave", 0), part.get("transpose", 0)
     if type(octave) is not int or type(transpose) is not int:
         raise error("octave/transpose は整数で指定してください")
@@ -118,6 +123,9 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
             pitches = [pitch + shift for pitch in pitches]
             if style == "pad":
                 positions = [beat]
+            elif style in ("arpeggio_up", "broken"):
+                first = max(0, math.ceil((beat - start) * 2))
+                positions = (start + step / 2 for step in range(first, occ["bars"] * bar_beats * 2))
             else:
                 # 和声変化でグリッドを動かさず、境界への追加発音もしない。
                 offset = 0.5 if style == "offbeat" else 0
@@ -126,9 +134,22 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
             for position in positions:
                 if position >= boundary:
                     break
-                duration = boundary - position if style == "pad" else min(0.4 if style == "offbeat" else 0.8, boundary - position)
+                short = style in ("offbeat", "arpeggio_up", "broken")
+                duration = boundary - position if style == "pad" else min(0.4 if short else 0.8, boundary - position)
                 local = (position - start) % bar_beats
+                tones = list(pitches)
+                if style in ("arpeggio_up", "broken"):
+                    # 和声変更では位相を変えず、小節内の八分拍番号で選ぶ。
+                    step = round(local * 2)
+                    order = list(range(len(pitches)))
+                    if style == "broken":
+                        order = [i for pair in zip(order, reversed(order), strict=True) for i in pair][:len(pitches)]
+                    tones = [pitches[order[step % len(order)]]]
+                elif style == "waltz":
+                    tones = pitches[:1] if local == 0 else pitches[1:]
+                    if not tones:
+                        continue
                 strong = any(math.isclose(local, accent, abs_tol=1e-9, rel_tol=0) for accent in accents)
                 vel = max(1, min(127, round(velocity * (1.2 if strong else 1))))
-                events.append((position, list(pitches), duration, vel))
+                events.append((position, tones, duration, vel))
     return events
