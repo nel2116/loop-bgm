@@ -104,8 +104,17 @@ Empty selections still validate settings. The old four grooves are unchanged.
 
 ## Seeds, cache and verification
 
-ENGINE_VERSION stays0.2: these renderer changes affect new styles only, whose hashes
-already contain style/config and complete compiled events. The #24 event-local seed
+ENGINE_VERSION stays0.2. Approval `msg_44954385621a` adds internal hash context
+`chord_pattern_dsp=1` only for role=chords and arpeggio_up/broken/strum/waltz.
+Pre-integration develop6e1964c already accepted these styles but rendered without
+the final tone-index/default-strum interpretation: its strum cache hash stayed
+`1c73ca5ecd54fc42` across the integration while cached versus forced audio differed
+by up to0.8998076915740967. Style/config/events alone cannot distinguish that DSP
+change. The limited revision invalidates those four styles' earlier stems once;
+all old-style hashes and engine0.2 remain unchanged, with no new song setting.
+The repository helper warms real6e1964c caches for all four new and three old chord
+styles, requires only the new chord stems to invalidate, then compares every normal
+mix/stem with force and verifies mix-only reuse. The #24 event-local seed
 contract remains independent of song/part ordering, cache, mix settings, Python hash
 and processes, preserving simultaneous note identity. Volume/pan remain mix-only.
 

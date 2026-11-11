@@ -4,6 +4,7 @@ import argparse
 import copy
 import io
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -20,6 +21,7 @@ else:
     from verify_accompaniment_render import ROOT, arrays, cli, exact, write_design
 
 BASELINE = "cb1c368248075efd93144577da5db8ca7a8fbd8a"
+CACHE_BASELINE = "6e1964c56aaf54c97ebd192c1ce3f16b183cb9a1"
 
 
 def seam(audio):
@@ -163,6 +165,69 @@ def old_numeric(scratch):
     return {"baseline": BASELINE, "cases": len(cases), "complete_compiled_objects_equal": True}
 
 
+def warm_cache(output, scratch):
+    report = {"baseline": CACHE_BASELINE, "styles": {}}
+    for style in ("arpeggio_up", "broken", "strum", "waltz", "pad", "block", "offbeat"):
+        design = json.loads((ROOT / "songs/phase1_patterns/song.json").read_text(encoding="utf-8"))
+        design["meter"] = "3/4"
+        design["parts"][0]["phrases"] = {"A": "1 3 5", "B": "4 3 2"}
+        design["parts"][2]["style"] = style
+        design["parts"][3]["groove"] = "waltz"
+        design["parts"][4]["bars"] = ["C5:0.5 r:2.5"]
+        folder = output / style
+        write_design(folder, design)
+        old_command = cli(folder, folder / "preintegration-cli.log", cwd=scratch)
+        before = arrays(folder, design)
+        before_hashes = json.loads((folder / "stems/cache.json").read_text(encoding="utf-8"))
+        before_times = stamps(folder)
+        snapshot = folder / "before"
+        write_design(snapshot, design)
+        for source in [folder / f"{design['id']}.wav", folder / "stems/cache.json", *(folder / "stems").glob("*.wav")]:
+            destination = snapshot / source.relative_to(folder)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+        log = []
+        render.render_song(str(folder), mp3=False, log=log.append)
+        (folder / "normal.log").write_text("\n".join(log), encoding="utf-8")
+        current = arrays(folder, design)
+        after_hashes = json.loads((folder / "stems/cache.json").read_text(encoding="utf-8"))
+        changed = [name for name in before_hashes if before_hashes[name] != after_hashes[name]]
+        new_style = style in ("arpeggio_up", "broken", "strum", "waltz")
+        assert changed == (["chords"] if new_style else []), (style, changed)
+        for name in before_hashes:
+            if not new_style or name != "chords":
+                assert stamps(folder)[f"{name}.wav"] == before_times[f"{name}.wav"]
+                assert np.array_equal(before[name], current[name])
+        if not new_style:
+            exact(before, current)
+        else:
+            assert not np.array_equal(before["chords"], current["chords"])
+        forced_command = cli(folder, folder / "forced-cli.log")
+        comparisons = exact(current, arrays(folder, design))
+        # 新型でもrevisionによる作り直し後のmix-only編集はcacheを再利用する。
+        times = stamps(folder)
+        mixed = copy.deepcopy(design)
+        for part in mixed["parts"]:
+            part.update(volume=.19, pan=-.2)
+        write_design(folder, mixed)
+        render.render_song(str(folder), mp3=False, log=lambda *_: None)
+        assert json.loads((folder / "stems/cache.json").read_text(encoding="utf-8")) == after_hashes
+        assert times == stamps(folder)
+        for name in before_hashes:
+            assert np.array_equal(current[name], arrays(folder, design)[name])
+        write_design(folder, design)
+        render.render_song(str(folder), mp3=False, log=lambda *_: None)
+        exact(current, arrays(folder, design))
+        report["styles"][style] = {"old_command": old_command, "forced_command": forced_command,
+                                  "before_hashes": before_hashes, "after_hashes": after_hashes,
+                                  "invalidated": changed, "normal_force_equal": comparisons,
+                                  "before_wav": str(snapshot / f"{design['id']}.wav"),
+                                  "after_wav": str(folder / f"{design['id']}.wav"),
+                                  "mix_only_reused": True,
+                                  "before_after_chords_equal": bool(np.array_equal(before["chords"], current["chords"]))}
+    return report
+
+
 def verify(output):
     output.mkdir(parents=True, exist_ok=True)
     report = {"head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "patterns": {}}
@@ -192,6 +257,12 @@ def verify(output):
         write_design(output / "old-after", old_design)
         cli(output / "old-after", output / "old-after/cli.log")
         report["old_audio"] = exact(arrays(output / "old-before", old_design), arrays(output / "old-after", old_design))
+    archive = subprocess.check_output(["git", "archive", "--format=zip", CACHE_BASELINE, "bgm"], cwd=ROOT)
+    with tempfile.TemporaryDirectory(prefix="loopbgm-pattern-cache-") as temp:
+        scratch = Path(temp)
+        with zipfile.ZipFile(io.BytesIO(archive)) as package:
+            package.extractall(scratch)
+        report["preintegration_cache"] = warm_cache(output / "preintegration-cache", scratch)
     # 歴史fixtureの例外規則と既存伴奏helperはそのまま実行する。
     report["regression_commands"] = []
     for helper, name in (("verify_phase1_render.py", "phase1"), ("verify_accompaniment_render.py", "accompaniment")):

@@ -540,6 +540,9 @@ def part_hash(part, song):
     ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
     ctx["reverb"] = song["master"]["reverb"]
     ctx["engine"] = ENGINE_VERSION
+    if part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
+        # E統合前の新型cacheだけを、既定strum/原構成音seedの描画解釈変更で失効させる。
+        ctx["chord_pattern_dsp"] = 1
     if is_structured(song):
         ctx.update({k: song[k] for k in ("key", "meter", "form", "sections")})
         ctx["events"] = parse_drum_bars(part, song) if _is_drums(part) else parse_note_bars(part, song)

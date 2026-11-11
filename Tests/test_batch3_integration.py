@@ -15,6 +15,16 @@ CHORDS = ("arpeggio_up", "broken", "strum", "waltz")
 GROOVES = ("16beat", "shuffle", "bossa", "swing_ride", "bongo_8beat")
 
 
+def test_preintegration_strum_cache_hash_is_invalidated(tmp_path):
+    song = {"id": "cacheprobe", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
+            "sections": {"A": {"bars": 1, "chords": "Iadd9/3"}}, "master": {"reverb": "none"},
+            "parts": [{"name": "chords", "role": "chords", "style": "strum", "instrument": "nylon_guitar",
+                       "humanize": 0, "reverb": 0}]}
+    song = load(tmp_path, song)
+    # 6e1964cの実cache再現で得た値。既定strumとseed解釈の変更で必ず失効する。
+    assert render.part_hash(song["parts"][0], song) != "1c73ca5ecd54fc42"
+
+
 def design(role="chords", pattern="strum", meter="4/4"):
     part = {"name": "generated", "role": role, "humanize": 0, "reverb": 0}
     if role == "rhythm":
