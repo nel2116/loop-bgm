@@ -12,7 +12,7 @@
 	- ブランチの先端が origin/develop に含まれている(マージ後に足したコミットがない)
 	- worktreeに未コミットの変更や追跡されていないファイルがない(無視されたビルド成果物は除く)
 	- worktreeでOrcaのターミナルが開いていない(orca terminal list。#133)
-	- worktreeに、解放されていない(terminalState が released でない)Orcaのworkerがいない
+	- worktreeに、解放されていないOrcaのworkerがいない(直接移譲は新旧双方の終了を証明した場合だけ例外)
 	  (Runごとの orca orchestration worker-list。structured の形式のworkerは terminal list に出ないため。#166)
 	起点にしただけでまだコミットのない作業中のworktreeは、マージ済みのPRがないので消さない。
 	orca worktree rm はそのworktreeのターミナルも閉じるので、PRのマージ後に worker_done を送る前の
@@ -161,18 +161,88 @@ try {
 	function Read-OrcaPages([string[]]$arguments, [string]$property) {
 		$items = [System.Collections.Generic.List[object]]::new()
 		$cursor = $null
+		$seen = [System.Collections.Generic.HashSet[string]]::new()
 		do {
-			$pageArgs = $arguments + @("--json")
+			$pageArgs = $arguments + @("--json", "--full")
 			if ($cursor) { $pageArgs += @("--cursor", $cursor) }
 			$json = & $orca @pageArgs 2>$null | Out-String
 			if ($LASTEXITCODE -ne 0) { return $null }
 			try { $page = $json | ConvertFrom-Json }
 			catch { return $null }
-			if (-not $page.ok -or $null -eq $page.result.$property) { return $null }
+			if ($page.ok -isnot [bool] -or -not $page.ok -or $page.result.$property -isnot [array]) { return $null }
+			foreach ($flag in 'truncated', 'hasMore') {
+				if ($null -ne $page.result.$flag -and $page.result.$flag -isnot [bool]) { return $null }
+			}
+			$next = $page.result.nextCursor
+			if ($null -ne $next -and ($next -isnot [string] -or [string]::IsNullOrWhiteSpace($next))) { return $null }
+			if (($page.result.truncated -or $page.result.hasMore) -and -not $next) { return $null }
 			$page.result.$property | ForEach-Object { $items.Add($_) }
 			$cursor = $page.result.nextCursor
+			if ($cursor -and ($cursor -isnot [string] -or -not $seen.Add($cursor))) { return $null }
 		} while ($cursor)
 		return , $items
+	}
+
+	# 新旧の一覧形式を受け付けるが、両方に値がある場合の矛盾は不明として扱う。
+	function Get-WorkerWorkspace($worker) {
+		$legacy = $worker.workspace
+		$current = $worker.projection.workspace.id
+		if ($legacy -and $current -and $legacy -ne $current) { return $null }
+		$value = if ($current) { $current } else { $legacy }
+		if ($value -isnot [string] -or $value -notmatch '^.+?::([A-Za-z]:[/\\].+|/.*)$') { return $null }
+		return $value
+	}
+
+	function Read-WorkerShow([string]$id) {
+		$json = & $orca orchestration worker-show --dispatch $id --json --full 2>$null | Out-String
+		if ($LASTEXITCODE -ne 0) { return $null }
+		try { $reply = $json | ConvertFrom-Json } catch { return $null }
+		if ($reply.ok -isnot [bool] -or -not $reply.ok -or $reply.result.dispatch.id -ne $id) { return $null }
+		return $reply.result
+	}
+
+	# 直接の追作業に移った資源だけを例外にする。成功状態や所在不明を終了証拠にしない。
+	function Test-ExitedTransfer($old, $all) {
+		if ($old.resource -or $old.terminalState -or -not $old.dispatchId -or -not $old.runId) { return $false }
+		$successors = @($all | Where-Object { $_.resource.originDispatchId -eq $old.dispatchId })
+		if ($successors.Count -ne 1) { return $false }
+		$new = $successors[0]
+		if ($new.dispatchId -eq $old.dispatchId -or $new.terminalState -ne 'released') { return $false }
+		foreach ($row in $old, $new) {
+			if ($row.liveness -eq 'live' -or $row.projection.liveness.verdict -eq 'live') { return $false }
+		}
+		if (@($all | Where-Object { $_.dispatchId -eq $old.dispatchId }).Count -ne 1 -or
+			@($all | Where-Object { $_.dispatchId -eq $new.dispatchId }).Count -ne 1 -or
+			@($all | Where-Object { $_.resource.originDispatchId -eq $new.dispatchId }).Count) { return $false }
+		$workspace = Get-WorkerWorkspace $old
+		if ($new.runId -ne $old.runId -or (Get-WorkerWorkspace $new) -ne $workspace) { return $false }
+		$a = Read-WorkerShow $old.dispatchId
+		$b = Read-WorkerShow $new.dispatchId
+		if (-not $a -or -not $b -or $a.dispatch.followUpOf -or $b.dispatch.followUpOf -ne $old.dispatchId) { return $false }
+		foreach ($show in $a, $b) {
+			foreach ($value in $show.dispatch.id, $show.dispatch.runId, $show.worker.dispatchId,
+				$show.worker.worktreeId, $show.dispatch.assigneeHandle, $show.dispatch.processIncarnation,
+				$show.worker.agentTerminalHandle, $show.observation.status, $show.dispatch.hostScope.kind,
+				$show.dispatch.hostScope.hostId) {
+				if ($value -isnot [string] -or -not $value) { return $false }
+			}
+			if ($show.observation.exactWorker -isnot [bool] -or -not $show.observation.exactWorker -or
+				$show.observation.status -ne 'exited' -or $show.projection.liveness.verdict -eq 'live' -or
+				$show.dispatch.runId -ne $old.runId -or $show.worker.worktreeId -ne $workspace -or
+				$show.worker.dispatchId -ne $show.dispatch.id -or -not $show.dispatch.assigneeHandle -or
+				-not $show.dispatch.processIncarnation -or $show.worker.agentTerminalHandle -ne $show.dispatch.assigneeHandle -or
+				$show.dispatch.hostScope.kind -ne 'local' -or $show.dispatch.hostScope.hostId -ne 'local') { return $false }
+		}
+		if ($a.dispatch.assigneeHandle -ne $b.dispatch.assigneeHandle -or
+			$a.dispatch.processIncarnation -ne $b.dispatch.processIncarnation -or $a.terminalResource) { return $false }
+		foreach ($resource in $new.resource, $b.terminalResource) {
+			if (-not $resource -or $resource.originDispatchId -ne $old.dispatchId -or
+				$resource.ownerDispatchId -ne $new.dispatchId -or $resource.worktreeId -ne $workspace -or
+				$resource.terminalHandle -ne $b.dispatch.assigneeHandle -or
+				$resource.endpointIncarnation -ne $b.dispatch.processIncarnation -or
+				$resource.ownershipState -ne 'released' -or $resource.releaseState -ne 'released') { return $false }
+		}
+		return $true
 	}
 
 	# released でない Orca の worker の worktree のパス。読めなければ $null(#166)
@@ -190,14 +260,22 @@ try {
 		$runs = Read-OrcaPages @("orchestration", "run-list") "runs"
 		if ($null -eq $runs) { return $null }
 		$paths = [System.Collections.Generic.List[string]]::new()
+		$all = [System.Collections.Generic.List[object]]::new()
 		foreach ($run in $runs) {
+			if (-not $run.id -or $run.id -isnot [string]) { return $null }
 			$workers = Read-OrcaPages @("orchestration", "worker-list", "--run", $run.id) "workers"
 			if ($null -eq $workers) { return $null }
 			foreach ($worker in $workers) {
-				if ($worker.terminalState -eq "released" -or -not $worker.workspace) { continue }
-				# workspace は <repoId>::<パス>
-				$paths.Add((Get-NormalizedPath ($worker.workspace -replace '^.*?::', '')))
+				if (-not (Get-WorkerWorkspace $worker) -or $worker.dispatchId -isnot [string] -or -not $worker.dispatchId) { return $null }
+				if ($null -ne $worker.terminalState -and $worker.terminalState -isnot [string]) { return $null }
+				if ($null -ne $worker.runId -and $worker.runId -isnot [string]) { return $null }
+				if ($worker.runId -and $worker.runId -ne $run.id) { return $null }
+				$all.Add($worker)
 			}
+		}
+		foreach ($worker in $all) {
+			if ($worker.terminalState -eq 'released' -or (Test-ExitedTransfer $worker $all)) { continue }
+			$paths.Add((Get-NormalizedPath ((Get-WorkerWorkspace $worker) -replace '^.*?::', '')))
 		}
 		$script:orcaWorkerPaths = $paths
 		return , $paths
