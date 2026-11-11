@@ -1,6 +1,6 @@
 # Architecture
 
-<!-- last-reviewed: 2026-11-09 -->
+<!-- last-reviewed: 2026-11-11 -->
 
 The target design is `docs/spec.md` sections 2-9. This file describes what the code does **now**.
 
@@ -41,4 +41,6 @@ Any of `meter`, `form`, `sections` activates the structured format and requires 
 
 Generated bass/chords pass through the same `render_part` DSP as existing notes. After swing, timing jitter and per-note strum, onset is clamped to the original event's harmony/occurrence window. Notes starting at or beyond its end are skipped. Existing gate and minimum 20ms calculation is clipped to remaining window duration without reapplying the minimum; zero/negative results never reach DSP. Release/reverb tails remain. Absolute notes, degree melody and directly written drums retain their previous waveform path. Exact patterns, seed policy and pending scope are in [the accompaniment decisions](../design/phase1-accompaniment.md).
 
-Part hashes retain the mix-only exclusions (`volume`, `pan`, `mute`, `solo`, `note`) and engine version. Structured hashes additionally include key, meter, form, sections, part style/groove and compiled note or drum events. Structural edits invalidate stems conservatively, including unchanged absolute stems; part style/groove edits affect that part. Mix-only edits reuse stem files. Engine 0.2 intentionally changes four formerly nondeterministic synth voices, with event-local seeds independent of cache state, unrelated songs/parts and mix settings; all other DSP remains unchanged.
+For the additional chord styles only, `render_part` defaults missing strum to .02 seconds for style=strum and restores original harmony tone indices for synth seeds; tuple indices still determine strum delay. Explicit0/negative strum remains unchanged. Compiler onsets have no strum delay. Shuffle/swing_ride supply fixed2:1 and reject nonzero song.swing; other new grooves validate the existing renderer transform before audio. Full schedules and supported meters are in [the additional pattern decisions](../design/phase1-patterns.md).
+
+Part hashes retain the mix-only exclusions (`volume`, `pan`, `mute`, `solo`, `note`) and engine version. Structured hashes additionally include key, meter, form, sections, part style/groove and compiled note or drum events. Structural edits invalidate stems conservatively, including unchanged absolute stems; part style/groove edits affect that part. Mix-only edits reuse stem files. Engine 0.2 intentionally changes four formerly nondeterministic synth voices, with event-local seeds independent of cache state, unrelated songs/parts and mix settings; all other DSP remains unchanged. The new-style-only integration keeps engine0.2; no existing waveform path is rebaselined.

@@ -1,6 +1,6 @@
 # loop-bgm
 
-<!-- last-reviewed: 2026-11-09 -->
+<!-- last-reviewed: 2026-11-11 -->
 
 AIと会話しながら、動画・ゲーム・TRPG向けのループBGMを作るツールです（開発中）。
 
@@ -21,6 +21,9 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 .venv/Scripts/python -m bgm listen phase1_degrees
 # 音源取得なしで伴奏生成も試す見本
 .venv/Scripts/python -m bgm render phase1_accompaniment --no-mp3
+# 追加の伴奏型（walking・strum・shuffle）
+.venv/Scripts/python -m bgm render phase1_patterns --no-mp3
+.venv/Scripts/python -m bgm listen phase1_patterns
 ```
 
 試聴画面ではループ再生・停止・WAV保存ができます。別の曲は `proto_test` を曲IDに置き換えてください。
@@ -76,9 +79,11 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 
 | パート | 対応する型 | 拍子 |
 | --- | --- | --- |
-| `role: bass`、`style` | `root_whole`、`root_quarter`、`root_fifth` | 4/4、3/4、6/8 |
-| `role: chords`、`style` | `pad`、`block`、`offbeat` | 4/4、3/4、6/8 |
+| `role: bass`、`style` | `root_whole`、`root_quarter`、`root_fifth`、`octave_8th`、`walking`、`arpeggio` | 4/4、3/4、6/8 |
+| `role: chords`、`style` | `pad`、`block`、`offbeat`、`arpeggio_up`、`broken`、`strum` | 4/4、3/4、6/8 |
+| 同上 | `waltz` | 3/4 |
 | `role: rhythm`、`groove` | `8beat` | 4/4 |
+| 同上 | `16beat`、`shuffle`、`bossa`、`swing_ride`、`bongo_8beat` | 4/4 |
 | 同上 | `march` | 4/4、6/8 |
 | 同上 | `waltz` | 3/4 |
 | 同上 | `ambient_none`（無音） | 4/4、3/4、6/8 |
@@ -87,12 +92,20 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 既定の打楽器は合成 kick・snare・hat です。`kit` は既存打楽器名の配列で、型が使う音をすべて含めます。音名の置換ではありません。
 `voices` は従来どおり個別の音量・定位です。`sections` は度数パートと同じ出現名による選択です。
 
-ベースはコード根音の1オクターブ下が基準で、転回の最低音には追従しません。和音は転回・拡張音の間隔を保って全体を移動します。
+ベースはコード根音の1オクターブ下が基準です。`arpeggio` だけは転回後の全構成音を1オクターブ下げて順番に鳴らします。
+`walking` は根音・第三音・第五音を巡り、次の選択区間の和音へ半音下から近づきます。非選択区間は飛び越しません。
+和音は転回・拡張音の間隔を保って全体を移動します。
 `octave` / `transpose` の後で楽器の音域へオクターブ補正します。補正不能ならエラーです。
 生成音の gate・strum・swing・humanize は和音や選択区間の終端を越えて持続音を延ばしません（音源のリリース・残響は残ります）。
 
-仕様3.6の残りは、ベース `octave_8th`・`walking`・`arpeggio`、和音 `arpeggio_up`・`broken`・`strum`・`waltz`、
-リズム `16beat`・`shuffle`・`bossa`・`swing_ride`・`bongo_8beat`、arrange 全種（`phrase_start`・`offbeat_tick`・`counter`）です。
+[`songs/phase1_patterns/song.json`](songs/phase1_patterns/song.json) は A/B/A/A' の4小節です。
+1・3小節目は小節内で3回和音が切り替わり、4小節目の A' はベース・和音を休みます。
+`strum` は音を順に0.02秒ずつ遅らせます。`strum` 数値を明示すれば0や負数もそのまま使います。
+`shuffle` と `swing_ride` は固定の2:1なので、曲の `swing` は省略か0にしてください。
+`swing_ride`・`bongo_8beat` は実サンプルが必要です。`kit` には使う全音名を含めてください。合成音への置換はしません。
+詳しい打点・音順と境界方針は[設計記録](docs/design/phase1-patterns.md)にあります。
+
+仕様3.6の残りは arrange 全種（`phrase_start`・`offbeat_tick`・`counter`）と copy/countermelody です。
 次に周回変化、曲の型3種類、フェーズ1の試聴確認へ進みます。フェーズ1と仕様3.6全体はまだ完了していません。
 
 ## 音源とライセンス
