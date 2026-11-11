@@ -102,7 +102,14 @@ def test_real_renderer_drum_onsets_agree_with_compiler_without_double_shuffle(tm
     monkeypatch.setattr(render, "place", lambda buf, audio, start: placements.append(start) or buf)
     render.render_part(song["parts"][0], song)
     assert calls == [(voice, vel) for _, voice, vel in events]
-    assert placements == [int(render._swing(beat, song) * .5 * render.SR) for beat, _, _ in events]
+    expected = []
+    for beat, _, _ in events:
+        # Dの純粋検証と同じ承認式を、実renderer呼び出しとは独立に照合する。
+        q = beat / .5
+        moved = beat + swing * .5 / 3 if abs(q - round(q)) < 1e-6 and round(q) % 2 else beat
+        assert render._swing(beat, song) == moved
+        expected.append(int(moved * .5 * render.SR))
+    assert placements == expected
     if groove in ("shuffle", "swing_ride"):
         assert any(beat == pytest.approx(1 + 2/3) for beat, _, _ in events)
         assert placements == [int(beat * .5 * render.SR) for beat, _, _ in events]
