@@ -540,6 +540,9 @@ def part_hash(part, song):
     ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
     ctx["reverb"] = song["master"]["reverb"]
     ctx["engine"] = ENGINE_VERSION
+    if part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
+        # E統合前の新型cacheだけを、既定strum/原構成音seedの描画解釈変更で失効させる。
+        ctx["chord_pattern_dsp"] = 1
     if is_structured(song):
         ctx.update({k: song[k] for k in ("key", "meter", "form", "sections")})
         ctx["events"] = parse_drum_bars(part, song) if _is_drums(part) else parse_note_bars(part, song)
@@ -609,7 +612,7 @@ def render_part(part, song):
     else:
         fn = get_instrument(part["instrument"])
         gate = float(part.get("gate", 1.0))
-        strum = float(part.get("strum", 0))  # seconds between chord notes
+        strum = float(part.get("strum", .02 if part.get("style") == "strum" else 0))  # seconds between chord notes
         compiled = compile_song(song) if "style" in part else None
         for beat, pitches, dur, vel in parse_note_bars(part, song):
             t0 = _swing(beat, song) * sec_per_beat + jitter_t()
@@ -626,7 +629,18 @@ def render_part(part, song):
                         continue
                 if part["instrument"] in ("bass", "nylon_guitar", "kalimba"):
                     from .synth import render_pitched
-                    seed = _synth_seed(part["name"], part["instrument"], beat, ordinal, k, m)
+                    tone_index = k
+                    if part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
+                        # 新型だけ原和音の構成音番号を復元する。遅延は引き続きtuple内のkで決まる。
+                        chord = next(c for c in reversed(compiled["harmony"]) if c["beat"] <= beat)
+                        pitches_before_range = [p + part.get("octave", 0) * 12 + part.get("transpose", 0)
+                                                for p in chord["pitches"]]
+                        low, high = SAMPLED.get(part["instrument"], {}).get("range", (0, 127))
+                        minimum = -((min(pitches_before_range) - low) // 12)
+                        maximum = (high - max(pitches_before_range)) // 12
+                        shift = min(max(0, minimum), maximum) * 12
+                        tone_index = [p + shift for p in pitches_before_range].index(m)
+                    seed = _synth_seed(part["name"], part["instrument"], beat, ordinal, tone_index, m)
                     audio = render_pitched(part["instrument"], m, v, length, seed=seed)
                 else:
                     audio = fn(m, v, length)

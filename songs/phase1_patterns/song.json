@@ -1,0 +1,26 @@
+{
+  "id": "phase1_patterns",
+  "key": "C major",
+  "tempo": 180,
+  "meter": "4/4",
+  "form": ["A", "B", "A", "A'"],
+  "sections": {
+    "A": {"bars": 1, "chords": "Iadd9/3 iii V"},
+    "B": {"bars": 1, "chords": "iv"}
+  },
+  "master": {"reverb": "none"},
+  "parts": [
+    {"name": "melody", "instrument": "triangle_wave", "grid": "1/4",
+     "phrases": {"A": "1 3 5 3", "B": "4 3 2 1"}, "volume": 0.3, "humanize": 0, "reverb": 0},
+    {"name": "bass", "role": "bass", "instrument": "bass", "style": "walking",
+     "volume": 0.4, "humanize": 0.2, "reverb": 0, "sections": ["A", "B"]},
+    {"name": "chords", "role": "chords", "instrument": "nylon_guitar", "style": "strum",
+     "volume": 0.25, "humanize": 0.2, "reverb": 0, "sections": ["A", "B"]},
+    {"name": "rhythm", "role": "rhythm", "groove": "shuffle",
+     "volume": 0.2, "humanize": 0, "reverb": 0},
+    {"name": "absolute", "instrument": "square", "bars": ["C5:0.5 r:3.5"],
+     "volume": 0.1, "humanize": 0, "reverb": 0},
+    {"name": "direct_drums", "type": "drums", "bars": [{"noise_hit": "....x..."}],
+     "volume": 0.05, "humanize": 0, "reverb": 0}
+  ]
+}

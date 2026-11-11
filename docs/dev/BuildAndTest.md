@@ -1,6 +1,6 @@
 # Setup, tests and CI
 
-<!-- last-reviewed: 2026-11-09 -->
+<!-- last-reviewed: 2026-11-11 -->
 
 ## Setup
 
@@ -51,6 +51,14 @@ Remote access and the full listening UI are separate tasks.
 The script also renders C major/minor copies of `phase1_degrees`, checks third 64→63, a changed WAV, unchanged absolute stem, two identical forced mixes/stems per key, and loop checks. Artifacts and complete compiled notes/harmony are kept under `songs/phase1_degrees/build/verification/` (`--output` overrides it), including `verification.json`. Nonzero exit means failure. These are local evidence, not subjective listening; use [ListeningCheck](../ListeningCheck.md) at the phase boundary.
 
 `python Tests/verify_accompaniment_render.py --output <external-folder>` renders the synth-only `phase1_accompaniment` through the CLI and retains before/major/minor WAVs, all stems, complete notes/harmony/rhythm JSON, CLI logs and `verification.json`. It checks every sample of mix/all stems across repeated forced renders, an interleaved song, partial cache and a separate process. Mix-only volume/pan edits must preserve cache hashes and stem mtimes. Key-only major/minor changes must affect melody/bass/chords and preserve absolute/drum arrays. The before pair omits the three newly generated parts; the same melody/absolute/direct-drum arrays must equal those rendered by pre-integration commit `f4dd9e2` (exported to a disposable temporary directory, no checkout changes). Loop checker results are recorded as measurements, not subjective listening or a requirement that every loudness warning passes. Run both helpers for final regression; no artifact input depends on a former worker checkout.
+
+`python Tests/verify_patterns_render.py --output <external-folder>` is the batch3 final verification entry point. It uses only repository songs and Git baseline `cb1c368`, plus the two historical commits already required above; it needs no worker scripts or previous artifacts. It invokes both existing helpers unchanged, preserving their exact historical bass/mix policies. Nonzero exit means failure.
+
+The helper renders `phase1_patterns` variants for all seven additional pitched styles and the three synth-capable grooves. Per variant it retains CLI commands/logs, before/major/minor WAVs, complete compiled events, every stem, full-array comparisons across repeated force/interleaved songs/extra parts/partial cache/separate process, mix-only hash/mtime reuse and local style/groove invalidation. Before means the same design with generated parts absent, not an alternative old groove. It also compares 151 complete old compiled objects and the old `phase1_accompaniment` mix/all stems exactly against prebatch3. `verification.json` records sample counts, seam jump, 99.9th-percentile within-loop difference, their ratio and start/end RMS/level delta for every new mix/stem; warnings are measurements, not subjective listening.
+
+The helper also exports pre-integration `6e1964c`, warms real caches for all four new chord styles and pad/block/offbeat, retains before/after WAVs and hashes, and requires new-style-only invalidation followed by exact normal-versus-force mix/all-stem equality. Old-style hashes/audio and every unaffected stem remain exact; volume/pan edits still reuse hashes/mtimes. This verifies internal `chord_pattern_dsp=1` without changing engine0.2 or adding notation.
+
+`Tests/test_batch3_integration.py` covers the complete meter table, exact A/A' selection, seed tone index versus tuple delay (including range correction), missing/zero/negative strum, renderer swing agreement/no double shuffle, held-note hard windows, pre-integration cache invalidation, and Japanese render/listen errors before audio/cache/output. Sampled ride/bongo/tambourine use the real catalog; their onset routing is tested with recording functions, not fake synth audio. Without installed samples, actual WAVs for `swing_ride`/`bongo_8beat` remain unverified. Use [the pattern record](../design/phase1-patterns.md) for approved schedules and remaining phase1 scope.
 
 ## CI
 

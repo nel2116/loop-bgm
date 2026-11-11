@@ -1,6 +1,6 @@
 # Design: Phase 1 accompaniment integration
 
-<!-- last-reviewed: 2026-11-10 -->
+<!-- last-reviewed: 2026-11-11 -->
 
 - Status: Implemented for the subset below; phase 1 remains incomplete
 - Decided: 2026/11/10, coordinator-approved batch 2 contract and amendments
@@ -59,4 +59,4 @@ Hashes retain engine, all audio-affecting part configuration and compiled events
 
 Reproducible helpers and artifacts are described in [BuildAndTest](../dev/BuildAndTest.md). The historical helper retains baseline17dddfed1fbda3f105737307896f78ebdd56a910, exact unaffected stems, intentional bass inequality and exact old/new PCM mix reconstruction accounting for normalization. It must pass; the earlier temporary historical-mix failure was repaired in #24, not waived. The integration helper compares against pre-integration f4dd9e2 and checks exact full arrays, partial/full cache, forced rendering, interleaved songs, independent processes, key-only changes and mix-only cache preservation. Dedicated tests cover common early-error validation, boundary clipping and original chord seed indices. Loop checker measurements do not establish subjective sound quality.
 
-Spec3.6 remains incomplete: bass octave_8th/walking/arpeggio; chords arpeggio_up/broken/strum/waltz; rhythm16beat/shuffle/bossa/swing_ride/bongo_8beat; all arrange patterns phrase_start/offbeat_tick/counter (and arrange copy/countermelody behavior). Next come variation, three templates, then phase1 listening. No phase completion or user listening request is implied by this batch.
+The formerly pending bass/chord/rhythm additions are now covered by [the additional pattern decisions](phase1-patterns.md). Spec3.6 remains incomplete: arrange phrase_start/offbeat_tick/counter and copy/countermelody behavior. Next come variation, three templates, then phase1 listening. No phase completion or user listening request is implied by either batch.
