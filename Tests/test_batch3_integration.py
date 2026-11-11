@@ -112,12 +112,18 @@ def test_real_renderer_drum_onsets_agree_with_compiler_without_double_shuffle(tm
     ("chords", "waltz", "4/4", {}), ("rhythm", "shuffle", "4/4", {"swing": .1}),
     ("rhythm", "swing_ride", "4/4", {"swing": -.1}), ("rhythm", "16beat", "3/4", {}),
     ("rhythm", "16beat", "4/4", {"swing": 5}), ("chords", "strum", "4/4", {"strum": float("nan")}),
+    ("rhythm", "bongo_8beat", "4/4", {"kit": ["kick"]}),
+    ("rhythm", "swing_ride", "4/4", {"voices": {"bad": {}}}),
+    ("rhythm", "shuffle", "4/4", {"sections": [], "swing": .1}),
+    ("chords", "arpeggio_up", "4/4", {"bars": []}),
+    ("bass", "arpeggio", "4/4", {"octave": True}),
+    ("bass", "walking", "4/4", {"sections": ["unknown"]}),
 ])
 @pytest.mark.parametrize("command", ["render", "listen"])
 def test_rejections_precede_audio_cache_output_and_listener(tmp_path, monkeypatch, role, pattern, meter, change, command):
     song = design(role, pattern, meter)
     for key, value in change.items():
-        (song["parts"][0] if key == "strum" else song)[key] = value
+        (song if key in ("swing", "swing_unit") else song["parts"][0])[key] = value
     (tmp_path / "song.json").write_text(json.dumps(song), encoding="utf-8")
 
     def forbidden(*_, **__):
