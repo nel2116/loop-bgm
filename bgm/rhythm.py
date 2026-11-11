@@ -4,11 +4,20 @@ import math
 from collections.abc import Mapping
 
 _SYNTH_VOICES = frozenset(("kick", "snare", "hat", "open_hat", "clap", "rim", "noise_hit"))
+_NEW_GROOVES = ("16beat", "shuffle", "bossa", "swing_ride", "bongo_8beat")
 _PATTERNS = {
     ("8beat", "4/4"): {"kick": (0, 2), "snare": (1, 3), "hat": (0, .5, 1, 1.5, 2, 2.5, 3, 3.5)},
     ("march", "4/4"): {"kick": (0, 2), "snare": (1, 3)},
     ("march", "6/8"): {"kick": (0,), "snare": (1.5,)},
     ("waltz", "3/4"): {"kick": (0,), "snare": (1, 2), "hat": (0, 1, 2)},
+    ("16beat", "4/4"): {"kick": (0, 2), "snare": (1, 3), "hat": tuple(i / 4 for i in range(16))},
+    ("shuffle", "4/4"): {"kick": (0, 2), "snare": (1, 3),
+                           "hat": (0, 2/3, 1, 1+2/3, 2, 2+2/3, 3, 3+2/3)},
+    ("bossa", "4/4"): {"kick": (0, 1.5, 2, 3.5), "rim": (0, 1.5, 3),
+                         "hat": (0, .5, 1, 1.5, 2, 2.5, 3, 3.5)},
+    ("swing_ride", "4/4"): {"kick": (0, 2), "snare": (1, 3), "ride": (0, 1, 1+2/3, 2, 3, 3+2/3)},
+    ("bongo_8beat", "4/4"): {"bongo_hi": (0, .5, 1.5, 2, 2.5, 3.5), "bongo_lo": (1, 3),
+                               "tambourine": (0, .5, 1, 1.5, 2, 2.5, 3, 3.5)},
 }
 
 
@@ -30,8 +39,8 @@ def compile_rhythm(part, song, occurrences, *, available_voices=None):
     if not isinstance(part, dict) or not isinstance(song, dict):
         raise error("part/songはオブジェクトで指定してください")
     groove = part.get("groove")
-    if groove not in ("8beat", "march", "waltz", "ambient_none"):
-        raise error("grooveは8beat/march/waltz/ambient_noneから指定してください")
+    if groove not in ("8beat", "march", "waltz", "ambient_none", *_NEW_GROOVES):
+        raise error("grooveは8beat/16beat/shuffle/bossa/march/waltz/swing_ride/bongo_8beat/ambient_noneから指定してください")
     if part.get("role", "rhythm") != "rhythm" or part.get("type", "drums") != "drums":
         raise error("リズム伴奏はrole=rhythm、type=drumsで指定してください")
     if any(field in part for field in ("bars", "phrases", "grid", "style")):
@@ -60,6 +69,12 @@ def compile_rhythm(part, song, occurrences, *, available_voices=None):
     if groove != "ambient_none" and (groove, meter) not in _PATTERNS:
         raise error(f"groove={groove}は拍子{meter}に対応していません", first_bar)
     pattern = {} if groove == "ambient_none" else _PATTERNS[groove, meter]
+    swing, unit = song.get("swing", 0), song.get("swing_unit", .5)
+    if groove in _NEW_GROOVES:
+        if not _number(swing) or not _number(unit) or unit <= 0:
+            raise error("song.swingは有限数、song.swing_unitは正の有限数で指定してください", first_bar)
+        if groove in ("shuffle", "swing_ride") and swing != 0:
+            raise error(f"groove={groove}とsong.swing非0は併用できません（song.swing_unitによる二重適用防止）", first_bar)
     velocity = part.get("velocity", 95)
     if not _number(velocity) or not 1 <= velocity <= 127:
         raise error("velocityは1〜127の有限数で指定してください", first_bar)
@@ -94,13 +109,29 @@ def compile_rhythm(part, song, occurrences, *, available_voices=None):
     strong = (0, 2) if meter == "4/4" else (0, 1.5) if meter == "6/8" else (0,)
     events = []
     for occ in occurrences:
-        if selected is not None and occ["name"] not in selected:
+        chosen = selected is None or occ["name"] in selected
+        if not chosen and groove not in _NEW_GROOVES:
             continue
         for index in range(occ["bars"]):
             start = occ["start_beat"] + index * bar_beats
             for voice, offsets in pattern.items():
                 for offset in offsets:
-                    factor = (0.8 if voice == "hat" else 1) * (1.2 if offset in strong else 1)
-                    events.append((start + offset, voice, max(1, min(127, round(velocity * factor)))))
+                    beat = start + offset
+                    if groove in _NEW_GROOVES and swing:
+                        # renderer._swingと同じ絶対拍の式で検証し、適用はrendererに一度だけ任せる。
+                        try:
+                            q = beat / unit
+                            moved = beat
+                            if abs(q - round(q)) < 1e-6 and int(round(q)) % 2 == 1:
+                                moved = beat + swing * unit / 3
+                            valid = math.isfinite(moved) and start <= moved < start + bar_beats
+                        except (OverflowError, ValueError):
+                            valid = False
+                        if not valid:
+                            raise error("song.swing / song.swing_unitによる打点が元の小節外または非有限になります",
+                                        occ["start_bar"] + index)
+                    factor = (0.8 if voice in ("hat", "ride", "tambourine") else 1) * (1.2 if offset in strong else 1)
+                    if chosen:
+                        events.append((beat, voice, max(1, min(127, round(velocity * factor)))))
     # 同時刻は従来の小節内voice順を維持する。
     return sorted(events, key=lambda event: event[0])

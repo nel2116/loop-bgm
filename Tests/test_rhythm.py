@@ -170,3 +170,149 @@ assert not any("bgm." + m in sys.modules for m in ("sampler", "synth", "render",
     for _ in range(2):
         result = subprocess.run([sys.executable, "-c", code], check=True, capture_output=True, text=True)
         assert json.loads(result.stdout) == [list(e) for e in EIGHT]
+
+
+NEW_EXPECTED = {
+    "16beat": [(0, "kick", 114), (0, "hat", 91), (.25, "hat", 76), (.5, "hat", 76), (.75, "hat", 76),
+               (1, "snare", 95), (1, "hat", 76), (1.25, "hat", 76), (1.5, "hat", 76), (1.75, "hat", 76),
+               (2, "kick", 114), (2, "hat", 91), (2.25, "hat", 76), (2.5, "hat", 76), (2.75, "hat", 76),
+               (3, "snare", 95), (3, "hat", 76), (3.25, "hat", 76), (3.5, "hat", 76), (3.75, "hat", 76)],
+    "shuffle": [(0, "kick", 114), (0, "hat", 91), (2/3, "hat", 76), (1, "snare", 95), (1, "hat", 76),
+                (1+2/3, "hat", 76), (2, "kick", 114), (2, "hat", 91), (2+2/3, "hat", 76),
+                (3, "snare", 95), (3, "hat", 76), (3+2/3, "hat", 76)],
+    "bossa": [(0, "kick", 114), (0, "rim", 114), (0, "hat", 91), (.5, "hat", 76), (1, "hat", 76),
+              (1.5, "kick", 95), (1.5, "rim", 95), (1.5, "hat", 76), (2, "kick", 114), (2, "hat", 91),
+              (2.5, "hat", 76), (3, "rim", 95), (3, "hat", 76), (3.5, "kick", 95), (3.5, "hat", 76)],
+    "swing_ride": [(0, "kick", 114), (0, "ride", 91), (1, "snare", 95), (1, "ride", 76), (1+2/3, "ride", 76),
+                   (2, "kick", 114), (2, "ride", 91), (3, "snare", 95), (3, "ride", 76), (3+2/3, "ride", 76)],
+    "bongo_8beat": [(0, "bongo_hi", 114), (0, "tambourine", 91), (.5, "bongo_hi", 95), (.5, "tambourine", 76),
+                    (1, "bongo_lo", 95), (1, "tambourine", 76), (1.5, "bongo_hi", 95), (1.5, "tambourine", 76),
+                    (2, "bongo_hi", 114), (2, "tambourine", 91), (2.5, "bongo_hi", 95), (2.5, "tambourine", 76),
+                    (3, "bongo_lo", 95), (3, "tambourine", 76), (3.5, "bongo_hi", 95), (3.5, "tambourine", 76)],
+}
+
+
+def new_compile(groove, design=None, **fields):
+    from bgm.instruments import PERCUSSION, SYNTH_DRUMS
+    design = design or song()
+    return compile_rhythm({"name": "drums", "groove": groove, **fields}, design, expand_form(design),
+                          available_voices=PERCUSSION | SYNTH_DRUMS)
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+def test_new_full_numeric_schedule_and_sections(groove):
+    reference = NEW_EXPECTED[groove]
+    assert new_compile(groove) == reference
+    design = song(form=["A", "B", "A", "A'"], bars=2)
+    design["sections"]["A"]["chords"] = "I ii V | vi"
+    before = copy.deepcopy(design)
+    for selection, bars in [(None, range(7)), (["A"], [0, 1, 3, 4]), (["A'"], [5, 6]), (["B"], [2]), ([], [])]:
+        fields = {} if selection is None else {"sections": selection}
+        events = new_compile(groove, design, **fields)
+        assert events == [(bar * 4 + t, v, vel) for bar in bars for t, v, vel in reference]
+        assert len(events) == len(bars) * len(reference)
+        assert all(0 <= t < 28 for t, _, _ in events)
+    assert design == before
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+@pytest.mark.parametrize("meter", ["3/4", "6/8"])
+def test_new_unsupported_meters(groove, meter):
+    for selection, bar in [(["B"], 2), ([], 1)]:
+        with pytest.raises(ValueError, match=rf"\[drums\] {bar}番目の小節: .*対応していません"):
+            new_compile(groove, song(meter, form=["A", "B"]), sections=selection)
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+def test_new_voices_catalog_kit_missing_and_unknown(groove):
+    from bgm.instruments import PERCUSSION, SYNTH_DRUMS
+    available = PERCUSSION | SYNTH_DRUMS
+    needed = list(dict.fromkeys(v for _, v, _ in NEW_EXPECTED[groove]))
+    assert new_compile(groove, kit=needed, voices={v: None for v in needed}) == NEW_EXPECTED[groove]
+    design = song(form=["A", "B"])
+    for selected, bar in [(["B"], 2), ([], 1)]:
+        part = {"name": "drums", "groove": groove, "sections": selected}
+        for voice in needed:
+            for fields, catalog in [({}, {k: v for k, v in available.items() if k != voice}),
+                                    ({"kit": [v for v in needed if v != voice]}, available)]:
+                with pytest.raises(ValueError, match=rf"\[drums\] {bar}番目の小節"):
+                    compile_rhythm(part | fields, design, expand_form(design), available_voices=catalog)
+        for fields in [{"kit": needed + ["bongo"]}, {"voices": {"bongo": None}}]:
+            with pytest.raises(ValueError, match=rf"\[drums\] {bar}番目の小節"):
+                new_compile(groove, design, sections=selected, **fields)
+    if groove in ("swing_ride", "bongo_8beat"):
+        with pytest.raises(ValueError, match="available_voices"):
+            compile(groove)
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+@pytest.mark.parametrize("velocity", [1, 2, 94.5, 127])
+def test_new_velocity_round_once(groove, velocity):
+    events = new_compile(groove, velocity=velocity)
+    expected = []
+    for t, voice, _ in NEW_EXPECTED[groove]:
+        factor = .8 if voice in ("hat", "ride", "tambourine") else 1
+        expected.append((t, voice, max(1, min(127, round(velocity * factor * (1.2 if t in (0, 2) else 1))))))
+    assert events == expected
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+@pytest.mark.parametrize(("field", "value"), [
+    ("swing", True), ("swing", None), ("swing", "0"), ("swing", float("inf")), ("swing", float("nan")),
+    ("swing_unit", False), ("swing_unit", None), ("swing_unit", "0.5"), ("swing_unit", 0),
+    ("swing_unit", -.5), ("swing_unit", float("inf")), ("swing_unit", float("nan")),
+])
+def test_new_invalid_swing_even_empty_selection(groove, field, value):
+    design = song(form=["A", "B"])
+    design[field] = value
+    for sections, bar in [(["B"], 2), ([], 1)]:
+        with pytest.raises(ValueError, match=rf"\[drums\] {bar}番目の小節: .*song.swing"):
+            new_compile(groove, design, sections=sections)
+
+
+@pytest.mark.parametrize("groove", ["shuffle", "swing_ride"])
+def test_fixed_shuffle_rejects_double_swing(groove):
+    for swing in [.6, 1, -1, 1e308]:
+        with pytest.raises(ValueError, match="二重適用防止"):
+            new_compile(groove, song() | {"swing": swing, "swing_unit": .25})
+    for zero in [0, 0.0, -0.0]:
+        assert new_compile(groove, song() | {"swing": zero, "swing_unit": 2}) == NEW_EXPECTED[groove]
+
+
+@pytest.mark.parametrize("groove", ["16beat", "bossa", "bongo_8beat"])
+def test_swing_boundaries_and_absolute_phase(groove):
+    # 16分の最終打点はunit=.25、8分の最終打点はunit=.5で小節末へ移動する。
+    unit = .25 if groove == "16beat" else .5
+    for swing in [3, 3.00001, -3.00001, 1e308, 10**400]:
+        with pytest.raises(ValueError, match="小節外または非有限"):
+            new_compile(groove, song() | {"swing": swing, "swing_unit": unit}, sections=[])
+    for swing in [2.999999, -3, .6]:
+        assert new_compile(groove, song() | {"swing": swing, "swing_unit": unit}) == NEW_EXPECTED[groove]
+    with pytest.raises(ValueError, match="小節外または非有限"):
+        new_compile(groove, song() | {"swing": 1, "swing_unit": 5e-324})
+    # unitが小節を割り切らない場合、絶対拍で2小節目の打点だけが越境する。
+    with pytest.raises(ValueError, match=r"\[drums\] 2番目の小節"):
+        new_compile(groove, song(bars=2) | {"swing": -4, "swing_unit": 4})
+
+
+@pytest.mark.parametrize("groove", NEW_EXPECTED)
+def test_new_purity_and_independent_process_determinism(groove):
+    catalog = {v: {} for _, v, _ in NEW_EXPECTED[groove]}
+    design = song(form=["A", "B", "A", "A'"], bars=2)
+    part = {"groove": groove, "sections": ["A", "A'"], "kit": list(catalog), "voices": {v: None for v in catalog}}
+    occurrences = expand_form(design)
+    before = copy.deepcopy((part, design, occurrences, catalog))
+    expected = compile_rhythm(part, design, occurrences, available_voices=catalog)
+    compile("march", "6/8")
+    assert compile_rhythm(part, design, occurrences, available_voices=catalog) == expected
+    assert (part, design, occurrences, catalog) == before
+    code = '''
+import json, sys
+from bgm.rhythm import compile_rhythm
+part, song, occurrences, catalog = json.loads(sys.stdin.read())
+print(json.dumps(compile_rhythm(part, song, occurrences, available_voices=catalog)))
+assert not any("bgm." + m in sys.modules for m in ("sampler", "synth", "render", "fetch", "instruments"))
+'''
+    for _ in range(2):
+        result = subprocess.run([sys.executable, "-c", code], input=json.dumps(before), check=True, capture_output=True, text=True)
+        assert json.loads(result.stdout) == [list(e) for e in expected]
