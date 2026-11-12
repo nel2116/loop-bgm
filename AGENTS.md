@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- last-reviewed: 2026-11-09 -->
+<!-- last-reviewed: 2026-11-12 -->
 
 Shared instructions for coding agents (Claude Code reads this through `CLAUDE.md`; Codex reads it directly, including in `CodexReview.ps1` reviews). Keep it short: it is a map, and the details live in `docs/`. Add a rule here only after a mistake has happened twice, and prefer a check in `Tests/check_conventions.py` or a hook over a sentence when the rule has no exceptions.
 
@@ -20,6 +20,7 @@ loop-bgm turns a text "design" of a song (`songs/<id>/song.json`) into a seamles
 | changes the user has to listen to | `docs/ListeningCheck.md` |
 | any Markdown doc: language, where a fact lives, last-reviewed date | `.claude/skills/writing-docs/SKILL.md` |
 | recorded design decisions | `docs/design/` |
+| continuing the hands-on, choosing unfinished work, preparing an orchestration prompt | `.claude/skills/next-task/SKILL.md`, then `.claude/skills/orchestration-prompt/SKILL.md` (proposal and prompt only; do not execute) |
 
 ## Commands
 
@@ -61,4 +62,9 @@ Checked by `Tests/check_conventions.py` (CI, and a Claude Code hook after every 
 
 ## Keeping sessions cheap
 
-A hook warns when the context passes 120k tokens and again every 50k (`LOOPBGM_CONTEXT_WARN_TOKENS`, `LOOPBGM_CONTEXT_WARN_STEP`); hand over at the next good stopping point. Another hook blocks a whole-file `Read` of a large file (over 600 lines or 30 KB) and of any `.jsonl` transcript: grep first and read a range. `python Tests/usage_report.py` shows consumption per conversation.
+Every request resends the whole conversation, so the cost of a session is its context size times its number of requests.
+
+- Wait with one blocking command, not with sleep-and-check loops: `gh pr checks <N> --watch` or `gh run watch <id>`, and run a long command in the foreground with a long timeout instead of reading its output every few seconds. Each check is a full-context request (measured: coordinators slept 5-14 times per session at about 200k tokens each).
+- In Claude Code a hook warns when the context passes 120k tokens and again every 50k (`LOOPBGM_CONTEXT_WARN_TOKENS`, `LOOPBGM_CONTEXT_WARN_STEP`); hand over at the next good stopping point. Codex has no such hook; its user config sets `model_auto_compact_token_limit`.
+
+In Claude Code another hook blocks a whole-file `Read` of a large file (over 600 lines or 30 KB) and of any `.jsonl` transcript: grep first and read a range. `python Tests/usage_report.py` shows consumption per conversation.
