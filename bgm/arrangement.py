@@ -84,10 +84,12 @@ def compile_arrangements(song, compile_direct):
         if "accent" in part and part["accent"] not in ("phrase_start", "offbeat_tick", "counter"):
             raise ValueError(f"[{part['name']}] 1番目の小節: accent は phrase_start / offbeat_tick / counter で指定してください")
     direct = [p for p in parts.values() if not any(k in p for k in ("copy", "accent", "source"))]
-    # 空選択でも直接記譜の誤りを隠さない。実際の選択とは独立の検証だけを行う。
+    # 記述済みの句は空選択でも検証するが、未選択の未記述句は要求しない。
     for part in direct:
         if "phrases" in part or "grid" in part:
-            compile_direct(dict(song, parts=[{k: v for k, v in part.items() if k != "sections"}]))
+            phrases = part.get("phrases")
+            selected = [o["name"] for o in occurrences if isinstance(phrases, dict) and o["source"] in phrases]
+            compile_direct(dict(song, parts=[dict(part, sections=selected)]))
     compiled = compile_direct(dict(song, parts=direct))
     metadata = {}
     beats = meter_to_beats(song["meter"])

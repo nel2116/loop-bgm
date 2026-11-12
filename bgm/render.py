@@ -552,8 +552,10 @@ def _swing(beat, song):
 
 
 def part_hash(part, song):
-    if any(k in part for k in ("copy", "accent", "source")):
-        compiled = compile_song(song)
+    compiled = compile_song(song) if arrangement.enabled(song) else None
+    selected_absolute = (compiled is not None and "sections" in part and "bars" in part and not _is_drums(part)
+                         and compiled["notes"][part["name"]] != parse_note_bars(part, song))
+    if any(k in part for k in ("copy", "accent", "source")) or selected_absolute:
         part = compiled["effective_parts"][part["name"]]
         key = {k: v for k, v in part.items() if k not in MIX_ONLY_KEYS}
         ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}

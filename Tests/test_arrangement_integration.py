@@ -212,6 +212,40 @@ def test_empty_selection_still_checks_direct_source_notation(tmp_path):
         load(tmp_path, raw)
 
 
+def test_unselected_missing_phrase_is_optional_but_written_phrase_is_checked(tmp_path):
+    raw = design()
+    raw["form"] = ["A", "B"]
+    melody = parts(raw)["melody"]
+    melody.update(sections=["A"], phrases={"A": "1 . . ."})
+    assert render.compile_song(load(tmp_path, raw))["notes"]["melody"] == [(0, [60], 1, 90)]
+    melody["phrases"]["B"] = "INVALID"
+    with pytest.raises(render.SongError, match="melody"):
+        load(tmp_path, raw)
+    melody.update(sections=["B"], phrases={"A": "1 . . ."})
+    with pytest.raises(render.SongError, match="melody"):
+        load(tmp_path, raw)
+
+
+def test_adding_and_removing_arrangement_invalidates_selected_absolute_cache(tmp_path):
+    raw = design()
+    raw["form"] = ["A", "B"]
+    raw["parts"] = [{"name": "absolute", "instrument": "square", "bars": ["C4:4"], "sections": ["A"]}]
+    hashes = []
+    for arranged in (False, True, False):
+        raw["parts"] = raw["parts"][:1]
+        if arranged:
+            raw["parts"].append({"name": "tick", "role": "arrange", "accent": "offbeat_tick"})
+        song = load(tmp_path, raw)
+        hashes.append(render.part_hash(song["parts"][0], song))
+        render.render_song(str(tmp_path), mp3=False, log=lambda *_: None)
+        stem = tmp_path / "stems/absolute.wav"
+        cached = stem.read_bytes()
+        render.render_song(str(tmp_path), force=True, mp3=False, log=lambda *_: None)
+        assert cached == stem.read_bytes()
+    assert hashes[0] != hashes[1]
+    assert hashes[0] == hashes[2]
+
+
 def test_fractional_harmony_and_exact_counter_gaps(tmp_path):
     raw = design()
     melody = parts(raw)["melody"]
