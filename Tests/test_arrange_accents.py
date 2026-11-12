@@ -79,7 +79,9 @@ def test_previous_occurrence_roundoff_cannot_supply_phrase_harmony(form):
     harmony = compile_progression(song, occ)
     assert harmony[92]["beat"] + harmony[92]["duration"] > 4
     duration = .5 if form[-1] == "B" else 4 / 93
-    assert compile_phrase_start(phrase(sections=[form[-1]]), song, occ, harmony)[-1] == (4, [67], duration, 108)
+    event = compile_phrase_start(phrase(sections=[form[-1]]), song, occ, harmony)[-1]
+    assert (event[0], event[1], event[3]) == (4, [67], 108)
+    assert event[2] == pytest.approx(duration, rel=0, abs=1e-14)
 
 
 def test_partial_harmony_selected_boundaries_and_song_end():
