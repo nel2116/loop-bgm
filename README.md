@@ -24,6 +24,8 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 # 追加の伴奏型（walking・strum・shuffle）
 .venv/Scripts/python -m bgm render phase1_patterns --no-mp3
 .venv/Scripts/python -m bgm listen phase1_patterns
+# コピー・句頭装飾・裏拍・合いの手・直接書いた独立対旋律
+.venv/Scripts/python -m bgm render phase1_arrangements --no-mp3
 ```
 
 試聴画面ではループ再生・停止・WAV保存ができます。別の曲は `proto_test` を曲IDに置き換えてください。
@@ -105,8 +107,37 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 `swing_ride`・`bongo_8beat` は実サンプルが必要です。`kit` には使う全音名を含めてください。合成音への置換はしません。
 詳しい打点・音順と境界方針は[設計記録](docs/design/phase1-patterns.md)にあります。
 
-仕様3.6の残りは arrange 全種（`phrase_start`・`offbeat_tick`・`counter`）と copy/countermelody です。
-次に周回変化、曲の型3種類、フェーズ1の試聴確認へ進みます。フェーズ1と仕様3.6全体はまだ完了していません。
+## コピー・装飾と独立した対旋律
+
+[`songs/phase1_arrangements/song.json`](songs/phase1_arrangements/song.json) は A/B/A/A' の4小節です。
+1・3小節目は分数拍で和音が切り替わり、メロディは伸ばす音と休符を含みます。
+2小節目のメロディは全休符で、`counter` が合いの手を入れます。4小節目はメロディとそのコピー・合いの手を休み、直接書いた対旋律と句頭装飾は鳴ります。
+
+```json
+{"name":"melody_hi","role":"arrange","copy":"melody","octave":1}
+{"name":"sparkle","role":"arrange","instrument":"kalimba","accent":"phrase_start"}
+{"name":"tick","role":"arrange","accent":"offbeat_tick","kit":["hat"]}
+{"name":"response","role":"arrange","instrument":"kalimba","accent":"counter","source":"melody"}
+{"name":"countermelody","role":"arrange","instrument":"triangle_wave","bars":["G4:4"]}
+```
+
+`copy` は名前で参照し、後に書いたパートやコピーの連鎖も使えます。有音程のメロディ・ベース・和音・アレンジと、role省略の従来音符が対象です。
+楽器の省略時は元の実効楽器だけを継承します。明示すれば変更でき、`null` はエラーです。音高・記譜長・強さをコピーし、コピー先の `octave` / `transpose` と音域補正を行います。
+元の音量・定位・mute・gateなどは継承しません。コピー先の `velocity` 指定はエラーです。打楽器のコピーと循環参照はできません。
+`sections` は A と A' を区別します。コピーは元の選択とコピー先の選択を満たす開始音だけを使い、選択区間前から伸びる音を再発音しません。
+
+`phrase_start` は選択した出現の頭に、実際の和音の最高音より1オクターブ上を最大0.5拍鳴らします。各小節には追加しません。
+`offbeat_tick` は実在の hat を使い、4/4は0.5・1.5・2.5・3.5拍、3/4は0.5・1.5・2.5拍、6/8は0.75・2.25拍に置きます。
+`counter` の `source` は直接書いた `role: melody` が必須です。gate前の記譜長を占有とし、選択した休みの中で和音・小節ごとに根音の1オクターブ上を半拍ごとに短く鳴らします。
+gateで短くした隙間を休符扱いしません。元が非選択の区間は合いの手の対象外ですが、選択した全休符は対象です。
+生成指定と直接記譜・style・grooveの併用、counter以外の `source` は空/nullでもエラーです。
+
+独立した対旋律は別の `role: arrange` に `phrases` / `grid` または絶対音の `bars` で直接書き、メロディと重ねられます。
+`counter` は固定根音の合いの手で、独立した旋律を作曲する機能ではありません。これらは最小の初期規則であり、音楽的自然さは未確認です。
+詳しい選択・音域・境界・限界は[設計記録](docs/design/phase1-arrangements.md)を参照してください。
+
+仕様3.6に掲載された型、コピー、直接記述の独立対旋律を実装しました。次は周回変化、曲の型3種類、フェーズ1の試聴確認です。
+フェーズ1全体はまだ完了していません。実サンプルの swing_ride / bongo_8beat WAV と主観試聴は未検証です。
 
 ## 音源とライセンス
 

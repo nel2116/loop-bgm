@@ -210,3 +210,110 @@ def test_empty_selection_still_checks_direct_source_notation(tmp_path):
     parts(raw)["melody"].update(sections=[], phrases={"A": "INVALID", "B": ". . . ."})
     with pytest.raises(render.SongError, match="melody"):
         load(tmp_path, raw)
+
+
+def test_fractional_harmony_and_exact_counter_gaps(tmp_path):
+    raw = design()
+    melody = parts(raw)["melody"]
+    melody.pop("phrases")
+    melody.pop("grid")
+    melody.update(bars=["r:0.25 C4:0.5 r:3.25"], sections=["A"])
+    compiled = render.compile_song(load(tmp_path, raw))
+    events = compiled["notes"]["counter"]
+    expected = [.75, 4/3, 4/3 + .5, 8/3, 8/3 + .5]
+    assert [e[0] for e in events] == pytest.approx(expected + [e + 8 for e in expected])
+    assert [e[1] for e in events[:5]] == [[60], [62], [62], [67], [67]]
+    assert compiled["event_metadata"]["counter"][0]["window"] == pytest.approx([.75, 4/3])
+
+
+@pytest.mark.parametrize("gate", [-1, .001, 100])
+def test_twenty_ms_minimum_clips_without_enlargement(tmp_path, monkeypatch, gate):
+    raw = design()
+    raw["sections"]["A"]["chords"] = " ".join(["I"] * 257)
+    sparkle = parts(raw)["sparkle"]
+    sparkle.update(gate=gate, humanize=0, reverb=0)
+    song = load(tmp_path, raw)
+    calls = []
+    monkeypatch.setattr(render, "get_instrument", lambda _: None)
+    monkeypatch.setattr(synth, "render_pitched", lambda *args, **kwargs: calls.append(args[3]) or np.zeros((1, 2), np.float32))
+    render.render_part(parts(song)["sparkle"], song)
+    assert calls[0] == pytest.approx(2 / 257)
+    assert calls[-1] == pytest.approx(2 / 257)
+
+
+def test_destination_swing_applies_once_clamps_skips_and_preserves_release(tmp_path, monkeypatch):
+    raw = design()
+    raw["swing"] = 3
+    raw["parts"] = [p for p in raw["parts"] if p["name"] != "tick"]
+    melody = parts(raw)["melody"]
+    melody.pop("phrases")
+    melody.pop("grid")
+    melody.update(bars=["C4:0.5 r:0.5 C4:3"], sections=["A"])
+    response = parts(raw)["counter"]
+    response.update(humanize=0, reverb=0, gate=2)
+    song = load(tmp_path, raw)
+    calls = []
+    monkeypatch.setattr(render, "get_instrument", lambda _: None)
+    monkeypatch.setattr(synth, "render_pitched", lambda *args, **kwargs: calls.append(args) or np.zeros((1000, 2), np.float32))
+    render.render_part(parts(song)["counter"], song)
+    # .5開始の休みは1拍まで。swing後は境界に達するのでDSPも呼ばれない。
+    assert calls == []
+
+
+@pytest.mark.parametrize("field,value", [("accent", None), ("accent", "unknown"), ("accent", []), ("role", "melody"),
+                                        ("type", None), ("type", "drums"), ("kit", []), ("voices", {}),
+                                        ("bars", []), ("phrases", {}), ("grid", None), ("style", None),
+                                        ("groove", None), ("source", "melody"), ("sections", None),
+                                        ("octave", True), ("transpose", .5), ("velocity", 0)])
+def test_phrase_start_invalid_fields_even_empty_selection(tmp_path, field, value):
+    raw = design()
+    parts(raw)["sparkle"].update(sections=[])
+    parts(raw)["sparkle"][field] = value
+    with pytest.raises(render.SongError, match=r"\[sparkle\].*小節"):
+        load(tmp_path, raw)
+
+
+@pytest.mark.parametrize("source", ["melody", "independent", "bass", "chords", "legacy", "copy"])
+def test_copy_all_pitched_roles_and_explicit_range_transform(tmp_path, source):
+    raw = design()
+    raw["parts"].extend([{"name": "bass", "role": "bass", "style": "root_whole", "instrument": "bass"},
+                         {"name": "chords", "role": "chords", "style": "pad", "instrument": "pad"},
+                         {"name": "legacy", "instrument": "square", "bars": ["C4+E4+G4:4"]}])
+    parts(raw)["chain"].update(copy=source, instrument="xylophone", octave=10, transpose=2)
+    compiled = render.compile_song(load(tmp_path, raw))
+    low, high = render.SAMPLED["xylophone"]["range"]
+    for event, original in zip(compiled["notes"]["chain"], compiled["notes"][source], strict=True):
+        assert all(low <= p <= high for p in event[1])
+        assert [(p - q) % 12 for p, q in zip(event[1], original[1], strict=True)] == [2] * len(original[1])
+        assert [p - event[1][0] for p in event[1]] == [p - original[1][0] for p in original[1]]
+
+
+def test_simultaneous_duplicates_and_tone_indices_survive_selection_and_chain(tmp_path, monkeypatch):
+    raw = design()
+    parts(raw)["copy"].update(copy="independent", humanize=0, reverb=0)
+    parts(raw)["chain"].update(instrument="kalimba", humanize=0, reverb=0)
+    song = load(tmp_path, raw)
+    original = render.arrangement._metadata
+
+    def with_duplicates(part, events, compiled, source_events=()):
+        if part["name"] == "independent":
+            events[:] = [(0, [60, 60, 64], 1, 90), (0, [60, 60, 64], 1, 90)]
+        return original(part, events, compiled, source_events)
+
+    monkeypatch.setattr(render.arrangement, "_metadata", with_duplicates)
+    compiled = render.compile_song(song)
+    assert [m["ordinal"] for m in compiled["event_metadata"]["chain"]] == [0, 1]
+    calls = []
+    monkeypatch.setattr(render, "get_instrument", lambda _: None)
+    monkeypatch.setattr(synth, "render_pitched", lambda *args, **kwargs: calls.append(kwargs["seed"]) or np.zeros((1, 2), np.float32))
+    render.render_part(parts(song)["chain"], song)
+    assert calls == [render._synth_seed("chain", "kalimba", 0, ordinal, k, pitch)
+                     for ordinal in (0, 1) for k, pitch in enumerate([74, 74, 78])]
+
+
+def test_source_dsp_changes_do_not_change_dependent_hashes(tmp_path):
+    song = load(tmp_path, design())
+    hashes = {name: render.part_hash(parts(song)[name], song) for name in ("copy", "chain", "counter")}
+    changed = copy.deepcopy(song)
+    parts(changed)["melody"].update(gate=.01, humanize=2, strum=.5, reverb=.8)
+    assert {name: render.part_hash(parts(changed)[name], changed) for name in hashes} == hashes

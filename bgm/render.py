@@ -251,7 +251,7 @@ def _validate_song(song):
         raise SongError(str(exc)) from exc
     for original in song["parts"]:
         part = effective[original["name"]]
-        where = f"[{part['name']}]"
+        where = f"[{part['name']}]" + (" 1番目の小節:" if arrangement.enabled(song) else "")
         _validate_notation(part, song)
         if part.get("type") is not None and not isinstance(part["type"], str):
             raise SongError(f"{where} type は文字列または null にしてください")

@@ -8,7 +8,7 @@ from .structure import expand_form, meter_to_beats
 
 
 def enabled(song):
-    return any(any(k in p for k in ("copy", "accent", "source")) for p in song["parts"])
+    return any(any(k in p for k in ("copy", "accent", "source")) for p in song.get("parts", []))
 
 
 def effective_parts(song):
