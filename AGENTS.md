@@ -20,6 +20,7 @@ loop-bgm turns a text "design" of a song (`songs/<id>/song.json`) into a seamles
 | changes the user has to listen to | `docs/ListeningCheck.md` |
 | any Markdown doc: language, where a fact lives, last-reviewed date | `.claude/skills/writing-docs/SKILL.md` |
 | recorded design decisions | `docs/design/` |
+| continuing the hands-on, choosing unfinished work, preparing an orchestration prompt | `.claude/skills/next-task/SKILL.md`, then `.claude/skills/orchestration-prompt/SKILL.md` (proposal and prompt only; do not execute) |
 
 ## Commands
 

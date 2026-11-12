@@ -21,6 +21,15 @@ Use the /orchestration skill to act as the Orca coordinator and delegate <issue 
 - Answer questions within the spec. <If approach approval is needed: "When a worker proposes an approach via ask, approve it against the approach criteria below or send back what to change."> For decisions beyond the spec, <confirm with the user before answering / since the user is away, decide in the direction of a smaller scope and give the reason in the final report>.
 - A worker that hands over (`worker_done` failed, subject 「引き継ぎ依頼」, a handover file) has settled its assignment. Read the handover; use `send --to dispatch:<id>` for follow-up work. If a replacement is needed, read the recovery reference and inspect the Dispatch and receipt's `next` before release or reuse; settlement alone does not prove the agent stopped. Follow the guide's same-Task recovery procedure rather than starting a new Task to bypass a failed attempt.
 
+## Coordination plan
+
+- Goal: <the unfinished user-visible phase capability this batch advances>
+- Dependencies: <prerequisites, tasks that start together, and dependent follow-ups; explain why if only one worker is useful>
+- Shared contracts: <data structures, interfaces and behavior agreed before dependent implementation; who establishes them>
+- Ownership: <each worker's files/modules, ownership of shared files, and sequence for conflicting edits>
+- Integration: <who connects the results, which completed tasks unlock integration, and how develop updates are incorporated>
+- Batch acceptance: <commands and observable behavior proving the combined result, beyond individual worker reports>
+
 ## Common worker rules
 `StartWorker.ps1` prepends `docs/dev/WorkerRules.md` to the spec; do not repeat it in the task spec. Write only what differs from the rules in the task spec.
 

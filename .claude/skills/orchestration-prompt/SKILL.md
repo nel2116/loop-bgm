@@ -17,7 +17,7 @@ The template is `template.md` in this folder. It deliberately does not copy Orca
 
 Ask only about what cannot be read from the user's request.
 
-- **Target issues**: one or several. If several, one PR or parallel workers. Parallelize only when the edited files do not overlap.
+- **Target batch**: use the phase-wide dependency and ownership analysis from `next-task` (including its user correction). Identify prerequisites, parallel tasks and dependent integration work. Do not reduce orchestration to a single-worker handoff without explaining why the remaining work cannot usefully run in parallel. Independence requires compatible interfaces as well as non-overlapping files.
 - **Whether the user is present**: if absent, limit the work to what can be verified headless. Decisions beyond the spec become "the coordinator decides in the direction of a smaller scope and reports why".
 - **Whether the sound changes**: then the worker writes a 「試聴メモ」 in the PR body; it does not block the merge. After CI and the Codex PASS, the coordinator runs `-SetStatus` through to the merge (no human approval).
 - **Model**: none unless the user names one; then add `-Model <id>` to the `StartWorker.ps1` line.
@@ -44,6 +44,7 @@ gh pr list --state open --json number,title,headRefName
 - For a bug fix, include a condition that reproduces the failure before the fix.
 - For hard work with several possible approaches, include a step where the approach is approved via ask before implementation, plus the "approach criteria". Leave them out for simple work.
 - State what is out of scope, so the worker does not widen it.
+- Fill in the template's coordination plan: dependency graph, shared contracts, ownership, integration responsibility, and observable batch completion. Specify which workers may start together and what evidence unlocks dependent tasks. Establish shared contracts before consumers implement against them. Follow the Orca guide's task-dependency reference when the resulting plan needs a DAG; do not invent CLI syntax in the prompt.
 
 ## 4. Present it
 
