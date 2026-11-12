@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from . import ENGINE_VERSION
+from . import ENGINE_VERSION, arrangement
 from .bass import compile_bass
 from .chords import compile_chords
 from .harmony import compile_progression
@@ -117,6 +117,15 @@ def _structure(song):
 
 def compile_song(song):
     """構造付き設計図を変更せず、音符・打楽器・和音データを返す。"""
+    if arrangement.enabled(song):
+        try:
+            return arrangement.compile_arrangements(song, _compile_song)
+        except ValueError as exc:
+            raise SongError(str(exc)) from exc
+    return _compile_song(song)
+
+
+def _compile_song(song):
     occurrences, bars, beats = _structure(song)
     timing = dict(song, bars=bars, beats_per_bar=beats)
     notes = {}
@@ -153,11 +162,13 @@ def compile_song(song):
 
 
 def _is_drums(part):
-    return "groove" in part or part.get("type") == "drums"
+    return "groove" in part or part.get("type") == "drums" or part.get("accent") == "offbeat_tick"
 
 
 def _validate_notation(part, song):
     where = f"[{part['name']}] 1番目の小節"
+    if any(k in part for k in ("copy", "accent", "source")) and not is_structured(song):
+        raise SongError(f"{where}: copy / accent / source には key / meter / form / sections が必要です")
     if "style" in part or "groove" in part:
         if not is_structured(song):
             raise SongError(f"{where}: style / groove には key / meter / form / sections が必要です")
@@ -234,7 +245,12 @@ def _validate_song(song):
             raise SongError("song.json の swing / swing_unit: 拍の位置を有限数で計算できる範囲にしてください")
     if not song["parts"]:
         raise SongError("song.json の parts には1つ以上のパートが必要です")
-    for part in song["parts"]:
+    try:
+        effective = arrangement.effective_parts(song) if arrangement.enabled(song) else {p["name"]: p for p in song["parts"]}
+    except ValueError as exc:
+        raise SongError(str(exc)) from exc
+    for original in song["parts"]:
+        part = effective[original["name"]]
         where = f"[{part['name']}]"
         _validate_notation(part, song)
         if part.get("type") is not None and not isinstance(part["type"], str):
@@ -309,7 +325,7 @@ def _num(s):
 
 def parse_note_bars(part, song):
     """Return list of (beat, [midi...], dur_beats, vel) for a note part."""
-    if "style" in part:
+    if "style" in part or any(k in part for k in ("copy", "accent", "source")):
         _validate_notation(part, song)
         return compile_song(song)["notes"][part["name"]]
     if "phrases" in part or "grid" in part:
@@ -387,7 +403,7 @@ def parse_note_bars(part, song):
 
 
 def parse_drum_bars(part, song):
-    if "groove" in part:
+    if "groove" in part or "accent" in part:
         _validate_notation(part, song)
         return compile_song(song)["rhythm"][part["name"]]
     bpb = song["beats_per_bar"]
@@ -536,6 +552,15 @@ def _swing(beat, song):
 
 
 def part_hash(part, song):
+    if any(k in part for k in ("copy", "accent", "source")):
+        compiled = compile_song(song)
+        part = compiled["effective_parts"][part["name"]]
+        key = {k: v for k, v in part.items() if k not in MIX_ONLY_KEYS}
+        ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
+        ctx.update(engine=ENGINE_VERSION, reverb=song["master"]["reverb"],
+                   events=compiled["rhythm" if _is_drums(part) else "notes"][part["name"]],
+                   metadata=compiled["event_metadata"].get(part["name"], []))
+        return hashlib.sha1(json.dumps([key, ctx], sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
     key = {k: v for k, v in part.items() if k not in MIX_ONLY_KEYS}
     ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
     ctx["reverb"] = song["master"]["reverb"]
@@ -578,6 +603,9 @@ def _generated_window(beat, onset, duration, compiled, sec_per_beat):
 
 
 def render_part(part, song):
+    arranged = compile_song(song) if arrangement.enabled(song) else None
+    if arranged is not None:
+        part = arranged["effective_parts"][part["name"]]
     sec_per_beat = 60.0 / song["tempo"]
     n_loop = int(round(song_seconds(song) * SR))
     buf = np.zeros((n_loop + SR * 2, 2), np.float32)
@@ -614,22 +642,34 @@ def render_part(part, song):
         gate = float(part.get("gate", 1.0))
         strum = float(part.get("strum", .02 if part.get("style") == "strum" else 0))  # seconds between chord notes
         compiled = compile_song(song) if "style" in part else None
-        for beat, pitches, dur, vel in parse_note_bars(part, song):
+        events = arranged["notes"][part["name"]] if arranged is not None else parse_note_bars(part, song)
+        metadata = arranged["event_metadata"].get(part["name"]) if arranged is not None else None
+        for event_index, (beat, pitches, dur, vel) in enumerate(events):
             t0 = _swing(beat, song) * sec_per_beat + jitter_t()
             dur_s = max(0.02, dur * sec_per_beat * gate)
             v = jitter_v(vel)
             identity = (beat, tuple(pitches), dur, vel)
             ordinal = duplicates.get(identity, 0)
             duplicates[identity] = ordinal + 1
+            if metadata is not None:
+                ordinal = metadata[event_index]["ordinal"]
             for k, m in enumerate(pitches):
                 onset, length = t0 + k * strum, dur_s
-                if compiled is not None:
+                if metadata is not None and metadata[event_index]["window"] is not None:
+                    start, end = metadata[event_index]["window"]
+                    onset = max(start * sec_per_beat, onset)
+                    length = min(length, end * sec_per_beat - onset)
+                    if length <= 0:
+                        continue
+                elif compiled is not None:
                     onset, length = _generated_window(beat, onset, length, compiled, sec_per_beat)
                     if length <= 0:
                         continue
                 if part["instrument"] in ("bass", "nylon_guitar", "kalimba"):
                     from .synth import render_pitched
                     tone_index = k
+                    if metadata is not None:
+                        tone_index = metadata[event_index]["tones"][k]
                     if part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
                         # 新型だけ原和音の構成音番号を復元する。遅延は引き続きtuple内のkで決まる。
                         chord = next(c for c in reversed(compiled["harmony"]) if c["beat"] <= beat)
