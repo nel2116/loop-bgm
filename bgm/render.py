@@ -731,6 +731,20 @@ def check_loop(x):
     return ok, " / ".join(msgs)
 
 
+def _write_stem(path, audio):
+    sf.write(path, audio, SR, subtype="FLOAT")
+    # FLOAT WAV の PEAK チャンクには保存時刻が入る。音声とピーク値を保ち、時刻だけ固定する。
+    with path.open("r+b") as wav:
+        wav.seek(12)
+        while header := wav.read(8):
+            chunk, size = header[:4], int.from_bytes(header[4:], "little")
+            if chunk == b"PEAK":
+                wav.seek(4, 1)  # version の次の uint32 が時刻。
+                wav.write(b"\0" * 4)
+                break
+            wav.seek(size + size % 2, 1)
+
+
 def render_song(ref, force=False, mp3=True, log=print):
     d, song = load_song(ref)
     stems_dir = d / "stems"
@@ -753,7 +767,7 @@ def render_song(ref, force=False, mp3=True, log=print):
         else:
             t = time.time()
             audio = render_part(part, song)
-            sf.write(f, audio, SR, subtype="FLOAT")
+            _write_stem(f, audio)
             stems[part["name"]] = audio
             log(f"  {part['name']:<14} 作り直し {time.time() - t:.1f}s")
         new_cache[part["name"]] = h
