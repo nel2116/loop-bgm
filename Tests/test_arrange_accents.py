@@ -72,6 +72,16 @@ def test_fractional_harmony_roundoff_is_not_overlap(meter):
     assert compile_phrase_start(phrase(), song, occ, harmony) == [(0, [67], beats / 9, 108)]
 
 
+@pytest.mark.parametrize("form", [["A", "B"], ["A", "A"], ["A", "A'"]])
+def test_previous_occurrence_roundoff_cannot_supply_phrase_harmony(form):
+    song, occ, _ = fixture(chords=" ".join(["I"] * 92 + ["V"]), form=form)
+    song["sections"]["B"]["chords"] = "I"
+    harmony = compile_progression(song, occ)
+    assert harmony[92]["beat"] + harmony[92]["duration"] > 4
+    duration = .5 if form[-1] == "B" else 4 / 93
+    assert compile_phrase_start(phrase(sections=[form[-1]]), song, occ, harmony)[-1] == (4, [67], duration, 108)
+
+
 def test_partial_harmony_selected_boundaries_and_song_end():
     song, occ, harmony = fixture(form=["A", "B", "A", "A'"])
     last = copy.deepcopy(harmony[-1:])

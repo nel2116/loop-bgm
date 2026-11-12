@@ -105,7 +105,8 @@ def compile_phrase_start(part, song, occurrences, harmony, *, note_range=(0, 127
     events = []
     for occ in chosen:
         start = occ["start_beat"]
-        chord = next((c for c in harmony if c["beat"] <= start < c["beat"] + c["duration"]), None)
+        chord = next((c for c in harmony if c["section"] == occ["name"] and c["source"] == occ["source"]
+                      and c["bar"] == occ["start_bar"] and c["beat"] <= start < c["beat"] + c["duration"]), None)
         if chord is None:
             raise error("句頭を覆う和声がありません", occ["start_bar"])
         pitch = max(chord["pitches"]) + 12 + octave * 12 + transpose
