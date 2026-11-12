@@ -1,0 +1,38 @@
+{
+  "id": "phase1_arrangements",
+  "key": "C major",
+  "tempo": 180,
+  "meter": "4/4",
+  "form": ["A", "B", "A", "A'"],
+  "sections": {
+    "A": {"bars": 1, "chords": "Iadd9/3 iii V"},
+    "B": {"bars": 1, "chords": "iv"}
+  },
+  "master": {"reverb": "none"},
+  "parts": [
+    {"name": "melody_hi", "role": "arrange", "copy": "melody", "octave": 1,
+     "volume": 0.12, "humanize": 0.2, "reverb": 0},
+    {"name": "response", "role": "arrange", "accent": "counter", "source": "melody", "instrument": "kalimba",
+     "sections": ["A", "B"], "volume": 0.16, "humanize": 0.2, "reverb": 0},
+    {"name": "sparkle", "role": "arrange", "accent": "phrase_start", "instrument": "kalimba",
+     "volume": 0.14, "humanize": 0.2, "reverb": 0},
+    {"name": "tick", "role": "arrange", "type": "drums", "accent": "offbeat_tick", "kit": ["hat"],
+     "voices": {"hat": {"volume": 0.8, "pan": 0.15}}, "volume": 0.1, "humanize": 0.2, "reverb": 0},
+    {"name": "melody", "role": "melody", "instrument": "nylon_guitar", "grid": "1/8",
+     "phrases": {"A": "3 - . . 5 - . .", "B": ". . . . . . . ."},
+     "sections": ["A", "B"], "gate": 0.7, "volume": 0.3, "humanize": 0.2, "reverb": 0},
+    {"name": "countermelody", "role": "arrange", "instrument": "triangle_wave", "grid": "1/4",
+     "phrases": {"A": "1, - 3, -", "B": "4, - 3, -"},
+     "sections": ["A", "A'"], "volume": 0.1, "humanize": 0.2, "reverb": 0},
+    {"name": "bass", "role": "bass", "instrument": "bass", "style": "root_fifth",
+     "volume": 0.3, "humanize": 0.2, "reverb": 0},
+    {"name": "chords", "role": "chords", "instrument": "pad", "style": "pad",
+     "volume": 0.12, "humanize": 0.2, "reverb": 0},
+    {"name": "absolute_copy", "role": "arrange", "copy": "absolute", "instrument": "kalimba",
+     "volume": 0.05, "humanize": 0.2, "reverb": 0},
+    {"name": "absolute", "instrument": "square", "bars": ["C5:0.5 r:3.5"],
+     "volume": 0.05, "humanize": 0, "reverb": 0},
+    {"name": "direct_drums", "type": "drums", "bars": [{"noise_hit": "....x..."}],
+     "volume": 0.025, "humanize": 0, "reverb": 0}
+  ]
+}

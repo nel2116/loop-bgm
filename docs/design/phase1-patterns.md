@@ -2,7 +2,7 @@
 
 <!-- last-reviewed: 2026-11-11 -->
 
-- Status: Implemented for the subset below; spec3.6 and phase1 remain incomplete
+- Status: Implemented for the subset below; see the later arrangement record for updated scope; phase1 remains incomplete
 - Decided: 2026/11/10, coordinator-approved batch3 proposals and amendments
 - Issues: #34, #35, #36, #37, #38
 
@@ -132,6 +132,4 @@ tests do not establish that real case.
 
 ## Remaining work
 
-Spec3.6 still needs arrange phrase_start/offbeat_tick/counter and copy/countermelody,
-then loop variation, three templates and phase1 listening. Neither spec3.6 nor phase1
-is complete. MIDI files, usage mix and a new listening UI remain outside this batch.
+The later [arrangement integration](phase1-arrangements.md) implements the listed arrange patterns, copy and separately tested direct countermelody. The spec3.6 pattern table has implementations with the documented meter/catalog limitations. Remaining work is variation, three templates and phase1 listening; phase1 remains incomplete. MIDI files, usage mix and a new listening UI remain outside this batch.
