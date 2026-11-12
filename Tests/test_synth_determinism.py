@@ -4,12 +4,41 @@ import copy
 import json
 import subprocess
 import sys
+import time
 
 import numpy as np
 import soundfile as sf
 
 from bgm import render, synth
 from bgm.instruments import SYNTH_DRUMS, SYNTH_PITCHED
+
+
+def test_stem_normalization_preserves_every_other_byte(tmp_path):
+    audio = np.array([[.25, -.75], [.5, .125]], dtype=np.float32)
+    original = tmp_path / "original.wav"
+    stem = tmp_path / "stem.wav"
+    sf.write(original, audio, render.SR, subtype="FLOAT")
+    expected = bytearray(original.read_bytes())
+    peak = expected.index(b"PEAK")
+    expected[peak + 12:peak + 16] = b"\0" * 4
+    render._write_stem(stem, audio)
+    assert stem.read_bytes() == expected
+    np.testing.assert_array_equal(audio, sf.read(stem, dtype="float32")[0])
+
+
+def test_stem_bytes_remain_identical_across_wall_clock_seconds(tmp_path):
+    design = {"id": "clock", "tempo": 120, "bars": 1,
+              "master": {"reverb": "none"},
+              "parts": [{"name": "absolute", "instrument": "square", "bars": ["C4:4"]}]}
+    (tmp_path / "song.json").write_text(json.dumps(design), encoding="utf-8")
+    render.render_song(str(tmp_path), mp3=False, log=lambda *_: None)
+    stem = tmp_path / "stems/absolute.wav"
+    before = stem.read_bytes()
+    audio = sf.read(stem, dtype="float32")[0]
+    time.sleep(1.1)
+    render.render_song(str(tmp_path), force=True, mp3=False, log=lambda *_: None)
+    np.testing.assert_array_equal(audio, sf.read(stem, dtype="float32")[0])
+    assert before == stem.read_bytes()
 
 
 def synth_song():
