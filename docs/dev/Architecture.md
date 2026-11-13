@@ -53,6 +53,8 @@ Part hashes retain the mix-only exclusions (`volume`, `pan`, `mute`, `solo`, `no
 
 FLOAT stem WAVs keep libsndfile's PEAK chunk and peak values, but normalize its wall-clock timestamp to zero after writing (issue #55). This makes newly rendered files byte-identical across seconds without changing any audio samples, cache hashes or engine version. Previously cached stems remain readable and reusable; their historical timestamp is only normalized when rebuilt. PCM16 mixes do not contain this timestamp.
 
+Before `render_song` creates `stems/`, `render.check_samples(song)` resolves the instruments and drum voices each part actually plays (effective parts, variation instrument switches, generated drum events) and asks `sampler.missing_samples` which sample-based ones cannot load. Missing ones raise one `SongError` naming all of them with the `bgm fetch <names>` command; there is no synth fallback (issue #70, decided in #66). The `render` command also turns any remaining `OSError` into one `エラー: ...` line.
+
 ## Arrangement integration
 
 Songs using copy/accent/source validate the complete reference graph (both copy and source), catalog, notation, type, roles, exact selection and generator meter/settings before rendering/listening side effects. Declaration order is irrelevant. `arrangement.compile_arrangements` uses the accepted pure APIs; full details and musical limitations live in [the arrangement decision record](../design/phase1-arrangements.md). Counter's explicit source is a directly notated melody. Independent directly notated arrange countermelody is compiled separately and retains direct-note DSP.
