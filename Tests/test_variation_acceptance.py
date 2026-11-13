@@ -157,3 +157,22 @@ def test_empty_variation_on_legacy_song_keeps_legacy_path(tmp_path):
     varied = load(tmp_path, dict(raw, variation=[]))
     for a, b in zip(plain["parts"], varied["parts"], strict=True):
         assert render.part_hash(a, plain) == render.part_hash(b, varied)
+
+
+def test_empty_variation_on_structured_song_keeps_old_meter_support(tmp_path):
+    raw = {"id": "five", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
+           "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
+           "parts": [{"name": "lead", "instrument": "square", "bars": ["C4:2.5"], "reverb": 0}]}
+    plain = load(tmp_path, raw)
+    varied = load(tmp_path, dict(raw, variation=[]))
+    assert render.compile_song(plain) == render.compile_song(varied)
+    assert render.part_hash(plain["parts"][0], plain) == render.part_hash(varied["parts"][0], varied)
+
+
+def test_replaced_source_instrument_is_never_loaded(tmp_path, monkeypatch):
+    part = {"name": "lead", "instrument": "piano", "bars": ["C4:4", "C4:4"], "reverb": 0}
+    song = load(tmp_path, dict(two_bar_song(part, []), form=["A", "A"],
+                               variation=[{"section": "A", "part": "lead", "do": "instrument", "instrument": "bass"}]))
+    real = render.get_instrument
+    monkeypatch.setattr(render, "get_instrument", lambda name: pytest.fail("未使用のpianoを読み込んだ") if name == "piano" else real(name))
+    assert render.render_part(song["parts"][0], song).any()

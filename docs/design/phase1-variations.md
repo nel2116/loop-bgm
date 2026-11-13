@@ -20,7 +20,7 @@ Spec 3.7: the exported file repeats unchanged, so variation has to live inside o
 | `{"part":"drums","do":"fill_last_bar","every":8}` | `every` positive integer (bool rejected); no `section` | direct drums and grooves, not `offbeat_tick` |
 | `{"part":"arp","do":"period","beats":3}` | `beats` positive finite (bool rejected); optional `section` | `role:chords` + `style:arpeggio_up` only |
 
-Missing or `[]` means no change. `null`, wrong types, unknown fields/actions/names, overlapping rest with another action, overlapping duplicates, and more than one fill or period per part fail at load, before any sample access, output, cache or listen launch. Errors are Japanese and name the part and global bar. A valid rule whose selection is empty (or `every` larger than the song) is validated completely and then changes nothing: compiled data, hashes and audio stay exactly those of the song without `variation`. Rule order does not matter.
+Missing or `[]` means no change: `load_song` drops an empty list, so legacy songs and meters that variation rules do not support (such as 5/8) keep the old path exactly. `null`, wrong types, unknown fields/actions/names, overlapping rest with another action, overlapping duplicates, and more than one fill or period per part fail at load, before any sample access, output, cache or listen launch. Errors are Japanese and name the part and global bar. A valid rule whose selection is empty (or `every` larger than the song) is validated completely and then changes nothing: compiled data, hashes and audio stay exactly those of the song without `variation`. Rule order does not matter.
 
 ### Reset and meter table
 

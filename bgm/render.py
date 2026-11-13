@@ -87,8 +87,8 @@ def load_song(ref: str):
     names = [p.get("name") for p in song["parts"]]
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
-    if song.get("variation") == [] and not is_structured(song):
-        # 空のvariationは変化なしと同じ。従来形式の曲は従来の解析・ハッシュ・描画経路のまま扱う。
+    if song.get("variation") == []:
+        # 空のvariationは変化なしと同じ。拍子の制限なども含めて従来の解析・ハッシュ・描画経路のまま扱う。
         song = {k: v for k, v in song.items() if k != "variation"}
     _validate_song(song)
     if is_structured(song) or "variation" in song:
@@ -687,7 +687,8 @@ def render_part(part, song):
                 audio = audio * np.array([gl, gr], np.float32) * np.float32(vp.get("volume", 1.0))
             buf = place(buf, audio, int(t * SR))
     else:
-        fn = get_instrument(part["instrument"])
+        # 変化対象パートはイベントごとに実際に使う楽器だけを読み込む。
+        fn = None if varied else get_instrument(part["instrument"])
         gate = float(part.get("gate", 1.0))
         strum = float(part.get("strum", .02 if part.get("style") == "strum" else 0))  # seconds between chord notes
         compiled = compile_song(song) if "style" in part else None
