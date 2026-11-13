@@ -15,7 +15,7 @@ def _finite(value):
         return False
 
 
-def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
+def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127), pitch_resolver=None):
     """承認済みの固定拍型を (拍, MIDI一覧, 長さ, 強さ) へ変換する。
 
     padは各和声開始から持続、blockは四分拍ごとに0.8拍、offbeatは
@@ -117,7 +117,7 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
             low, high = note_range
             minimum = -((min(pitches) - low) // 12)
             maximum = (high - max(pitches)) // 12
-            if minimum > maximum:
+            if pitch_resolver is None and minimum > maximum:
                 raise error("転回形と音程間隔を保ったまま全構成音を音域に収められません", chord["bar"])
             shift = min(max(0, minimum), maximum) * 12
             pitches = [pitch + shift for pitch in pitches]
@@ -134,19 +134,21 @@ def compile_chords(part, song, occurrences, harmony, *, note_range=(0, 127)):
             for position in positions:
                 if position >= boundary:
                     break
+                resolved = (pitch_resolver(position, chord["pitches"], int(position // bar_beats) + 1)
+                            if pitch_resolver is not None else pitches)
                 short = style in ("offbeat", "arpeggio_up", "broken")
                 duration = boundary - position if style == "pad" else min(0.4 if short else 0.8, boundary - position)
                 local = (position - start) % bar_beats
-                tones = list(pitches)
+                tones = list(resolved)
                 if style in ("arpeggio_up", "broken"):
                     # 和声変更では位相を変えず、小節内の八分拍番号で選ぶ。
                     step = round(local * 2)
                     order = list(range(len(pitches)))
                     if style == "broken":
                         order = [i for pair in zip(order, reversed(order), strict=True) for i in pair][:len(pitches)]
-                    tones = [pitches[order[step % len(order)]]]
+                    tones = [resolved[order[step % len(order)]]]
                 elif style == "waltz":
-                    tones = pitches[:1] if local == 0 else pitches[1:]
+                    tones = resolved[:1] if local == 0 else resolved[1:]
                     if not tones:
                         continue
                 strong = any(math.isclose(local, accent, abs_tol=1e-9, rel_tol=0) for accent in accents)

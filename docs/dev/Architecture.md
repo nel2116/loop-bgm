@@ -24,6 +24,8 @@ Both render and listen use `load_song`. Every part, used phrase and used harmony
 | `rhythm.py` | Pure meter/groove-to-drum generator; catalog voice names supplied as data |
 | `arrange_copy.py` / `arrange_accents.py` / `arrange_response.py` | Pure graph/instrument/copy, phrase-start/tick and written-rest counter APIs |
 | `arrangement.py` | Dependency-first integration, separate effective parts, parallel original-event identity and hard-window metadata |
+| `variation.py` / `variation_fill.py` / `variation_period.py` | Pure variation plan/instrument spans/pitch transform/rest, drum fill and period-overlay APIs |
+| `variation_integration.py` | Bridges the variation plan to the compilers through `pitch_resolver`; adds draw/generated identity and onset instrument metadata |
 | `instruments.py` | catalog: sampled instruments (VSCO 2 CE folder + filename regex, range, gain, Japanese name), percussion, synth instruments |
 | `sampler.py` | sampled instrument: nearest root sample, resampling for pitch, velocity layers, round robin, release envelope |
 | `synth.py` | synth voices (e-piano, bass, plucked strings by Karplus-Strong, pad, square/pulse/triangle/saw) and synth drums |
@@ -59,3 +61,9 @@ Only these songs add `effective_parts` and `event_metadata` to `compile_song`'s 
 Arrangement hashes use the effective destination instrument, actual events/windows/identity and existing destination audio settings. Source DSP and mix-only changes, and unrelated parts, do not enter dependent hashes. No internal arrangement cache revision is added: actual event/metadata/effective-instrument changes already distinguish previously ignored copy/phrase-start caches. The final regression helper verifies this using real738b980 caches. Every old song retains its previous compiled object, hash and waveform path, ENGINE_VERSION0.2 and chord_pattern_dsp=1.
 
 Written degree phrases are validated independently of selection, but missing unselected phrases remain optional. When arrangement integration filters a directly written absolute part by occurrence selection, its hash uses those actual selected events only if they differ from the legacy events. Adding or removing arrangements then invalidates the affected stem; unchanged direct parts keep their old hashes.
+
+## Variation integration
+
+A top-level `variation` list makes `load_song` compile even legacy-format songs, so every rule is validated before side effects. `compile_song` delegates to `variation_integration.compile_variations`: it compiles the song without `variation` as the baseline, returns that baseline unchanged when no rule selects any interval, and otherwise recompiles only affected parts (and copy/counter dependents of changed parts) via the compilers' keyword-only `pitch_resolver`. The result lists them in `variation_parts`; `parse_note_bars`/`parse_drum_bars`, `part_hash` and `render_part` take the baseline path for every other part.
+
+For a varied part, `render_part` pre-draws the original per-event `(time, velocity)` humanize pairs for every original event index, so events removed by rest or fill still consume their draws; generated events use a local RNG seeded from destination name and event identity. The onset's `instrument` metadata selects the voice inside the same part buffer. The hash of a varied part covers its effective part (without mix-only keys), events and metadata; others keep their old hash. Notation, order, tables and the spec 3.7 coverage matrix are in [the variation decision record](../design/phase1-variations.md).

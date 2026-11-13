@@ -68,7 +68,7 @@ def _settings(part, song, occurrences, accent):
     return error, beats, offsets, chosen, end, velocity
 
 
-def compile_phrase_start(part, song, occurrences, harmony, *, note_range=(0, 127)):
+def compile_phrase_start(part, song, occurrences, harmony, *, note_range=(0, 127), pitch_resolver=None):
     """各選択出現の頭だけに、実和声の最高音の1オクターブ上を置く。
 
     gateやswing等は適用しない。描画側は和声・出現・曲末の窓を保持する。
@@ -112,11 +112,13 @@ def compile_phrase_start(part, song, occurrences, harmony, *, note_range=(0, 127
         pitch = max(chord["pitches"]) + 12 + octave * 12 + transpose
         low, high = note_range
         minimum, maximum = -((pitch - low) // 12), (high - pitch) // 12
-        if minimum > maximum:
+        if pitch_resolver is None and minimum > maximum:
             raise error("音程クラスを保ったまま音域に収められません", occ["start_bar"])
         pitch += min(max(0, minimum), maximum) * 12
         duration = min(.5, chord["beat"] + chord["duration"] - start, occ["bars"] * beats, song_end - start)
         if duration > 0:
+            if pitch_resolver is not None:
+                pitch = pitch_resolver(start, [max(chord["pitches"]) + 12], occ["start_bar"])[0]
             events.append((start, [pitch], duration, max(1, min(127, round(velocity * 1.2)))))
     return events
 

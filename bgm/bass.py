@@ -7,7 +7,7 @@ def _number(value):
     return type(value) is int or type(value) is float and math.isfinite(value)
 
 
-def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
+def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127), pitch_resolver=None):
     """和声の伴奏を (拍, MIDI一覧, 長さ, velocity) で返す。
 
     arpeggioは転回後の構成音、他はrootを1オクターブ下げて相対移調する。
@@ -135,12 +135,18 @@ def compile_bass(part, song, occurrences, harmony, *, note_range=(0, 127)):
                     low, high = note_range
                     lower = -((min(tones) - low) // 12)
                     upper = (high - max(tones)) // 12
-                    if lower > upper:
+                    if pitch_resolver is None and lower > upper:
                         raise error("全構成音を共通のオクターブ補正で音域内に収められません", bar)
                     shift = min(max(0, lower), upper)
                     pitch = tones[tone_index % len(tones)] + shift * 12
+                if pitch_resolver is not None:
+                    if style == "arpeggio":
+                        resolved = pitch_resolver(beat, [p - 12 for p in chord["pitches"]], bar)
+                        pitch = resolved[tone_index % len(resolved)]
+                    else:
+                        pitch = pitch_resolver(beat, [pitch - octave * 12 - transpose], bar)[0]
                 tone_index += 1
-                if style != "arpeggio":
+                if style != "arpeggio" and pitch_resolver is None:
                     low, high = note_range
                     # 整数演算で巨大な移調にも対応し、同距離なら低い音を選ぶ。
                     lower = -((pitch - low) // 12)
