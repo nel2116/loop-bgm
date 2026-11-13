@@ -12,7 +12,7 @@ import pytest
 import soundfile as sf
 
 from bgm.paths import SR
-from bgm.render import SongError, check_loop, fold_loop, load_song, parse_note_bars, render_song, song_seconds
+from bgm.render import SongError, _is_drums, check_loop, fold_loop, load_song, parse_note_bars, render_song, song_seconds
 from bgm.theory import midi_to_name, note_to_midi, parse_pitches
 
 SYNTH_SONG = {
@@ -174,5 +174,5 @@ def test_example_songs_parse():
     for f in sorted(root.glob("*/song.json")):
         _, song = load_song(str(f))
         for part in song["parts"]:
-            if part.get("type") != "drums":
+            if not _is_drums(part):
                 parse_note_bars(part, song)
