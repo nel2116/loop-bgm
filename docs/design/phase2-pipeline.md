@@ -2,8 +2,8 @@
 
 <!-- last-reviewed: 2026-11-13 -->
 
-- Status: Proposed
-- Decided: (pending coordinator approval)
+- Status: Accepted (implementation pending in #75)
+- Decided: 2026/11/14, by the batch coordinator with the user (`usage` required, free-text scene descriptions moved to `scene`)
 - Issues: [#75](https://github.com/nel2116/loop-bgm/issues/75)
 
 ## Goal
@@ -25,7 +25,7 @@ As of develop `5093ea2`:
 
 - `render_song` renders stems with the `part_hash` cache (`stems/cache.json`), mixes (`volume`, `pan`, `mute`, `solo`), peak-normalizes to -1 dBFS times `master.gain_db` (attenuation only), fades one-shots, writes `mix.json`, copies the previous master into `history/<mtime stamp>.wav` (+ `.json` from `last_song.json`, keeping 10), writes `songs/<id>/<id>.wav` (PCM_16), copies `song.json` to `last_song.json`, writes `<id>.mp3` through ffmpeg, and logs `check_loop`.
 - `check_loop` (`bgm/render.py:772`) only logs: a jump `|x[0] - x[-1]|` above 1.5 x the 99.9th percentile of `|diff|`, or a start/end RMS difference (0.25 s windows) above 9 dB. Inputs shorter than 1 s are not judged.
-- `usage` is not read. `bgm/templates.py:15` forbids it in templates. Three sample songs carry free Japanese text there (`phase1_acoustic`: 「カフェや日常の場面」, `phase1_comical`, `phase1_drama_strings`).
+- `usage` was not read. `bgm/templates.py:15` forbids it in templates. Three sample songs carry free Japanese text there (`phase1_acoustic`: 「カフェや日常の場面」, `phase1_comical`, `phase1_drama_strings`).
 - No scipy; numpy and soundfile only.
 
 ## Options
@@ -196,14 +196,15 @@ PROFILES = {
     "game":  Profile("game",  -16.0, False, (60, 180), ("ogg", "wav")),
     "trpg":  Profile("trpg",  -20.0, True,  (120, 300), ("ogg", "mp3", "long")),
 }
-DEFAULT_USAGE = "<pending coordinator decision>"
 
+def validate_usage(song) -> None   # raises ValueError with the Japanese message
 def resolve(song) -> Profile
 ```
 
-- `load_song` validates `usage`: absent means `DEFAULT_USAGE`; any other value than the three strings fails with `song.json の usage は video / game / trpg のどれかにしてください（いまは「…」です）`. `load_song` does not write the default into the song (so templates' forbidden-key rule and `part_hash` are untouched); `resolve` applies it.
-- In #75 the profile is passed to the stages but changes nothing: no LUFS normalization, no voice band, no new outputs (`mp3` stays the CLI flag). `usage` does not enter `part_hash`.
-- The three sample songs with free-text `usage` must change: see the open question below.
+- `usage` is **required; there is no default** (user decision). `load_song` calls `validate_usage` and raises `SongError` when it is missing (`song.json に usage がありません。用途を video（動画）/ game（ゲーム）/ trpg（TRPGのセッション）のどれかで書いてください`) or not one of the three strings (`song.json の usage は video / game / trpg のどれかにしてください（いまは「…」です）`). Spec 3.2 marks `usage` as required.
+- In #75 the profile is passed to the stages but changes nothing: no LUFS normalization, no voice band, no new outputs (`mp3` stays the CLI flag). `usage` does not enter `part_hash`, so adding it to a song does not rebuild stems.
+- Song-level `scene` (new, optional): a free-text note about the scene the song is for. The program does not read it. `phase1_acoustic`, `phase1_comical` and `phase1_drama_strings` move their former free-text `usage` there and get `"usage": "video"`. Every other song in `songs/` gets `"usage": "video"` (`phase1_degrees` after #74 has merged, since #74 owns it).
+- `bgm new <id> --style <type> --usage <video|game|trpg>`: `--usage` is a required argparse option with those choices (a missing or wrong value is an argparse usage error, exit code 2, nothing written). `templates.new_song(song_id, style, usage, ...)` writes `{"id", "style", "usage", ...song}` in that order. `scene`, like `title`, is per song and joins `SONG_FORBIDDEN_KEYS` (templates must not contain it); the AI adds it after `bgm new`.
 
 ### 6. `bgm/loudness.py`
 
@@ -230,8 +231,3 @@ The mix and master stages are the old code moved verbatim (same float32 operatio
 - Wave 2 file ownership: mix → `bgm/mix.py`; output → `bgm/export.py`; note checks → `bgm/checks/notes.py`; audio checks → `bgm/checks/audio.py`; each with its own test file. `bgm/pipeline.py`, `bgm/checks/__init__.py`, `bgm/report.py`, `bgm/notes.py`, `bgm/profiles.py` and `bgm/loudness.py` are shared contracts: change them only by updating this record first.
 - `--parts`/`--bars`/`--seam` (spec 5.6) will be options of `pipeline.run` that filter stems or slice the master before the write stage; not part of #75.
 - Moving the master breaks any local script that reads `songs/<id>/<id>.wav`; the repository's users are updated in #75.
-
-## Open questions for the coordinator
-
-1. `DEFAULT_USAGE` when a song omits `usage`. Proposal: `video` (its standard outputs, WAV and MP3, are what `bgm render` writes today).
-2. `phase1_acoustic`, `phase1_comical` and `phase1_drama_strings` have free-text `usage` (scene descriptions). Proposal: move the text to a song-level `scene` key (not read by the program) and set `usage` to `video`, or simply delete `usage` and rely on the default.
