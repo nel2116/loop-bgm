@@ -442,3 +442,12 @@ def test_bad_occurrences_report_japanese_error():
     occurrences[1]["start_bar"] = 100
     with pytest.raises(ValueError, match=r"\[variation\] 3番目の小節"):
         compile_variation(song, occurrences, pitched_catalog=CATALOG, available_voices=VOICES)
+
+
+def test_empty_rules_with_distinct_instruments_still_have_canonical_order():
+    song = design()
+    song["parts"][0]["sections"] = []
+    song["variation"] = [rule("instrument", instrument=i) for i in ("square", "flute")]
+    plan = compile(song)
+    song["variation"].reverse()
+    assert compile(song) == plan

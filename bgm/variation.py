@@ -269,7 +269,8 @@ def compile_variation(song, occurrences, *, pitched_catalog, available_voices):
                         if rule.action == other.action or "rest" in (rule.action, other.action):
                             raise _error(rule.part, "同じ動作の重複、またはrestと他の変化の重なりがあります",
                                          max(left.start_bar, right.start_bar))
-    plan = VariationPlan(tuple(sorted(result, key=lambda r: (r.part, r.action, tuple(i.start for i in r.intervals)))), beats)
+    plan = VariationPlan(tuple(sorted(result, key=lambda r: (r.part, r.action, tuple(i.start for i in r.intervals),
+                                                            r.instrument or "", r.every or 0, r.beats or 0))), beats)
     # 空選択でも通常楽器とコピー継承を解決し、存在しない楽器を隠さない。
     resolve_instrument_spans(parts, occurrences, plan, pitched_catalog=catalog)
     return plan
