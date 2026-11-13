@@ -1,0 +1,73 @@
+{
+  "name": "acoustic",
+  "ja": "アコースティック小編成",
+  "tempo_range": [
+    80,
+    110
+  ],
+  "song": {
+    "tempo": 96,
+    "key": "C major",
+    "meter": "4/4",
+    "form": [
+      "A",
+      "A'",
+      "B",
+      "A"
+    ],
+    "sections": {
+      "A": {
+        "bars": 8,
+        "chords": "I | vi | IV | V | I | vi | ii V | I"
+      },
+      "B": {
+        "bars": 8,
+        "chords": "IV | V | iii | vi | IV | V | I | V"
+      }
+    },
+    "master": {
+      "reverb": "room"
+    },
+    "parts": [
+      {
+        "name": "melody",
+        "role": "melody",
+        "instrument": "flute",
+        "grid": "1/8",
+        "phrases": {
+          "A": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . .",
+          "B": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . ."
+        },
+        "note": "仮のメロディ（休符のみ）。度数で書き換える",
+        "volume": 0.5
+      },
+      {
+        "name": "guitar",
+        "role": "chords",
+        "instrument": "nylon_guitar",
+        "style": "strum",
+        "volume": 0.4
+      },
+      {
+        "name": "bass",
+        "role": "bass",
+        "instrument": "piano",
+        "style": "root_fifth",
+        "volume": 0.4
+      }
+    ],
+    "variation": [
+      {
+        "section": "A'",
+        "part": "melody",
+        "do": "octave_up"
+      },
+      {
+        "section": "B",
+        "part": "guitar",
+        "do": "instrument",
+        "instrument": "piano"
+      }
+    ]
+  }
+}

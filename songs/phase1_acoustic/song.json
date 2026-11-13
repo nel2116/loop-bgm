@@ -1,0 +1,68 @@
+{
+  "id": "phase1_acoustic",
+  "style": "acoustic",
+  "title": "アコースティック小編成の見本",
+  "usage": "カフェや日常の場面",
+  "tempo": 96,
+  "key": "C major",
+  "meter": "4/4",
+  "form": [
+    "A",
+    "A'",
+    "B",
+    "A"
+  ],
+  "sections": {
+    "A": {
+      "bars": 8,
+      "chords": "I | vi | IV | V | I | vi | ii V | I"
+    },
+    "B": {
+      "bars": 8,
+      "chords": "IV | V | iii | vi | IV | V | I | V"
+    }
+  },
+  "master": {
+    "reverb": "room"
+  },
+  "parts": [
+    {
+      "name": "melody",
+      "role": "melody",
+      "instrument": "flute",
+      "grid": "1/8",
+      "phrases": {
+        "A": "3 - 5 - 1' - 7 6 | 6 - - - 1 - 3 - | 4 - 6 - 1' - 6 4 | 5 - - - . . 5 4 | 3 - 5 - 1' - 2' 1' | 1' - 6 - 3 - 6 - | 4 - 2 - 5 - 4 2 | 1 - - - - - . .",
+        "B": "6 - 4 - 6 1' 6 4 | 5 - - - 2 - 5 - | 5 - 3 - 7, - 3 - | 6 - - - 3 - 1 - | 4 - 6 - 1' - 6 - | 7 - 5 - 2 - 7 - | 1' - 5 - 3 - 5 - | 5 - - - 7, 2 5 7"
+      },
+      "volume": 0.5
+    },
+    {
+      "name": "guitar",
+      "role": "chords",
+      "instrument": "nylon_guitar",
+      "style": "strum",
+      "volume": 0.4
+    },
+    {
+      "name": "bass",
+      "role": "bass",
+      "instrument": "piano",
+      "style": "root_fifth",
+      "volume": 0.4
+    }
+  ],
+  "variation": [
+    {
+      "section": "A'",
+      "part": "melody",
+      "do": "octave_up"
+    },
+    {
+      "section": "B",
+      "part": "guitar",
+      "do": "instrument",
+      "instrument": "piano"
+    }
+  ]
+}
