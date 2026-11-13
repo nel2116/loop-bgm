@@ -807,8 +807,35 @@ def _write_stem(path, audio):
             wav.seek(size + size % 2, 1)
 
 
+def check_samples(song):
+    """書き出しの前に、曲が使う音源がそろっているか確かめる。足りなければ全部を名指しする。"""
+    arranged = compile_song(song) if arrangement.enabled(song) or "variation" in song else None
+    if arranged is not None and "effective_parts" not in arranged:
+        arranged = None
+    instruments, drums = set(), set()
+    for part in song["parts"]:
+        varied = arranged is not None and part["name"] in arranged.get("variation_parts", [])
+        if arranged is not None:
+            part = arranged["effective_parts"][part["name"]]
+        if _is_drums(part):
+            events = arranged["rhythm"][part["name"]] if varied else parse_drum_bars(part, song)
+            drums.update(voice for _, voice, _ in events if voice in PERCUSSION)
+        elif varied:
+            instruments.update(m["instrument"] for m in arranged["event_metadata"][part["name"]] if m["instrument"] in SAMPLED)
+        elif part["instrument"] in SAMPLED:
+            instruments.add(part["instrument"])
+    if not instruments and not drums:
+        return
+    from .sampler import missing_samples
+    missing = missing_samples(instruments, drums)
+    if missing:
+        names = " ".join(missing)
+        raise SongError(f"音源がない楽器があります: {', '.join(missing)}。`bgm fetch {names}` を実行してください")
+
+
 def render_song(ref, force=False, mp3=True, log=print):
     d, song = load_song(ref)
+    check_samples(song)
     stems_dir = d / "stems"
     stems_dir.mkdir(exist_ok=True)
     cache_f = stems_dir / "cache.json"
