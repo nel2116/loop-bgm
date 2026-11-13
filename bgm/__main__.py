@@ -4,6 +4,7 @@
   python -m bgm fetch [instrument ...] [--verify]    download the samples the kit uses
   python -m bgm listen [song] [--port 8765]           open a local listening page
   python -m bgm status [instrument ...]              how many sample files are missing
+  python -m bgm new <song> --style <type>             create songs/<song>/song.json from templates/<type>.json
 """
 
 import argparse
@@ -27,7 +28,21 @@ def main(argv=None):
     p = sub.add_parser("listen", help="ローカルの試聴画面を起動する")
     p.add_argument("song", nargs="?", default="proto_test", help="曲ID、曲フォルダー、または song.json")
     p.add_argument("--port", type=int, default=8765, choices=range(1, 65536), metavar="1-65535")
+    p = sub.add_parser("new", help="曲の型から設計図の雛形を作る")
+    p.add_argument("song", help="曲ID（英小文字・数字・_）")
+    p.add_argument("--style", required=True, help="曲の型（templates/<型>.json）")
     args = parser.parse_args(argv)
+
+    if args.command == "new":
+        from .templates import NewSongError, new_song
+
+        try:
+            new_song(args.song, args.style)
+        except NewSongError as e:
+            print(e, file=sys.stderr)
+            return 1
+        print(f"作成しました: songs/{args.song}/song.json（型: {args.style}）")
+        return 0
 
     if args.command == "listen":
         from .listen import serve
