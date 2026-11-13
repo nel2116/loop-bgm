@@ -2,7 +2,7 @@
 
 <!-- last-reviewed: 2026-11-13 -->
 
-- Status: Accepted (implementation pending in #75)
+- Status: Implemented (#75)
 - Decided: 2026/11/14, by the batch coordinator with the user (`usage` required, free-text scene descriptions moved to `scene`)
 - Issues: [#75](https://github.com/nel2116/loop-bgm/issues/75)
 

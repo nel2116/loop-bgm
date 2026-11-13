@@ -6,7 +6,7 @@ The target design is `docs/spec.md` sections 2-9. This file describes what the c
 
 ## Data flow
 
-`songs/<id>/song.json` → `render.load_song` (defaults, validation, structured-song compilation) → per part: `parse_note_bars` / `parse_drum_bars` (events in quarter-note beats) → `render_part` (instrument voices placed at sample positions, swing, humanize, reverb send) → `fold_loop` (everything ringing past the loop end is added back onto the start, so the file loops without a seam) → mix (volume, pan, peak normalize to -1 dBFS) → WAV (+ MP3 via ffmpeg) → `check_loop` (jump and level difference at the seam).
+`songs/<id>/song.json` → `render.load_song` (defaults, validation, structured-song compilation) → per part: `parse_note_bars` / `parse_drum_bars` (events in quarter-note beats) → `render_part` (instrument voices placed at sample positions, swing, humanize, reverb send) → `fold_loop` (everything ringing past the loop end is added back onto the start, so the file loops without a seam) → mix (volume, pan, peak normalize to -1 dBFS) → `out/<id>.wav` (+ MP3 via ffmpeg) → checks (jump and level difference at the seam) → `out/report.json`. The stages after loading are in `bgm/pipeline.py` (see "Render pipeline" below).
 
 Both render and listen use `load_song`. Every part, used phrase and used harmony bar is validated before sample access, output creation or cache lookup. Structured songs derive total bars and beats per bar from `structure`; matching explicit legacy timing fields are accepted, conflicting fields fail. No structural fields means the unchanged legacy path, including optional uninterpreted `key`.
 
@@ -30,7 +30,13 @@ Both render and listen use `load_song`. Every part, used phrase and used harmony
 | `instruments.py` | catalog: sampled instruments (VSCO 2 CE folder + filename regex, range, gain, Japanese name), percussion, synth instruments |
 | `sampler.py` | sampled instrument: nearest root sample, resampling for pitch, velocity layers, round robin, release envelope |
 | `synth.py` | synth voices (e-piano, bass, plucked strings by Karplus-Strong, pad, square/pulse/triangle/saw) and synth drums |
-| `render.py` | song loading, parsing, per-part render with hash cache, loop folding, mix, seam check |
+| `render.py` | song loading (including `usage`), parsing, per-part render, loop folding; `render_song` = load + sample preflight + `pipeline.run`; `check_loop` wrapper |
+| `pipeline.py` | runs the stages in order: notes → stems → mix → master → write → check → report |
+| `profiles.py` | `usage` profiles (`video` / `game` / `trpg`, spec 5.4) and `validate_usage` |
+| `notes.py` | notes stage: the compiled events as `build/notes.json` |
+| `stems.py` / `mix.py` / `export.py` | stems with the `part_hash` cache; mix and master (peak normalize); history, `out/<id>.wav`, MP3, `last_song.json` |
+| `checks/` | check registry (`Issue`, `CheckContext`, `note_check`, `audio_check`, `run_checks`); note checks in `checks/notes.py`, audio checks in `checks/audio.py` |
+| `report.py` / `loudness.py` | `out/report.json` (spec 6.3); BS.1770 integrated loudness and sample peak in pure numpy |
 | `fetch.py` | sample download and verification against `data/vsco2-lock.json` |
 | `listen.py` | minimal read-only local listening page, Web Audio loop playback, localhost HTTP server (`bgm listen`) |
 
@@ -55,6 +61,12 @@ FLOAT stem WAVs keep libsndfile's PEAK chunk and peak values, but normalize its 
 
 Before `render_song` creates `stems/`, `render.check_samples(song)` resolves the instruments and drum voices each part actually plays (effective parts, variation instrument switches, generated drum events) and asks `sampler.missing_samples` which sample-based ones cannot load. Missing ones raise one `SongError` naming all of them with the `bgm fetch <names>` command; there is no synth fallback (issue #70, decided in #66). The `render` command also turns any remaining `OSError` into one `エラー: ...` line.
 
+## Render pipeline (phase 2)
+
+`render_song` keeps its signature: `load_song` (which also requires a valid `usage`, Japanese `SongError` otherwise), `check_samples`, then `pipeline.run`. Each stage is one module with one owner in wave 2; the contracts (function signatures, `build/notes.json` and `out/report.json` schemas, the check interface, the profile table, the loudness API) are fixed in [the phase 2 pipeline decision record](../design/phase2-pipeline.md).
+
+Output layout per song: `stems/` (cache, unchanged), `build/notes.json` and `build/mix.json`, `out/<id>.wav` (master, PCM_16), `out/<id>.mp3`, `out/report.json`; `history/` and `last_song.json` stay at the song folder. A render that finds the pre-#75 `songs/<id>/<id>.wav` rotates it into `history/` and deletes the old `<id>.wav`, `<id>.mp3` and `mix.json`. `bgm listen` serves `out/<id>.wav`. The audio is the same as before the split (`Tests/verify_phase2_pipeline.py` compares every song with the pre-split commit); `report.json` and `notes.json` contain no timestamps, so two renders give the same bytes. Loudness is only measured (`metrics.lufs`); normalizing to the profile target is wave 2.
+
 ## Arrangement integration
 
 Songs using copy/accent/source validate the complete reference graph (both copy and source), catalog, notation, type, roles, exact selection and generator meter/settings before rendering/listening side effects. Declaration order is irrelevant. `arrangement.compile_arrangements` uses the accepted pure APIs; full details and musical limitations live in [the arrangement decision record](../design/phase1-arrangements.md). Counter's explicit source is a directly notated melody. Independent directly notated arrange countermelody is compiled separately and retains direct-note DSP.
@@ -73,6 +85,6 @@ For a varied part, `render_part` pre-draws the original per-event `(time, veloci
 
 ## Song templates (`bgm new`)
 
-`python -m bgm new <id> --style <type>` creates `songs/<id>/song.json` from `templates/<type>.json` (`bgm/templates.py`). A template is `{name, ja, tempo_range, song}`; `song` is a literal design skeleton. `load_template` checks the keys, `name` against the file stem, `ja`, `tempo_range` and `song.tempo` inside it, and the absence of `id`/`style`/`title`/`usage` in `song`. `new_song` writes `{"id", "style", ...song}` in that key order (`json.dumps(indent=2, ensure_ascii=False)` plus a newline, UTF-8, LF), so the same arguments give the same bytes. Before writing it runs `load_song` on a copy in a temporary folder; a skeleton that fails counts as a broken template.
+`python -m bgm new <id> --style <type>` creates `songs/<id>/song.json` from `templates/<type>.json` (`bgm/templates.py`). A template is `{name, ja, tempo_range, song}`; `song` is a literal design skeleton. `load_template` checks the keys, `name` against the file stem, `ja`, `tempo_range` and `song.tempo` inside it, and the absence of `id`/`style`/`title`/`usage`/`scene` in `song`. `bgm new` requires `--usage {video,game,trpg}`; `new_song` writes `{"id", "style", "usage", ...song}` in that key order (`json.dumps(indent=2, ensure_ascii=False)` plus a newline, UTF-8, LF), so the same arguments give the same bytes. Before writing it runs `load_song` on a copy in a temporary folder; a skeleton that fails counts as a broken template.
 
 Refusals write nothing and exit 1, checked in order: song id not `^[a-z0-9_]+$`; `songs/<id>` already exists (even an empty folder or a file); type not among the sorted stems of `templates/*.json` (listed in the message); broken template. Song-level `style` only records the template name: `load_song`, `compile_song`, `part_hash` and the renderer do not read it. The format, the first three templates and the test split are in [the template decision record](../design/phase1-templates.md).
