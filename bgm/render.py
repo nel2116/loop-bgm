@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from . import ENGINE_VERSION, arrangement
+from . import ENGINE_VERSION, arrangement, variation_integration
 from .bass import compile_bass
 from .chords import compile_chords
 from .harmony import compile_progression
@@ -88,7 +88,7 @@ def load_song(ref: str):
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
     _validate_song(song)
-    if is_structured(song):
+    if is_structured(song) or "variation" in song:
         compile_song(song)
     return d, song
 
@@ -117,6 +117,11 @@ def _structure(song):
 
 def compile_song(song):
     """構造付き設計図を変更せず、音符・打楽器・和音データを返す。"""
+    if "variation" in song:
+        try:
+            return variation_integration.compile_variations(song, compile_song, parse_note_bars)
+        except ValueError as exc:
+            raise SongError(str(exc)) from exc
     if arrangement.enabled(song):
         try:
             return arrangement.compile_arrangements(song, _compile_song)
@@ -325,6 +330,8 @@ def _num(s):
 
 def parse_note_bars(part, song, *, pitch_resolver=None):
     """Return list of (beat, [midi...], dur_beats, vel) for a note part."""
+    if "variation" in song and pitch_resolver is None:
+        return compile_song(song)["notes"][part["name"]]
     if "style" in part or any(k in part for k in ("copy", "accent", "source")):
         _validate_notation(part, song)
         return compile_song(song)["notes"][part["name"]]
@@ -404,6 +411,8 @@ def parse_note_bars(part, song, *, pitch_resolver=None):
 
 
 def parse_drum_bars(part, song):
+    if "variation" in song:
+        return compile_song(song)["rhythm"][part["name"]]
     if "groove" in part or "accent" in part:
         _validate_notation(part, song)
         return compile_song(song)["rhythm"][part["name"]]
@@ -553,6 +562,17 @@ def _swing(beat, song):
 
 
 def part_hash(part, song):
+    if "variation" in song:
+        compiled = compile_song(song)
+        if part["name"] not in compiled.get("variation_parts", []):
+            return part_hash(part, {k: v for k, v in song.items() if k != "variation"})
+        effective = compiled["effective_parts"][part["name"]]
+        key = {k: v for k, v in effective.items() if k not in MIX_ONLY_KEYS}
+        ctx = {k: song.get(k) for k in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit", "loop")}
+        ctx.update(engine=ENGINE_VERSION, reverb=song["master"]["reverb"],
+                   events=compiled["rhythm" if _is_drums(part) else "notes"][part["name"]],
+                   metadata=compiled["event_metadata"][part["name"]])
+        return hashlib.sha1(json.dumps([key, ctx], sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
     compiled = compile_song(song) if arrangement.enabled(song) else None
     selected_absolute = (compiled is not None and "sections" in part and "bars" in part and not _is_drums(part)
                          and compiled["notes"][part["name"]] != parse_note_bars(part, song))
@@ -606,7 +626,10 @@ def _generated_window(beat, onset, duration, compiled, sec_per_beat):
 
 
 def render_part(part, song):
-    arranged = compile_song(song) if arrangement.enabled(song) else None
+    arranged = compile_song(song) if arrangement.enabled(song) or "variation" in song else None
+    varied = arranged is not None and part["name"] in arranged.get("variation_parts", [])
+    if arranged is not None and "effective_parts" not in arranged:
+        arranged = None
     if arranged is not None:
         part = arranged["effective_parts"][part["name"]]
     sec_per_beat = 60.0 / song["tempo"]
@@ -622,16 +645,36 @@ def render_part(part, song):
     def jitter_v(v):
         return int(np.clip(v + (rng.normal(0, 5 * hum) if hum else 0), 1, 127))
 
+    event_meta = arranged["event_metadata"][part["name"]] if varied else None
+    original_draws = []
+    if varied:
+        for _ in range(max((m.get("draw", -1) for m in event_meta), default=-1) + 1):
+            original_draws.append((rng.normal(0, .004 * hum), rng.normal(0, 5 * hum)) if hum else (0., 0.))
+
+    def variation_jitter(index, velocity):
+        meta = event_meta[index]
+        if "draw" in meta:
+            jt, jv = original_draws[meta["draw"]]
+        else:
+            blob = json.dumps([part["name"], meta["generated"], meta["ordinal"]], ensure_ascii=False, sort_keys=True)
+            seed = int.from_bytes(hashlib.sha256(blob.encode()).digest()[:16], "big")
+            local = np.random.default_rng(seed)
+            jt, jv = (local.normal(0, .004 * hum), local.normal(0, 5 * hum)) if hum else (0., 0.)
+        return jt, int(np.clip(velocity + jv, 1, 127))
+
     if _is_drums(part):
-        for beat, voice, vel in parse_drum_bars(part, song):
+        events = arranged["rhythm"][part["name"]] if varied else parse_drum_bars(part, song)
+        for event_index, (beat, voice, vel) in enumerate(events):
             fn = get_drum(voice)
-            t = _swing(beat, song) * sec_per_beat + jitter_t()
-            v = jitter_v(vel)
+            jt, v = variation_jitter(event_index, vel) if varied else (jitter_t(), jitter_v(vel))
+            t = _swing(beat, song) * sec_per_beat + jt
             if voice == "noise_hit":
                 from .synth import render_drum
                 identity = (beat, voice, vel)
                 ordinal = duplicates.get(identity, 0)
                 duplicates[identity] = ordinal + 1
+                if varied:
+                    ordinal = event_meta[event_index]["ordinal"]
                 audio = render_drum(voice, v, seed=_synth_seed(part["name"], voice, beat, ordinal))
             else:
                 audio = fn(v)
@@ -648,9 +691,15 @@ def render_part(part, song):
         events = arranged["notes"][part["name"]] if arranged is not None else parse_note_bars(part, song)
         metadata = arranged["event_metadata"].get(part["name"]) if arranged is not None else None
         for event_index, (beat, pitches, dur, vel) in enumerate(events):
-            t0 = _swing(beat, song) * sec_per_beat + jitter_t()
+            if varied:
+                jt, v = variation_jitter(event_index, vel)
+                voice = metadata[event_index]["instrument"]
+                fn = get_instrument(voice)
+            else:
+                jt, v = jitter_t(), jitter_v(vel)
+                voice = part["instrument"]
+            t0 = _swing(beat, song) * sec_per_beat + jt
             dur_s = max(0.02, dur * sec_per_beat * gate)
-            v = jitter_v(vel)
             identity = (beat, tuple(pitches), dur, vel)
             ordinal = duplicates.get(identity, 0)
             duplicates[identity] = ordinal + 1
@@ -668,12 +717,12 @@ def render_part(part, song):
                     onset, length = _generated_window(beat, onset, length, compiled, sec_per_beat)
                     if length <= 0:
                         continue
-                if part["instrument"] in ("bass", "nylon_guitar", "kalimba"):
+                if voice in ("bass", "nylon_guitar", "kalimba"):
                     from .synth import render_pitched
                     tone_index = k
                     if metadata is not None:
                         tone_index = metadata[event_index]["tones"][k]
-                    if part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
+                    if not varied and part.get("role") == "chords" and part.get("style") in ("arpeggio_up", "broken", "strum", "waltz"):
                         # 新型だけ原和音の構成音番号を復元する。遅延は引き続きtuple内のkで決まる。
                         chord = next(c for c in reversed(compiled["harmony"]) if c["beat"] <= beat)
                         pitches_before_range = [p + part.get("octave", 0) * 12 + part.get("transpose", 0)
@@ -683,8 +732,8 @@ def render_part(part, song):
                         maximum = (high - max(pitches_before_range)) // 12
                         shift = min(max(0, minimum), maximum) * 12
                         tone_index = [p + shift for p in pitches_before_range].index(m)
-                    seed = _synth_seed(part["name"], part["instrument"], beat, ordinal, tone_index, m)
-                    audio = render_pitched(part["instrument"], m, v, length, seed=seed)
+                    seed = _synth_seed(part["name"], voice, beat, ordinal, tone_index, m)
+                    audio = render_pitched(voice, m, v, length, seed=seed)
                 else:
                     audio = fn(m, v, length)
                 buf = place(buf, audio, int(onset * SR))

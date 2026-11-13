@@ -26,6 +26,8 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 .venv/Scripts/python -m bgm listen phase1_patterns
 # コピー・句頭装飾・裏拍・合いの手・直接書いた独立対旋律
 .venv/Scripts/python -m bgm render phase1_arrangements --no-mp3
+# 周回ごとの変化（オクターブ・楽器・休み・フィル・周期の違うアルペジオ）
+.venv/Scripts/python -m bgm render phase1_variations --no-mp3
 ```
 
 試聴画面ではループ再生・停止・WAV保存ができます。別の曲は `proto_test` を曲IDに置き換えてください。
@@ -45,7 +47,7 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 構造付きの曲には `key`・`meter`・`form`・`sections` がすべて必要です。
 曲全体の小節数は `form` に並べた `sections` の小節数の合計になります。従来の曲全体の `bars`・`beats_per_bar` は省略してください（構成と異なる値はエラー）。
 1拍は四分音符で、4/4は4拍、3/4と6/8は3拍です。`tempo` も四分音符の毎分拍数です。
-`form` の `A'` は A の素材を使います。変奏はまだ生成しません。別の A' 定義が A と競合するとエラーです。
+`form` の `A'` は A の素材を使います。変奏は自動では付かず、`variation` で指定します（後述）。別の A' 定義が A と競合するとエラーです。
 
 度数パートは `bars` の代わりに `grid` と `phrases` を指定します。`grid: "1/4"` の4/4なら、各小節にちょうど4トークンが必要です。
 `phrases: {"A":"1 3 5 3 | 4 3 2 1", "B":"6 5 3 1 | 2 5 7 5"}` のように素材ごとに書き、小節を `|` で区切ります。
@@ -136,7 +138,31 @@ gateで短くした隙間を休符扱いしません。元が非選択の区間�
 `counter` は固定根音の合いの手で、独立した旋律を作曲する機能ではありません。これらは最小の初期規則であり、音楽的自然さは未確認です。
 詳しい選択・音域・境界・限界は[設計記録](docs/design/phase1-arrangements.md)を参照してください。
 
-仕様3.6に掲載された型、コピー、直接記述の独立対旋律を実装しました。次は周回変化、曲の型3種類、フェーズ1の試聴確認です。
+仕様3.6に掲載された型、コピー、直接記述の独立対旋律を実装しました。
+
+## 周回ごとの変化
+
+[`songs/phase1_variations/song.json`](songs/phase1_variations/song.json) は A/B/A/A' の8小節です（合成音だけ）。
+曲の最上位に `variation` 配列を書くと、1つのループの中で変化を付けます。書いた順番は結果に影響しません。
+
+```json
+{"section":"A'","part":"melody","do":"octave_up"}
+{"section":"A'","part":"melody","do":"instrument","instrument":"bass"}
+{"section":"B","part":"held","do":"rest"}
+{"part":"drums","do":"fill_last_bar","every":8}
+{"part":"arp","do":"period","beats":3}
+```
+
+- `octave_up`・`instrument`・`rest` は `section` の出現名（A と A' は別）のすべての出現に効きます。楽器変更は音の出だしで決まり、伸びている前の音は切りません。
+- `rest` はその区間の音を消し、前から伸びている音は区間の頭で切ります。`copy` は変化後の元パートの音を使い、`counter` は変化後の休みに合いの手を入れます。
+- `fill_last_bar` は曲頭から数えて `every` 小節ごとの最後の小節を、その拍子のフィルに置き換えます。
+- `period` は `arpeggio_up` の和音を曲頭から `beats` 拍周期で鳴らし、小節とずれて重なります。
+- 不正な指定は音源を読む前に日本語でエラーになります。該当する区間がない指定は何も変えません。
+- 細かな強さ・タイミングのゆらぎは従来の `humanize`（パート名から決まる固定シード）のままです。
+
+詳しい表・適用順・未実装項目は[設計記録](docs/design/phase1-variations.md)を参照してください。
+
+次は曲の型3種類とフェーズ1の試聴確認です。
 フェーズ1全体はまだ完了していません。実サンプルの swing_ride / bongo_8beat WAV と主観試聴は未検証です。
 
 ## 音源とライセンス
