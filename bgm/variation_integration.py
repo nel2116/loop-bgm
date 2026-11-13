@@ -40,10 +40,19 @@ def compile_variations(song, compile_base, parse_absolute):
     spans = resolve_instrument_spans(song["parts"], occurrences, plan, pitched_catalog=catalog())
     plain = {k: v for k, v in song.items() if k != "variation"}
     baseline = compile_base(plain)
+    parts = arrangement.effective_parts(song)
+    for rule in plan.rules:
+        # 空選択でも生成API固有の設定(kitの併用など)を検証してから無変更として扱う。
+        if rule.intervals:
+            continue
+        if rule.action == "period":
+            compile_period(parts[rule.part], song, occurrences, baseline["harmony"], period_beats=rule.beats)
+        elif rule.action == "fill_last_bar":
+            compile_fill(parts[rule.part], song, occurrences, baseline["rhythm"][rule.part], every=rule.every,
+                         available_voices=set(PERCUSSION) | set(SYNTH_DRUMS))
     if not any(rule.intervals for rule in plan.rules):
         return baseline
     compiled = deepcopy(baseline)
-    parts = arrangement.effective_parts(song)
     compiled.update(effective_parts=parts, event_metadata=deepcopy(baseline.get("event_metadata", {})))
     beats, bars = compiled["beats_per_bar"], compiled["bars"]
     timing = dict(song, beats_per_bar=beats, bars=bars)
@@ -159,9 +168,8 @@ def compile_variations(song, compile_base, parse_absolute):
         generated_duplicates = {}
         for event, meta, origin, rest_window in zip(events, metadata, event_origins, rested.windows, strict=True):
             if rest_window is not None:
-                prior = meta["window"]
-                meta["window"] = ([max(prior[0], rest_window[0]), min(prior[1], rest_window[1])]
-                                  if prior is not None else list(rest_window))
+                # restは持続の終端だけを切る。発音開始の下限(負のstrumやjitter)は既存のwindowのまま。
+                meta["cut"] = min(meta.get("cut", rest_window[1]), rest_window[1])
             if origin is not None:
                 meta["ordinal"] = original_metadata[origin]["ordinal"]
                 meta["draw"] = origin

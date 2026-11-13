@@ -119,3 +119,43 @@ def test_invalid_variation_fails_load_before_audio(tmp_path, monkeypatch, variat
     with pytest.raises(render.SongError, match="小節"):
         load(tmp_path, song)
     assert not (tmp_path / "stems").exists()
+
+
+def test_raw_compile_song_treats_empty_variation_as_absent():
+    song = {"id": "five_eight", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
+            "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
+            "parts": [{"name": "lead", "instrument": "square", "bars": ["C4:2.5"]}]}
+    assert render.compile_song(dict(song, variation=[])) == render.compile_song(song)
+
+
+def test_rest_cuts_only_the_end_and_keeps_negative_strum_onset(tmp_path, monkeypatch):
+    song = {"id": "rest_strum", "tempo": 60, "key": "C major", "meter": "4/4", "form": ["A", "B"],
+            "sections": {"A": {"bars": 1, "chords": "I"}, "B": {"bars": 1, "chords": "V"}},
+            "master": {"reverb": "none"},
+            "parts": [{"name": "held", "instrument": "nylon_guitar", "bars": ["r:1 C4+E4:7"],
+                       "humanize": 0, "strum": -0.02, "reverb": 0}]}
+    plain = load(tmp_path, song)
+    varied = load(tmp_path, dict(song, variation=[{"section": "B", "part": "held", "do": "rest"}]))
+    calls = []
+    monkeypatch.setattr(synth, "render_pitched", lambda voice, midi, velocity, duration, *, seed:
+                        calls.append((midi, duration)) or np.zeros((1, 2), np.float32))
+    placements = []
+    monkeypatch.setattr(render, "place", lambda buf, audio, start: placements.append(start) or buf)
+    render.render_part(plain["parts"][0], plain)
+    before = list(placements)
+    placements.clear()
+    calls.clear()
+    render.render_part(varied["parts"][0], varied)
+    assert placements == before
+    assert placements[1] < render.SR
+    # 持続はBの頭(4秒)より前で終わる。2音目の開始は負のstrumで0.98秒のまま。
+    assert all(p / render.SR + d <= 4 + 1e-9 for p, (_, d) in zip(placements, calls, strict=True))
+    assert [d for _, d in calls] == [3.0, 3.0]
+
+
+def test_empty_period_selection_still_validates_generator_settings(tmp_path):
+    song = design()
+    song["parts"][3].update(sections=[], kit=[])
+    song["variation"] = [{"part": "arp", "do": "period", "beats": 3}]
+    with pytest.raises(render.SongError, match="kit"):
+        load(tmp_path, song)

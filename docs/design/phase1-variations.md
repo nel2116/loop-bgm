@@ -64,7 +64,7 @@ Section transforms: the onset decides instrument and pitch. An instrument or oct
 
 `bgm/variation_integration.py` bridges the immutable plan of `bgm/variation.py` (A) to `compile_fill` (B) and `compile_period` (C). `render.compile_song` calls it only when `variation` is present. It compiles the song without `variation` first (the baseline), returns it unchanged when no rule has an interval, and otherwise recompiles only affected parts through the optional keyword-only `pitch_resolver` added to the existing compilers (`None` keeps the old formulas and order). `variation_parts` lists the parts whose events, metadata or instrument actually changed; other parts keep the baseline path, hash and audio.
 
-Metadata per event keeps the existing ordinal/tones/window and adds `draw` (the renderer index of the original event, including events later removed by rest or fill) or `generated` (a stable identity for new events), plus `instrument` for pitched parts. Compiled output never contains callables.
+Metadata per event keeps the existing ordinal/tones/window and adds `draw` (the renderer index of the original event, including events later removed by rest or fill) or `generated` (a stable identity for new events), plus `instrument` for pitched parts and `cut` (the rest start in beats) for notes a rest clips. `cut` limits only the end of the sounding note; the onset lower bound stays the existing `window`, so negative strum and jitter are kept. Compiled output never contains callables.
 
 ## Humanize audit
 

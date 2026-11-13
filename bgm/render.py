@@ -120,6 +120,9 @@ def _structure(song):
 
 def compile_song(song):
     """構造付き設計図を変更せず、音符・打楽器・和音データを返す。"""
+    if song.get("variation") == []:
+        # load_songを経ないraw設計図でも、空のvariationは変化なしとして従来経路で扱う。
+        song = {k: v for k, v in song.items() if k != "variation"}
     if "variation" in song:
         try:
             return variation_integration.compile_variations(song, compile_song, parse_note_bars)
@@ -719,6 +722,11 @@ def render_part(part, song):
                         continue
                 elif compiled is not None:
                     onset, length = _generated_window(beat, onset, length, compiled, sec_per_beat)
+                    if length <= 0:
+                        continue
+                if metadata is not None and "cut" in metadata[event_index]:
+                    # restによる終端だけの切断。開始位置は動かさない。
+                    length = min(length, metadata[event_index]["cut"] * sec_per_beat - onset)
                     if length <= 0:
                         continue
                 if voice in ("bass", "nylon_guitar", "kalimba"):
