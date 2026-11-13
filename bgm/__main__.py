@@ -69,7 +69,7 @@ def main(argv=None):
 
         try:
             render_song(args.song, force=args.force, mp3=not args.no_mp3)
-        except SongError as e:
+        except (SongError, OSError) as e:
             print(f"エラー: {e}", file=sys.stderr)
             return 1
         return 0
