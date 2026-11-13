@@ -59,6 +59,14 @@ def parse_key(key: str) -> tuple[int, str]:
     return tonic, mode
 
 
+class PitchRangeError(ValueError):
+    """音程がMIDIの範囲を超えたことを示す。part はパート名の文脈が付いた後に設定される。"""
+
+    def __init__(self, message, part=None):
+        super().__init__(message)
+        self.part = part
+
+
 def degree_to_midi(degree: str, key: str, *, base_octave: int, check_range: bool = True) -> int:
     """度数をMIDI音程へ変換する。基準は主音のピッチクラスの指定オクターブ。
 
@@ -79,5 +87,5 @@ def degree_to_midi(degree: str, key: str, *, base_octave: int, check_range: bool
             + (accidental == "#") - (accidental == "b")
             + 12 * (octave_marks.count("'") - octave_marks.count(",")))
     if check_range and not 0 <= midi <= 127:
-        raise ValueError(f"度数 {degree!r} の音程がMIDIの範囲（0〜127）を超えています: {midi}")
+        raise PitchRangeError(f"度数 {degree!r} の音程がMIDIの範囲（0〜127）を超えています: {midi}")
     return midi

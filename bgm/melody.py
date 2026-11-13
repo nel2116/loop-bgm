@@ -4,7 +4,7 @@ import math
 import re
 from fractions import Fraction
 
-from bgm.theory import degree_to_midi, parse_key
+from bgm.theory import PitchRangeError, degree_to_midi, parse_key
 
 
 def compile_melody(part, song, occurrences, *, base_octave=4, pitch_resolver=None):
@@ -55,8 +55,9 @@ def compile_melody(part, song, occurrences, *, base_octave=4, pitch_resolver=Non
         if selected is not None and occ["name"] not in selected:
             continue
 
-        def error(index, message, occ=occ):
-            return ValueError(f"[{name}] {occ['start_bar'] + index}番目の小節: {message} ({occ['name']}/{occ['source']})")
+        def error(index, message, occ=occ, kind=ValueError):
+            text = f"[{name}] {occ['start_bar'] + index}番目の小節: {message} ({occ['name']}/{occ['source']})"
+            return PitchRangeError(text, part=name) if kind is PitchRangeError else kind(text)
 
         phrase = phrases.get(occ["source"])
         if not isinstance(phrase, str):
@@ -93,9 +94,9 @@ def compile_melody(part, song, occurrences, *, base_octave=4, pitch_resolver=Non
                                    beat, [degree_to_midi(d, song["key"], base_octave=base_octave, check_range=False) for d in degrees],
                                    occ["start_bar"] + index))
                     if any(not 0 <= pitch <= 127 for pitch in pitches):
-                        raise ValueError("移調後の音程がMIDIの範囲（0〜127）を超えています")
+                        raise PitchRangeError("移調後の音程がMIDIの範囲（0〜127）を超えています")
                 except ValueError as exc:
-                    raise error(index, str(exc)) from exc
+                    raise error(index, str(exc), kind=type(exc)) from exc
                 beat = occ["start_beat"] + float(index * bar_beats + position * step)
                 events.append((beat, pitches, float(step), max(1, min(127, round(velocity * factor)))))
                 previous = len(events) - 1

@@ -1,6 +1,6 @@
 # Architecture
 
-<!-- last-reviewed: 2026-11-11 -->
+<!-- last-reviewed: 2026-11-13 -->
 
 The target design is `docs/spec.md` sections 2-9. This file describes what the code does **now**.
 
@@ -14,7 +14,8 @@ Both render and listen use `load_song`. Every part, used phrase and used harmony
 
 | Module | Role |
 |---|---|
-| `__main__.py` | CLI: `render`, `fetch`, `status`, `listen` |
+| `__main__.py` | CLI: `render`, `fetch`, `status`, `listen`, `new` |
+| `templates.py` | song templates: `list_styles`, `load_template` (format validation), `new_song` (`bgm new`) |
 | `paths.py` | repository paths, sample rate (44.1 kHz) |
 | `theory.py` | note names ↔ MIDI, chord-name tokens, `parse_key` and `degree_to_midi` |
 | `structure.py` | `meter_to_beats`, `grid_to_beats`, `expand_form`: quarter-note timing and source/occurrence positions |
@@ -67,3 +68,9 @@ Written degree phrases are validated independently of selection, but missing uns
 A top-level `variation` list makes `load_song` compile even legacy-format songs, so every rule is validated before side effects. `compile_song` delegates to `variation_integration.compile_variations`: it compiles the song without `variation` as the baseline, returns that baseline unchanged when no rule selects any interval, and otherwise recompiles only affected parts (and copy/counter dependents of changed parts) via the compilers' keyword-only `pitch_resolver`. The result lists them in `variation_parts`; `parse_note_bars`/`parse_drum_bars`, `part_hash` and `render_part` take the baseline path for every other part.
 
 For a varied part, `render_part` pre-draws the original per-event `(time, velocity)` humanize pairs for every original event index, so events removed by rest or fill still consume their draws; generated events use a local RNG seeded from destination name and event identity. The onset's `instrument` metadata selects the voice inside the same part buffer. The hash of a varied part covers its effective part (without mix-only keys), events and metadata; others keep their old hash. Notation, order, tables and the spec 3.7 coverage matrix are in [the variation decision record](../design/phase1-variations.md).
+
+## Song templates (`bgm new`)
+
+`python -m bgm new <id> --style <type>` creates `songs/<id>/song.json` from `templates/<type>.json` (`bgm/templates.py`). A template is `{name, ja, tempo_range, song}`; `song` is a literal design skeleton. `load_template` checks the keys, `name` against the file stem, `ja`, `tempo_range` and `song.tempo` inside it, and the absence of `id`/`style`/`title`/`usage` in `song`. `new_song` writes `{"id", "style", ...song}` in that key order (`json.dumps(indent=2, ensure_ascii=False)` plus a newline, UTF-8, LF), so the same arguments give the same bytes. Before writing it runs `load_song` on a copy in a temporary folder; a skeleton that fails counts as a broken template.
+
+Refusals write nothing and exit 1, checked in order: song id not `^[a-z0-9_]+$`; `songs/<id>` already exists (even an empty folder or a file); type not among the sorted stems of `templates/*.json` (listed in the message); broken template. Song-level `style` only records the template name: `load_song`, `compile_song`, `part_hash` and the renderer do not read it. The format, the first three templates and the test split are in [the template decision record](../design/phase1-templates.md).
