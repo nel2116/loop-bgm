@@ -21,7 +21,7 @@ def test_real_type_list_is_exactly_the_three_types():
 @pytest.mark.parametrize("name", NAMES)
 def test_bgm_new_with_real_template_loads_and_compiles(tmp_path, name):
     song_id = f"new_{name}"
-    path = templates.new_song(song_id, name, songs_dir=tmp_path)
+    path = templates.new_song(song_id, name, "video", songs_dir=tmp_path)
     assert Path(path) == tmp_path / song_id / "song.json"
     _, song = render.load_song(str(path))
     assert song["id"] == song_id and song["style"] == name
@@ -34,10 +34,10 @@ def test_bgm_new_with_real_template_loads_and_compiles(tmp_path, name):
 @pytest.mark.parametrize("name", NAMES)
 def test_sample_song_equals_bgm_new_output_except_melody(tmp_path, name):
     song_id = f"phase1_{name}"
-    generated = json.loads(Path(templates.new_song(song_id, name, songs_dir=tmp_path)).read_text(encoding="utf-8"))
+    generated = json.loads(Path(templates.new_song(song_id, name, "video", songs_dir=tmp_path)).read_text(encoding="utf-8"))
     sample = json.loads((ROOT / "songs" / song_id / "song.json").read_text(encoding="utf-8"))
     sample.pop("title", None)
-    sample.pop("usage", None)
+    sample.pop("scene", None)
     assert list(sample) == list(generated)
     for got, want in zip(sample["parts"], generated["parts"], strict=True):
         if got["name"] == "melody":

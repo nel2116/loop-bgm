@@ -88,7 +88,7 @@ def verify_design(folder, design):
     for name in reference.keys() - {"mix"} - set(compiled["variation_parts"]):
         assert np.array_equal(reference[name], before_audio[name]), name
     report["before_basis"] = "同じ素材・全パートでvariationのみ除去。新機能以前の別パターンではない。"
-    report["before_after_wavs"] = [str(folder / "before" / f"{design['id']}.wav"), str(folder / f"{design['id']}.wav")]
+    report["before_after_wavs"] = [str(folder / "before" / "out" / f"{design['id']}.wav"), str(folder / "out" / f"{design['id']}.wav")]
     minor = copy.deepcopy(design)
     minor["key"] = "C minor"
     write_design(folder / "minor", minor)

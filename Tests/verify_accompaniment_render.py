@@ -25,7 +25,9 @@ def write_design(folder, design):
 
 
 def arrays(folder, design):
-    files = {"mix": folder / f"{design['id']}.wav"}
+    # 過去のコミットで書き出した比較対は out/ ができる前の場所（曲フォルダ直下）にマスターがある。
+    master = folder / "out" / f"{design['id']}.wav"
+    files = {"mix": master if master.exists() else folder / f"{design['id']}.wav"}
     files.update({p["name"]: folder / "stems" / f"{p['name']}.wav" for p in design["parts"]})
     return {name: sf.read(path, dtype="float32", always_2d=True)[0] for name, path in files.items()}
 

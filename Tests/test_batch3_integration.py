@@ -229,7 +229,7 @@ def test_valid_new_song_listener_serves_rendered_wav(tmp_path, monkeypatch):
     song = design()
     load(tmp_path, song)
     render.render_song(str(tmp_path), mp3=False, log=lambda *_: None)
-    audio = tmp_path / "batch3.wav"
+    audio = tmp_path / "out" / "batch3.wav"
     content = audio.read_bytes()
 
     def serve(selected, port):

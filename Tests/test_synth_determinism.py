@@ -59,7 +59,7 @@ def synth_song():
 
 
 def snapshot(folder):
-    paths = [folder / "all_synth.wav", *sorted((folder / "stems").glob("*.wav"))]
+    paths = [folder / "out" / "all_synth.wav", *sorted((folder / "stems").glob("*.wav"))]
     return {str(path.relative_to(folder)): sf.read(path, dtype="float32", always_2d=True)[0] for path in paths}
 
 

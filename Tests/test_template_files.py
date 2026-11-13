@@ -78,7 +78,7 @@ def test_template_format(name):
     assert type(low) is int and type(high) is int and low <= high
     song = template["song"]
     assert isinstance(song, dict)
-    assert not {"id", "style", "title", "usage"} & set(song)
+    assert not {"id", "style", "title", "usage", "scene"} & set(song)
     assert type(song["tempo"]) in (int, float) and low <= song["tempo"] <= high
 
 
@@ -144,7 +144,7 @@ def test_melody_placeholder_is_rests_only(name):
 
 @pytest.mark.parametrize("name", NAMES)
 def test_template_skeleton_loads_and_compiles(tmp_path, name):
-    design = {"id": f"new_{name}", "style": name, **load_template(name)["song"]}
+    design = {"id": f"new_{name}", "style": name, "usage": "video", **load_template(name)["song"]}
     _, song = render.load_song(write_song(tmp_path, f"new_{name}", design))
     result = render.compile_song(song)
     assert result["notes"]["melody"] == []
@@ -165,7 +165,7 @@ def test_sample_song_differs_from_template_only_in_melody(name):
     template, sample = load_template(name)["song"], load_sample(name)
     assert sample["id"] == f"phase1_{name}"
     assert sample["style"] == name
-    assert set(sample) - {"title", "usage"} == {"id", "style", *template}
+    assert set(sample) - {"title", "usage", "scene"} == {"id", "style", *template}
     for key, value in template.items():
         if key != "parts":
             assert sample[key] == value, key

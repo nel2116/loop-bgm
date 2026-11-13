@@ -46,7 +46,7 @@ def check_design(folder, design):
     _, song = render.load_song(str(folder))
     compiled = render.compile_song(song)
     (folder / "events.json").write_text(json.dumps(compiled, ensure_ascii=False, indent=2), encoding="utf-8")
-    report = {"command": command, "wav": str(folder / f"{design['id']}.wav"), "comparisons": {},
+    report = {"command": command, "wav": str(folder / "out" / f"{design['id']}.wav"), "comparisons": {},
               "loops": {name: seam(audio) for name, audio in reference.items()}}
     for label in ("force", "force_again"):
         render.render_song(str(folder), force=True, mp3=False, log=lambda *_: None)
@@ -101,7 +101,7 @@ def check_design(folder, design):
     _, minor_song = render.load_song(str(folder / "minor"))
     minor_compiled = render.compile_song(minor_song)
     (folder / "minor/events.json").write_text(json.dumps(minor_compiled, ensure_ascii=False, indent=2), encoding="utf-8")
-    report["minor_wav"] = str(folder / "minor" / f"{design['id']}.wav")
+    report["minor_wav"] = str(folder / "minor" / "out" / f"{design['id']}.wav")
     report["minor_loops"] = {name: seam(audio) for name, audio in minor_audio.items()}
     for name in ("melody", "bass", "chords"):
         assert not np.array_equal(reference[name], minor_audio[name]), name
@@ -117,7 +117,7 @@ def check_design(folder, design):
     write_design(folder / "before", before)
     report["before_command"] = cli(folder / "before", folder / "before/cli.log")
     report["before_baseline"] = "新型未実装に対応する生成bass/chords/rhythmなし。同じ旧パートのみ。"
-    report["before_wav"] = str(folder / "before" / f"{design['id']}.wav")
+    report["before_wav"] = str(folder / "before" / "out" / f"{design['id']}.wav")
     old = arrays(folder / "before", before)
     for name in ("melody", "absolute", "direct_drums"):
         assert np.array_equal(reference[name], old[name])
@@ -182,6 +182,7 @@ def warm_cache(output, scratch):
         before_times = stamps(folder)
         snapshot = folder / "before"
         write_design(snapshot, design)
+        # 統合前のコミットで書き出したので、マスターは out/ ができる前の場所にある。
         for source in [folder / f"{design['id']}.wav", folder / "stems/cache.json", *(folder / "stems").glob("*.wav")]:
             destination = snapshot / source.relative_to(folder)
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -222,7 +223,7 @@ def warm_cache(output, scratch):
                                   "before_hashes": before_hashes, "after_hashes": after_hashes,
                                   "invalidated": changed, "normal_force_equal": comparisons,
                                   "before_wav": str(snapshot / f"{design['id']}.wav"),
-                                  "after_wav": str(folder / f"{design['id']}.wav"),
+                                  "after_wav": str(folder / "out" / f"{design['id']}.wav"),
                                   "mix_only_reused": True,
                                   "before_after_chords_equal": bool(np.array_equal(before["chords"], current["chords"]))}
     return report

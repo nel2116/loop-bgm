@@ -13,7 +13,7 @@ from bgm.structure import expand_form
 
 
 def fixture(meter="4/4", chords="I", form=None, key="C major"):
-    song = {"meter": meter, "key": key, "form": form or ["A"], "sections": {"A": {"bars": len(chords.split("|")), "chords": chords}}}
+    song = {"usage": "video", "meter": meter, "key": key, "form": form or ["A"], "sections": {"A": {"bars": len(chords.split("|")), "chords": chords}}}
     occurrences = expand_form(song)
     return song, occurrences, compile_progression(song, occurrences)
 
