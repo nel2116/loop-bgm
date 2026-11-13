@@ -1,0 +1,84 @@
+{
+  "id": "phase1_drama_strings",
+  "style": "drama_strings",
+  "title": "ドラマチックな弦の見本",
+  "usage": "緊張感のある場面や見せ場",
+  "tempo": 112,
+  "key": "A minor",
+  "meter": "4/4",
+  "form": [
+    "A",
+    "A'",
+    "B",
+    "A"
+  ],
+  "sections": {
+    "A": {
+      "bars": 8,
+      "chords": "i | VI | III | VII | i | iv | V | i"
+    },
+    "B": {
+      "bars": 8,
+      "chords": "VI | VII | i | i | iv | v | VI | V"
+    }
+  },
+  "master": {
+    "reverb": "room"
+  },
+  "parts": [
+    {
+      "name": "melody",
+      "role": "melody",
+      "instrument": "violins",
+      "grid": "1/8",
+      "phrases": {
+        "A": "1' - - - 7 - 1' - | 6 - - - 3 - 6 - | 5 - - - 3 - 5 - | 4 - - - 2 - 7, - | 1 - 3 - 5 - 1' - | 6 - - - 4 - 6 - | 5 - - - 2 - 5 - | 1' - - - - - . .",
+        "B": "3' - - - 1' - 6 - | 2' - - - 7 - 4 - | 1' - - - 5 - 3 - | 5 - 1' - 3' - - - | 4' - - - 1' - 6 - | 2' - - - 7 - 5 - | 3' - - - 1' - 6 - | 5 - - - 2' - 5 -"
+      },
+      "volume": 0.5
+    },
+    {
+      "name": "arp",
+      "role": "chords",
+      "instrument": "violas",
+      "style": "arpeggio_up",
+      "volume": 0.3
+    },
+    {
+      "name": "horn",
+      "role": "chords",
+      "instrument": "horn",
+      "style": "pad",
+      "volume": 0.3
+    },
+    {
+      "name": "bass",
+      "role": "bass",
+      "instrument": "cellos",
+      "style": "root_quarter",
+      "volume": 0.4
+    },
+    {
+      "name": "timpani",
+      "type": "drums",
+      "bars": [
+        {
+          "timpani": "x.......x......."
+        }
+      ],
+      "volume": 0.4
+    }
+  ],
+  "variation": [
+    {
+      "section": "A'",
+      "part": "melody",
+      "do": "octave_up"
+    },
+    {
+      "part": "arp",
+      "do": "period",
+      "beats": 3
+    }
+  ]
+}

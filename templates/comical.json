@@ -1,0 +1,83 @@
+{
+  "name": "comical",
+  "ja": "コミカル",
+  "tempo_range": [
+    120,
+    160
+  ],
+  "song": {
+    "tempo": 144,
+    "key": "C major",
+    "meter": "4/4",
+    "form": [
+      "A",
+      "A'",
+      "B",
+      "A"
+    ],
+    "sections": {
+      "A": {
+        "bars": 8,
+        "chords": "I | vi | IV | V | I | vi | ii V | I"
+      },
+      "B": {
+        "bars": 8,
+        "chords": "IV | V | iii | vi | IV | V | I | V7"
+      }
+    },
+    "master": {
+      "reverb": "room"
+    },
+    "parts": [
+      {
+        "name": "melody",
+        "role": "melody",
+        "instrument": "xylophone",
+        "grid": "1/8",
+        "phrases": {
+          "A": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . .",
+          "B": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . ."
+        },
+        "note": "仮のメロディ（休符のみ）。度数で書き換える",
+        "volume": 0.5
+      },
+      {
+        "name": "chords",
+        "role": "chords",
+        "instrument": "violins_pizz",
+        "style": "offbeat",
+        "volume": 0.35
+      },
+      {
+        "name": "bass",
+        "role": "bass",
+        "instrument": "bassoon_stac",
+        "style": "root_fifth",
+        "volume": 0.45
+      },
+      {
+        "name": "drums",
+        "role": "rhythm",
+        "groove": "bongo_8beat",
+        "kit": [
+          "bongo_hi",
+          "bongo_lo",
+          "tambourine"
+        ],
+        "volume": 0.35
+      }
+    ],
+    "variation": [
+      {
+        "section": "A'",
+        "part": "melody",
+        "do": "octave_up"
+      },
+      {
+        "part": "drums",
+        "do": "fill_last_bar",
+        "every": 8
+      }
+    ]
+  }
+}

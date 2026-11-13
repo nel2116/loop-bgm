@@ -1,0 +1,89 @@
+{
+  "name": "drama_strings",
+  "ja": "ドラマチックな弦",
+  "tempo_range": [
+    70,
+    140
+  ],
+  "song": {
+    "tempo": 112,
+    "key": "A minor",
+    "meter": "4/4",
+    "form": [
+      "A",
+      "A'",
+      "B",
+      "A"
+    ],
+    "sections": {
+      "A": {
+        "bars": 8,
+        "chords": "i | VI | III | VII | i | iv | V | i"
+      },
+      "B": {
+        "bars": 8,
+        "chords": "VI | VII | i | i | iv | v | VI | V"
+      }
+    },
+    "master": {
+      "reverb": "room"
+    },
+    "parts": [
+      {
+        "name": "melody",
+        "role": "melody",
+        "instrument": "violins",
+        "grid": "1/8",
+        "phrases": {
+          "A": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . .",
+          "B": ". . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . . | . . . . . . . ."
+        },
+        "note": "仮のメロディ（休符のみ）。度数で書き換える",
+        "volume": 0.5
+      },
+      {
+        "name": "arp",
+        "role": "chords",
+        "instrument": "violas",
+        "style": "arpeggio_up",
+        "volume": 0.3
+      },
+      {
+        "name": "horn",
+        "role": "chords",
+        "instrument": "horn",
+        "style": "pad",
+        "volume": 0.3
+      },
+      {
+        "name": "bass",
+        "role": "bass",
+        "instrument": "cellos",
+        "style": "root_quarter",
+        "volume": 0.4
+      },
+      {
+        "name": "timpani",
+        "type": "drums",
+        "bars": [
+          {
+            "timpani": "x.......x......."
+          }
+        ],
+        "volume": 0.4
+      }
+    ],
+    "variation": [
+      {
+        "section": "A'",
+        "part": "melody",
+        "do": "octave_up"
+      },
+      {
+        "part": "arp",
+        "do": "period",
+        "beats": 3
+      }
+    ]
+  }
+}
