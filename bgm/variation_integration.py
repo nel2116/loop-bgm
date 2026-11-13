@@ -11,6 +11,7 @@ from .chords import compile_chords
 from .instruments import PERCUSSION, SAMPLED, SYNTH_DRUMS, SYNTH_PITCHED
 from .melody import compile_melody
 from .structure import expand_form
+from .theory import PitchRangeError
 from .variation import apply_rest, compile_variation, resolve_instrument_spans, transform_pitches
 from .variation_fill import compile_fill
 from .variation_period import compile_period
@@ -39,7 +40,17 @@ def compile_variations(song, compile_base, parse_absolute):
     plan = compile_variation(song, occurrences, pitched_catalog=catalog(), available_voices=set(PERCUSSION) | set(SYNTH_DRUMS))
     spans = resolve_instrument_spans(song["parts"], occurrences, plan, pitched_catalog=catalog())
     plain = {k: v for k, v in song.items() if k != "variation"}
-    baseline = compile_base(plain)
+    try:
+        baseline = compile_base(plain)
+    except Exception as exc:
+        # variationを外した曲も有効であることが契約。変化対象パートの範囲外は変化前の音高だと明示する。
+        cause = exc
+        while cause is not None and not isinstance(cause, PitchRangeError):
+            cause = cause.__cause__
+        if cause is None or cause.part not in {rule.part for rule in plan.rules if rule.intervals}:
+            raise
+        raise type(exc)(f"{exc}（variation を適用する前の音高です。variation を外した状態でも"
+                        "音域内に収まるように書いてください）") from exc
     parts = arrangement.effective_parts(song)
     for rule in plan.rules:
         # 空選択でも生成API固有の設定(kitの併用など)を検証してから無変更として扱う。

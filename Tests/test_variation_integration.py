@@ -159,3 +159,20 @@ def test_empty_period_selection_still_validates_generator_settings(tmp_path):
     song["variation"] = [{"part": "arp", "do": "period", "beats": 3}]
     with pytest.raises(render.SongError, match="kit"):
         load(tmp_path, song)
+
+
+def test_degree_pitch_out_of_range_before_variation_is_rejected_with_explanation(tmp_path):
+    # variationを外した曲も有効であることが契約。octave_upで範囲内に戻っても変化前の音高で拒否する。
+    song = {"id": "pre_variation_range", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
+            "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
+            "parts": [{"name": "lead", "instrument": "square", "grid": "1/4", "phrases": {"A": "1,,,,,, - - -"}}]}
+    with pytest.raises(render.SongError) as plain:
+        load(tmp_path, song)
+    assert "variation" not in str(plain.value)
+    with pytest.raises(render.SongError, match=r"\[lead\] 1番目の小節: .*範囲.*variation を適用する前の音高です"):
+        load(tmp_path, dict(song, variation=[{"section": "A", "part": "lead", "do": "octave_up"}]))
+    other = copy.deepcopy(song)
+    other["parts"].append({"name": "other", "instrument": "square", "grid": "1/4", "phrases": {"A": "1 - - -"}})
+    with pytest.raises(render.SongError) as unrelated:
+        load(tmp_path, dict(other, variation=[{"section": "A", "part": "other", "do": "octave_up"}]))
+    assert str(unrelated.value) == str(plain.value)
