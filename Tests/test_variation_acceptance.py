@@ -129,7 +129,7 @@ def test_cli_rejects_invalid_variation_in_japanese_without_traceback(tmp_path, c
 
 
 def two_bar_song(part, variation):
-    return {"id": "variation_review", "tempo": 240, "key": "C major", "meter": "4/4", "form": ["A", "B"],
+    return {"id": "variation_review", "usage": "video", "tempo": 240, "key": "C major", "meter": "4/4", "form": ["A", "B"],
             "sections": {"A": {"bars": 1, "chords": "I"}, "B": {"bars": 1, "chords": "V"}},
             "master": {"reverb": "none"}, "parts": [part], "variation": variation}
 
@@ -160,7 +160,7 @@ def test_empty_variation_on_legacy_song_keeps_legacy_path(tmp_path):
 
 
 def test_empty_variation_on_structured_song_keeps_old_meter_support(tmp_path):
-    raw = {"id": "five", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
+    raw = {"id": "five", "usage": "video", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
            "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
            "parts": [{"name": "lead", "instrument": "square", "bars": ["C4:2.5"], "reverb": 0}]}
     plain = load(tmp_path, raw)

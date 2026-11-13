@@ -29,6 +29,7 @@ def write_song(folder, song):
 
 def legacy_song():
     return {
+        "usage": "video",
         "tempo": 120, "bars": 2, "master": {"reverb": "room"},
         "parts": [
             {"name": "melody", "instrument": "flute", "bars": ["C5:2 E5:2"]},

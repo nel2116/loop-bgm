@@ -10,7 +10,7 @@ import pytest
 
 from bgm.render import SongError, load_song, render_part
 
-BASE = {"tempo": 120, "bars": 2, "master": {"reverb": "none"},
+BASE = {"usage": "video", "tempo": 120, "bars": 2, "master": {"reverb": "none"},
         "parts": [{"name": "lead", "instrument": "square", "bars": ["C4:4"]}]}
 BAD_TYPES = [None, True, "120", [], {}]
 
@@ -32,7 +32,7 @@ CASES = [(changed("part", "bars", [{}]), "[lead] 1番目の小節")]
 for field in ("tempo", "bars", "beats_per_bar", "swing", "swing_unit"):
     for value in [*BAD_TYPES, float("nan"), float("inf"), -float("inf")]:
         CASES.append((changed("song", field, value), field))
-for field, values in {"tempo": [0, -1], "bars": [0, -1, 1.5], "beats_per_bar": [0, -1], "swing_unit": [0, -1]}.items():
+for field, values in {"usage": "video", "tempo": [0, -1], "bars": [0, -1, 1.5], "beats_per_bar": [0, -1], "swing_unit": [0, -1]}.items():
     CASES.extend((changed("song", field, value), field) for value in values)
 for field in ("volume", "pan", "velocity", "humanize", "reverb", "gate", "strum", "transpose", "octave"):
     CASES.extend((changed("part", field, value), f"[lead] {field}") for value in [*BAD_TYPES, float("nan"), float("inf")])

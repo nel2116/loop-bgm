@@ -11,7 +11,7 @@ from bgm import render, synth
 
 def design(meter="4/4"):
     beats = 4 if meter == "4/4" else 3
-    return {"id": "variation_test", "tempo": 240, "key": "C major", "meter": meter,
+    return {"id": "variation_test", "usage": "video", "tempo": 240, "key": "C major", "meter": meter,
             "form": ["A", "B", "A", "A'"],
             "sections": {"A": {"bars": 2, "chords": "Iadd9/3 iii V | I"}, "B": {"bars": 2, "chords": "iv | V"}},
             "master": {"reverb": "none"},
@@ -122,14 +122,14 @@ def test_invalid_variation_fails_load_before_audio(tmp_path, monkeypatch, variat
 
 
 def test_raw_compile_song_treats_empty_variation_as_absent():
-    song = {"id": "five_eight", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
+    song = {"id": "five_eight", "usage": "video", "tempo": 120, "key": "C major", "meter": "5/8", "form": ["A"],
             "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
             "parts": [{"name": "lead", "instrument": "square", "bars": ["C4:2.5"]}]}
     assert render.compile_song(dict(song, variation=[])) == render.compile_song(song)
 
 
 def test_rest_cuts_only_the_end_and_keeps_negative_strum_onset(tmp_path, monkeypatch):
-    song = {"id": "rest_strum", "tempo": 60, "key": "C major", "meter": "4/4", "form": ["A", "B"],
+    song = {"id": "rest_strum", "usage": "video", "tempo": 60, "key": "C major", "meter": "4/4", "form": ["A", "B"],
             "sections": {"A": {"bars": 1, "chords": "I"}, "B": {"bars": 1, "chords": "V"}},
             "master": {"reverb": "none"},
             "parts": [{"name": "held", "instrument": "nylon_guitar", "bars": ["r:1 C4+E4:7"],
@@ -163,7 +163,7 @@ def test_empty_period_selection_still_validates_generator_settings(tmp_path):
 
 def test_degree_pitch_out_of_range_before_variation_is_rejected_with_explanation(tmp_path):
     # variationを外した曲も有効であることが契約。octave_upで範囲内に戻っても変化前の音高で拒否する。
-    song = {"id": "pre_variation_range", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
+    song = {"id": "pre_variation_range", "usage": "video", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
             "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
             "parts": [{"name": "lead", "instrument": "square", "grid": "1/4", "phrases": {"A": "1,,,,,, - - -"}}]}
     with pytest.raises(render.SongError) as plain:

@@ -13,7 +13,7 @@ from bgm import render, synth
 
 def design(meter="4/4"):
     bpb = 4 if meter == "4/4" else 3
-    return {"id": "arrangements", "tempo": 120, "key": "C major", "meter": meter,
+    return {"id": "arrangements", "usage": "video", "tempo": 120, "key": "C major", "meter": meter,
             "form": ["A", "B", "A", "A'"],
             "sections": {"A": {"bars": 1, "chords": "Iadd9/3 ii V"}, "B": {"bars": 1, "chords": "iv"}},
             "master": {"reverb": "none"},

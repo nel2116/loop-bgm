@@ -27,7 +27,7 @@ def test_stem_normalization_preserves_every_other_byte(tmp_path):
 
 
 def test_stem_bytes_remain_identical_across_wall_clock_seconds(tmp_path):
-    design = {"id": "clock", "tempo": 120, "bars": 1,
+    design = {"id": "clock", "usage": "video", "tempo": 120, "bars": 1,
               "master": {"reverb": "none"},
               "parts": [{"name": "absolute", "instrument": "square", "bars": ["C4:4"]}]}
     (tmp_path / "song.json").write_text(json.dumps(design), encoding="utf-8")
@@ -44,6 +44,7 @@ def test_stem_bytes_remain_identical_across_wall_clock_seconds(tmp_path):
 def synth_song():
     return {
         "id": "all_synth",
+        "usage": "video",
         "tempo": 180,
         "bars": 2,
         "master": {"reverb": "none"},
@@ -166,7 +167,7 @@ def test_seed_identity_numeric_normalization_and_simultaneous_voices():
 
 
 def test_duplicate_ordinals_are_local_to_event_identity(monkeypatch):
-    song = {"tempo": 120, "bars": 2, "beats_per_bar": 4, "loop": True,
+    song = {"usage": "video", "tempo": 120, "bars": 2, "beats_per_bar": 4, "loop": True,
             "swing": 0, "master": {"reverb": "none"}}
     part = {"name": "p", "instrument": "bass", "humanize": 0}
     events = [(0, [60, 64], 1, 90), (0, [60, 64], 1, 90)]
