@@ -14,7 +14,7 @@ def _finite(value):
         return False
 
 
-def compile_counter(part, song, occurrences, harmony, source_events, *, note_range=(0, 127)):
+def compile_counter(part, song, occurrences, harmony, source_events, *, note_range=(0, 127), pitch_resolver=None):
     """gate前の占有を差し引き、区間頭から半拍ごとの根音を返す。
 
     戻り値は既存の (拍, MIDI一覧, 記譜長, 強さ)。独立対旋律の直接記述、
@@ -149,7 +149,7 @@ def compile_counter(part, song, occurrences, harmony, source_events, *, note_ran
                 pitch = chord["root"] + 12 + octave * 12 + transpose
                 low, high = note_range
                 lower, upper = -((pitch - low) // 12), (high - pitch) // 12
-                if lower > upper:
+                if pitch_resolver is None and lower > upper:
                     raise error("根音をオクターブ補正で音域内に収められません", bar)
                 pitch += min(max(0, lower), upper) * 12
                 for left, right in gaps:
@@ -158,7 +158,8 @@ def compile_counter(part, song, occurrences, harmony, source_events, *, note_ran
                     while (right - (left + step * 0.5) >= 0.5
                            or math.isclose(right - (left + step * 0.5), 0.5, rel_tol=0, abs_tol=1e-9)):
                         beat = left + step * 0.5
+                        resolved = pitch_resolver(beat, [chord["root"] + 12], bar)[0] if pitch_resolver is not None else pitch
                         factor = 1 if any(math.isclose(beat - start, s, rel_tol=0, abs_tol=1e-9) for s in strong) else 0.8
-                        events.append((beat, [pitch], min(0.4, right - beat), max(1, min(127, round(velocity * factor)))))
+                        events.append((beat, [resolved], min(0.4, right - beat), max(1, min(127, round(velocity * factor)))))
                         step += 1
     return events

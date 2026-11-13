@@ -108,7 +108,7 @@ def resolve_copy_instrument(part, effective_instruments):
     return instrument
 
 
-def compile_copy(part, song, occurrences, source_events, *, note_range=(0, 127)):
+def compile_copy(part, song, occurrences, source_events, *, note_range=(0, 127), pitch_resolver=None):
     """元の音高変換済み・DSP前イベントに相対音高変換だけを適用する。
 
     元の選択済みイベントを入力とし、開始拍が選択出現内にある音だけを残す。
@@ -169,9 +169,10 @@ def compile_copy(part, song, occurrences, source_events, *, note_range=(0, 127))
         low, high = note_range
         minimum = -((min(tones) - low) // 12)
         maximum = (high - max(tones)) // 12
-        if minimum > maximum:
+        if pitch_resolver is None and minimum > maximum:
             raise _error(part, "全構成音の音程と順序を保って音域に収められません", bar)
         shift = min(max(0, minimum), maximum) * 12
         if selected is None or occ["name"] in selected:
-            result.append((beat, [p + shift for p in tones], min(duration, occ["start_beat"] + occ["bars"] * beats - beat), velocity))
+            resolved = pitch_resolver(beat, pitches, bar) if pitch_resolver is not None else [p + shift for p in tones]
+            result.append((beat, resolved, min(duration, occ["start_beat"] + occ["bars"] * beats - beat), velocity))
     return result

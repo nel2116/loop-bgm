@@ -7,7 +7,7 @@ from fractions import Fraction
 from bgm.theory import degree_to_midi, parse_key
 
 
-def compile_melody(part, song, occurrences, *, base_octave=4):
+def compile_melody(part, song, occurrences, *, base_octave=4, pitch_resolver=None):
     """展開済みセクションに従い (拍, 音程一覧, 長さ, 強さ) を返す。"""
     name = part.get("name", "melody")
 
@@ -87,7 +87,11 @@ def compile_melody(part, song, occurrences, *, base_octave=4):
                 if not degrees:
                     raise error(index, "和音に度数がありません")
                 try:
-                    pitches = [degree_to_midi(d, song["key"], base_octave=base_octave + octave) + transpose for d in degrees]
+                    beat = occ["start_beat"] + float(index * bar_beats + position * step)
+                    pitches = ([degree_to_midi(d, song["key"], base_octave=base_octave + octave) + transpose for d in degrees]
+                               if pitch_resolver is None else pitch_resolver(
+                                   beat, [degree_to_midi(d, song["key"], base_octave=base_octave) for d in degrees],
+                                   occ["start_bar"] + index))
                     if any(not 0 <= pitch <= 127 for pitch in pitches):
                         raise ValueError("移調後の音程がMIDIの範囲（0〜127）を超えています")
                 except ValueError as exc:

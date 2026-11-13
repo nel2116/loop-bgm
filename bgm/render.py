@@ -323,7 +323,7 @@ def _num(s):
     return float(Fraction(s))
 
 
-def parse_note_bars(part, song):
+def parse_note_bars(part, song, *, pitch_resolver=None):
     """Return list of (beat, [midi...], dur_beats, vel) for a note part."""
     if "style" in part or any(k in part for k in ("copy", "accent", "source")):
         _validate_notation(part, song)
@@ -366,7 +366,7 @@ def parse_note_bars(part, song):
             p = m.group("p")
             if p not in ("r", "R"):
                 try:
-                    pitches = [x + shift for x in parse_pitches(p)]
+                    pitches = [x + (shift if pitch_resolver is None else 0) for x in parse_pitches(p)]
                     for pitch in pitches:
                         hz = midi_to_hz(pitch)
                         if not math.isfinite(hz) or hz <= 0:
@@ -396,7 +396,8 @@ def parse_note_bars(part, song):
         for pos, pitches, dur, vel in events:
             beat = bar * bpb + pos
             if beat < total_bars * bpb:
-                out.append((beat, pitches, dur, vel))
+                resolved = pitch_resolver(beat, pitches, int(beat // bpb) + 1) if pitch_resolver is not None else pitches
+                out.append((beat, resolved, dur, vel))
         bar += nb
         i += 1
     return out
