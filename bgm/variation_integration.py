@@ -122,7 +122,12 @@ def compile_variations(song, compile_base, parse_absolute):
                 events = parse_absolute(part, timing, pitch_resolver=resolver)
                 selected = part.get("sections")
                 if selected is not None:
-                    events = [e for e in events if occurrence(e[0])["name"] in selected]
+                    kept = [i for i, e in enumerate(events) if occurrence(e[0])["name"] in selected]
+                    if len(metadata) == len(events):
+                        # 選択前の旧情報(arrangementなし)は同じ添字で絞り込む。選択済みならそのまま対応する。
+                        metadata = [metadata[i] for i in kept]
+                        event_origins = [event_origins[i] for i in kept]
+                    events = [events[i] for i in kept]
 
         for rule in rules:
             if rule.action == "period":

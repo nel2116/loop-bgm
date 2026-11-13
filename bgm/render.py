@@ -87,6 +87,9 @@ def load_song(ref: str):
     names = [p.get("name") for p in song["parts"]]
     if None in names or len(set(names)) != len(names):
         raise SongError("各パートに重複しない name が必要です")
+    if song.get("variation") == [] and not is_structured(song):
+        # 空のvariationは変化なしと同じ。従来形式の曲は従来の解析・ハッシュ・描画経路のまま扱う。
+        song = {k: v for k, v in song.items() if k != "variation"}
     _validate_song(song)
     if is_structured(song) or "variation" in song:
         compile_song(song)

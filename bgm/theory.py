@@ -59,13 +59,14 @@ def parse_key(key: str) -> tuple[int, str]:
     return tonic, mode
 
 
-def degree_to_midi(degree: str, key: str, *, base_octave: int) -> int:
+def degree_to_midi(degree: str, key: str, *, base_octave: int, check_range: bool = True) -> int:
     """度数をMIDI音程へ変換する。基準は主音のピッチクラスの指定オクターブ。
 
     C major / base_octave=4 の1は60、5,は55、1'は72。
     異名同音の主音は同じ高さ（B# major と C major の1は同じ）になる。
     # / b は音階の音を半音上下し、同じオクターブ記号は複数付けられる。
     パートや小節の文脈は呼び出し元が ValueError に付け加える。
+    check_range=False は変換前の途中値に使い、呼び出し元が変換後の音高を検査する。
     """
     tonic, mode = parse_key(key)
     if type(base_octave) is not int or not -1 <= base_octave <= 9:
@@ -77,6 +78,6 @@ def degree_to_midi(degree: str, key: str, *, base_octave: int) -> int:
     midi = (12 * (base_octave + 1) + tonic + _SCALES[mode][int(number) - 1]
             + (accidental == "#") - (accidental == "b")
             + 12 * (octave_marks.count("'") - octave_marks.count(",")))
-    if not 0 <= midi <= 127:
+    if check_range and not 0 <= midi <= 127:
         raise ValueError(f"度数 {degree!r} の音程がMIDIの範囲（0〜127）を超えています: {midi}")
     return midi

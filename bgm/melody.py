@@ -90,7 +90,7 @@ def compile_melody(part, song, occurrences, *, base_octave=4, pitch_resolver=Non
                     beat = occ["start_beat"] + float(index * bar_beats + position * step)
                     pitches = ([degree_to_midi(d, song["key"], base_octave=base_octave + octave) + transpose for d in degrees]
                                if pitch_resolver is None else pitch_resolver(
-                                   beat, [degree_to_midi(d, song["key"], base_octave=base_octave) for d in degrees],
+                                   beat, [degree_to_midi(d, song["key"], base_octave=base_octave, check_range=False) for d in degrees],
                                    occ["start_bar"] + index))
                     if any(not 0 <= pitch <= 127 for pitch in pitches):
                         raise ValueError("移調後の音程がMIDIの範囲（0〜127）を超えています")

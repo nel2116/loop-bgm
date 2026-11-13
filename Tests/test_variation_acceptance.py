@@ -126,3 +126,34 @@ def test_cli_rejects_invalid_variation_in_japanese_without_traceback(tmp_path, c
     assert "Traceback" not in result.stderr
     assert "小節" in result.stderr and "[" in result.stderr
     assert {p.name for p in tmp_path.iterdir()} == {"song.json"}
+
+
+def two_bar_song(part, variation):
+    return {"id": "variation_review", "tempo": 240, "key": "C major", "meter": "4/4", "form": ["A", "B"],
+            "sections": {"A": {"bars": 1, "chords": "I"}, "B": {"bars": 1, "chords": "V"}},
+            "master": {"reverb": "none"}, "parts": [part], "variation": variation}
+
+
+def test_selected_absolute_part_keeps_metadata_aligned_with_events(tmp_path):
+    part = {"name": "abs", "instrument": "nylon_guitar", "bars": ["C4:4", "C4+E4:4"], "sections": ["B"],
+            "humanize": .2, "reverb": 0}
+    song = load(tmp_path, two_bar_song(part, [{"section": "B", "part": "abs", "do": "octave_up"}]))
+    compiled = render.compile_song(song)
+    assert compiled["notes"]["abs"] == [(4.0, [72, 76], 4.0, compiled["notes"]["abs"][0][3])]
+    assert [len(m["tones"]) for m in compiled["event_metadata"]["abs"]] == [2]
+    assert render.render_part(song["parts"][0], song).any()
+
+
+def test_degree_part_octave_is_range_checked_after_resolver(tmp_path):
+    part = {"name": "mel", "role": "melody", "instrument": "square", "grid": "1/4", "octave": 1,
+            "phrases": {"A": "1,,,,,, - - -", "B": ". . . ."}, "reverb": 0}
+    song = load(tmp_path, two_bar_song(part, [{"section": "A", "part": "mel", "do": "octave_up"}]))
+    assert render.compile_song(song)["notes"]["mel"][0][1] == [12]
+
+
+def test_empty_variation_on_legacy_song_keeps_legacy_path(tmp_path):
+    raw = json.loads((render.SONGS / "proto_test" / "song.json").read_text(encoding="utf-8"))
+    plain = load(tmp_path, raw)
+    varied = load(tmp_path, dict(raw, variation=[]))
+    for a, b in zip(plain["parts"], varied["parts"], strict=True):
+        assert render.part_hash(a, plain) == render.part_hash(b, varied)
