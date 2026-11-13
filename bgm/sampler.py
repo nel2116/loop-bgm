@@ -159,3 +159,15 @@ class PercussionVoice:
         if sr != SR:
             data = resample(data, sr / SR, int(len(data) * SR / sr))
         return data * (self.norm * self.spec["gain"] * (vel / 127) ** 0.8)
+
+
+def missing_samples(instruments=(), drums=()):
+    """音源がそろっていない楽器名と打楽器名を、重複なく名前順に返す。"""
+    missing = set()
+    for names, voice in ((instruments, SampledInstrument), (drums, PercussionVoice)):
+        for name in set(names):
+            try:
+                voice(name)
+            except FileNotFoundError:
+                missing.add(name)
+    return sorted(missing)
