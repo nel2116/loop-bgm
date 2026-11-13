@@ -76,7 +76,7 @@ def compile_period(part, song, occurrences, harmony, *, period_beats, section=No
         beat, duration, bar = (chord.get(k) for k in ("beat", "duration", "bar"))
         if (not _finite(beat) or not 0 <= beat < end or beat <= previous
                 or not _finite(duration) or duration <= 0 or not _finite(beat + duration) or beat + duration <= beat):
-            raise error("和声の拍・長さは順序どおりの有限な正区間で指定してください")
+            raise error("和声の拍・長さは順序どおりの有限な正区間で指定してください", bar if type(bar) is int and bar > 0 else 1)
         while occurrence_index + 1 < len(occurrences) and beat >= occurrences[occurrence_index + 1]["start_beat"]:
             occurrence_index += 1
         occ = occurrences[occurrence_index]

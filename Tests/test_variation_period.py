@@ -198,6 +198,13 @@ def test_malformed_harmony(field, value):
         compile_period(**args)
 
 
+def test_invalid_duration_reports_unfolded_global_bar():
+    args = fixture(form=["A", "A'"])
+    args["harmony"][1]["duration"] = 0
+    with pytest.raises(ValueError, match=r"\[分散\] 2番目の小節"):
+        compile_period(**args)
+
+
 @pytest.mark.parametrize("field,value", [
     ("start_beat", 1), ("start_bar", 0), ("bars", 0), ("bars", 10**400),
     ("occurrence", True), ("occurrence", 1), ("name", ""), ("source", None),
