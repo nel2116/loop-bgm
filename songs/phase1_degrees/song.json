@@ -4,7 +4,7 @@
   "tempo": 120,
   "key": "C major",
   "meter": "4/4",
-  "form": ["A", "B", "A"],
+  "form": ["A", "B"],
   "sections": {
     "A": {"bars": 2, "chords": "I | IV V"},
     "B": {"bars": 2, "chords": "vi | ii V7"}

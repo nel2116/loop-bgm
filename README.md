@@ -40,7 +40,7 @@ AIは曲そのものではなく、テンポ・調・コード進行・パート
 
 ## 調と構成で書く見本
 
-[`songs/phase1_degrees/song.json`](songs/phase1_degrees/song.json) は合成音だけの6小節（A/B/A、各2小節）の曲です。
+[`songs/phase1_degrees/song.json`](songs/phase1_degrees/song.json) は合成音だけの4小節（A/B、各2小節）の曲です。
 `key` を `C major` から `C minor` に変えて再度 `render` すると、度数メロディの第3音がミからミ♭へ変わります。
 絶対音で書いた `absolute` パートの C3 は変わりません。変更前のWAVは曲フォルダーの `history/` に残ります。
 
