@@ -4,7 +4,8 @@
   python -m bgm fetch [instrument ...] [--verify]    download the samples the kit uses
   python -m bgm listen [song] [--port 8765]           open a local listening page
   python -m bgm status [instrument ...]              how many sample files are missing
-  python -m bgm new <song> --style <type>             create songs/<song>/song.json from templates/<type>.json
+  python -m bgm new <song> --style <type> --usage <video|game|trpg>
+                                                     create songs/<song>/song.json from templates/<type>.json
 """
 
 import argparse
@@ -31,17 +32,19 @@ def main(argv=None):
     p = sub.add_parser("new", help="曲の型から設計図の雛形を作る")
     p.add_argument("song", help="曲ID（英小文字・数字・_）")
     p.add_argument("--style", required=True, help="曲の型（templates/<型>.json）")
+    p.add_argument("--usage", required=True, choices=("video", "game", "trpg"),
+                   help="用途: video（動画）/ game（ゲーム）/ trpg（TRPGのセッション）")
     args = parser.parse_args(argv)
 
     if args.command == "new":
         from .templates import NewSongError, new_song
 
         try:
-            new_song(args.song, args.style)
+            new_song(args.song, args.style, args.usage)
         except NewSongError as e:
             print(e, file=sys.stderr)
             return 1
-        print(f"作成しました: songs/{args.song}/song.json（型: {args.style}）")
+        print(f"作成しました: songs/{args.song}/song.json（型: {args.style}、用途: {args.usage}）")
         return 0
 
     if args.command == "listen":
@@ -53,7 +56,7 @@ def main(argv=None):
         except (SongError, OSError, ValueError) as e:
             print(f"試聴する曲を読み込めません: {e}", file=sys.stderr)
             return 1
-        audio = folder / f"{song['id']}.wav"
+        audio = folder / "out" / f"{song['id']}.wav"
         if not audio.is_file():
             print(f"試聴音源がありません: {audio}。先に bgm render で曲を書き出してください。", file=sys.stderr)
             return 1

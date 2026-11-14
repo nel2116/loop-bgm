@@ -9,10 +9,11 @@ import tempfile
 from pathlib import Path
 
 from .paths import ROOT, SONGS
+from .profiles import PROFILES
 
 TEMPLATES = ROOT / "templates"
 TEMPLATE_KEYS = ("name", "ja", "tempo_range", "song")
-SONG_FORBIDDEN_KEYS = ("id", "style", "title", "usage")
+SONG_FORBIDDEN_KEYS = ("id", "style", "usage", "title", "scene")
 SONG_ID_RE = re.compile(r"[a-z0-9_]+")
 
 
@@ -105,9 +106,9 @@ def load_template(style, templates_dir=None):
     return data
 
 
-def song_text(song_id, style, template):
-    """`bgm new` が書く song.json の中身（id, style, テンプレートの song の順）。"""
-    song = {"id": song_id, "style": style, **template["song"]}
+def song_text(song_id, style, template, usage):
+    """`bgm new` が書く song.json の中身（id, style, usage, テンプレートの song の順）。"""
+    song = {"id": song_id, "style": style, "usage": usage, **template["song"]}
     return json.dumps(song, ensure_ascii=False, indent=2) + "\n"
 
 
@@ -124,7 +125,7 @@ def _check_song(text):
             raise TemplateError(f"雛形が設計図として読めません: {e}") from e
 
 
-def new_song(song_id, style, *, templates_dir=None, songs_dir=None):
+def new_song(song_id, style, usage, *, templates_dir=None, songs_dir=None):
     """songs/<song_id>/song.json を曲の型から作り、そのパスを返す。断るときは何も書かず NewSongError。"""
     songs = Path(songs_dir) if songs_dir is not None else SONGS
     if not SONG_ID_RE.fullmatch(song_id):
@@ -132,12 +133,14 @@ def new_song(song_id, style, *, templates_dir=None, songs_dir=None):
     folder = songs / song_id
     if folder.exists() or folder.is_symlink():
         raise NewSongError(f"曲フォルダ songs/{song_id} はすでにあります。別の曲IDにしてください")
+    if usage not in PROFILES:
+        raise NewSongError(f"用途は video / game / trpg のどれかにしてください: {usage}")
     styles = list_styles(templates_dir)
     if style not in styles:
         raise NewSongError(f"曲の型 {style} はありません（使える型: {' / '.join(styles)}）")
     try:
         template = load_template(style, templates_dir)
-        text = song_text(song_id, style, template)
+        text = song_text(song_id, style, template, usage)
         _check_song(text)
     except TemplateError as e:
         raise NewSongError(f"曲の型 {style} のファイルが壊れています: {e}") from e

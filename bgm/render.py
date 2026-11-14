@@ -4,9 +4,6 @@ import hashlib
 import json
 import math
 import re
-import shutil
-import subprocess
-import time
 from fractions import Fraction
 from pathlib import Path
 
@@ -20,6 +17,7 @@ from .harmony import compile_progression
 from .instruments import PERCUSSION, SAMPLED, SYNTH_DRUMS, SYNTH_PITCHED
 from .melody import compile_melody
 from .paths import SONGS, SR
+from .profiles import validate_usage
 from .rhythm import compile_rhythm
 from .structure import expand_form, meter_to_beats
 from .theory import midi_to_hz, parse_pitches
@@ -75,6 +73,10 @@ def load_song(ref: str):
     for k in ("tempo", "bars", "parts"):
         if k not in song:
             raise SongError(f"song.json に {k} がありません")
+    try:
+        validate_usage(song)
+    except ValueError as e:
+        raise SongError(str(e)) from e
     if not isinstance(song["parts"], list):
         raise SongError(f"song.json の parts はパートの配列 [...] にしてください（いまは{_kind(song['parts'])}です）")
     for i, part in enumerate(song["parts"]):
@@ -770,27 +772,24 @@ def render_part(part, song):
 
 
 def check_loop(x):
-    """Return (ok, message) about the loop seam of a stereo float array."""
-    if len(x) < SR:
+    """Return (ok, message) about the loop seam of a stereo float array.
+
+    判定は checks/audio.py の seam_click / seam_level と同じ測定・しきい値。
+    """
+    from .checks.audio import CLICK_RATIO, LEVEL_DB, click_message, level_message, measure_seam
+
+    seam = measure_seam(x, SR)
+    if seam is None:
         return True, "短いので判定しません"
-    d = np.abs(np.diff(x, axis=0))
-    typical = np.percentile(d, 99.9) + 1e-6
-    jump = np.abs(x[0] - x[-1]).max()
-    w = int(0.25 * SR)
-    rms_end = np.sqrt((x[-w:] ** 2).mean()) + 1e-9
-    rms_start = np.sqrt((x[:w] ** 2).mean()) + 1e-9
-    db = 20 * np.log10(rms_start / rms_end)
+    jump, typical, db = seam
     msgs = []
-    ok = True
-    if jump > typical * 1.5:
-        ok = False
-        msgs.append(f"つなぎ目で波形が跳んでいます（{jump:.3f}、普段の最大 {typical:.3f}）")
-    if abs(db) > 9:
-        ok = False
-        msgs.append(f"終わりと始まりの音量差が {db:+.1f} dB あります")
-    if ok:
-        msgs.append(f"つなぎ目 OK（段差 {jump:.4f}、音量差 {db:+.1f} dB）")
-    return ok, " / ".join(msgs)
+    if jump > typical * CLICK_RATIO:
+        msgs.append(click_message(jump, typical))
+    if abs(db) > LEVEL_DB:
+        msgs.append(level_message(db))
+    if not msgs:
+        return True, f"つなぎ目 OK（段差 {jump:.4f}、音量差 {db:+.1f} dB）"
+    return False, " / ".join(msgs)
 
 
 def _write_stem(path, audio):
@@ -834,77 +833,9 @@ def check_samples(song):
 
 
 def render_song(ref, force=False, mp3=True, log=print):
+    """曲を書き出し、out/<id>.wav のパスを返す。段階は bgm/pipeline.py。"""
     d, song = load_song(ref)
     check_samples(song)
-    stems_dir = d / "stems"
-    stems_dir.mkdir(exist_ok=True)
-    cache_f = stems_dir / "cache.json"
-    cache = json.loads(cache_f.read_text(encoding="utf-8")) if cache_f.exists() else {}
-    new_cache = {}
-    stems = {}
-    names_now = {p["name"] for p in song["parts"]}
-    for old in stems_dir.glob("*.wav"):
-        if old.stem not in names_now:
-            old.unlink()
-    t_all = time.time()
-    for part in song["parts"]:
-        h = part_hash(part, song)
-        f = stems_dir / f"{part['name']}.wav"
-        if not force and cache.get(part["name"]) == h and f.exists():
-            stems[part["name"]] = sf.read(f, dtype="float32", always_2d=True)[0]
-            log(f"  {part['name']:<14} 変更なし（前の音を使う）")
-        else:
-            t = time.time()
-            audio = render_part(part, song)
-            _write_stem(f, audio)
-            stems[part["name"]] = audio
-            log(f"  {part['name']:<14} 作り直し {time.time() - t:.1f}s")
-        new_cache[part["name"]] = h
-    cache_f.write_text(json.dumps(new_cache, indent=1), encoding="utf-8")
+    from . import pipeline
 
-    # mix
-    n = max(len(a) for a in stems.values())
-    mix = np.zeros((n, 2), np.float32)
-    solo = [p for p in song["parts"] if p.get("solo")]
-    for part in song["parts"]:
-        if part.get("mute") or (solo and not part.get("solo")):
-            continue
-        a = stems[part["name"]]
-        gl, gr = pan_gains(part.get("pan", 0))
-        mix[:len(a)] += a * (np.array([gl, gr], np.float32) * np.float32(part.get("volume", 0.8)))
-    peak = np.abs(mix).max()
-    target = 10 ** (-1 / 20) * 10 ** (min(0, song["master"]["gain_db"]) / 20)
-    gain = target / peak if peak > 0 else 1.0
-    mix *= np.float32(gain)
-    if not song["loop"]:
-        fade = min(len(mix), int(0.05 * SR))
-        mix[-fade:] *= np.linspace(1, 0, fade, dtype=np.float32)[:, None]
-    (d / "mix.json").write_text(json.dumps({"gain": float(gain), "seconds": n / SR}, indent=1), encoding="utf-8")
-
-    # keep the previous version for before/after comparison
-    out_wav = d / f"{song['id']}.wav"
-    if out_wav.exists():
-        hist = d / "history"
-        hist.mkdir(exist_ok=True)
-        stamp = time.strftime("%Y%m%d-%H%M%S", time.localtime(out_wav.stat().st_mtime))
-        shutil.copy2(out_wav, hist / f"{stamp}.wav")
-        prev_song = d / "last_song.json"
-        if prev_song.exists():
-            shutil.copy2(prev_song, hist / f"{stamp}.json")
-        olds = sorted(hist.glob("*.wav"))
-        for o in olds[:-10]:
-            o.unlink()
-            o.with_suffix(".json").unlink(missing_ok=True)
-    sf.write(out_wav, mix, SR, subtype="PCM_16")
-    shutil.copy2(d / "song.json", d / "last_song.json")
-    if mp3:
-        mp3_path = out_wav.with_suffix(".mp3")
-        r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(out_wav), "-codec:a", "libmp3lame",
-                            "-b:a", "192k", str(mp3_path)], capture_output=True, text=True)
-        if r.returncode != 0:
-            log("  mp3 の書き出しに失敗: " + r.stderr.strip()[:200])
-    log(f"書き出し: {out_wav}（{n / SR:.1f}秒, {time.time() - t_all:.1f}s）")
-    if song["loop"]:
-        ok, msg = check_loop(mix)
-        log(("  " if ok else "  注意: ") + msg)
-    return out_wav
+    return pipeline.run(d, song, force=force, mp3=mp3, log=log)

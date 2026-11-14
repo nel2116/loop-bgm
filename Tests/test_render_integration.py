@@ -55,7 +55,7 @@ def test_quarter_note_timing_and_primed_selection(tmp_path, design, meter):
 
 
 def test_optional_legacy_key_remains_uninterpreted(tmp_path):
-    legacy = {"tempo": 120, "bars": 2, "key": "legacy annotation",
+    legacy = {"usage": "video", "tempo": 120, "bars": 2, "key": "legacy annotation",
               "parts": [{"name": "absolute", "instrument": "square", "bars": ["C4:4"]}]}
     _, song = render.load_song(write_song(tmp_path, legacy))
     assert render.parse_note_bars(song["parts"][0], song) == [(0, [60], 4, 90), (4, [60], 4, 90)]

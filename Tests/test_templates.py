@@ -97,7 +97,7 @@ BROKEN = {
     "not_object": ([1, 2], "オブジェクトにしてください"),
     "invalid_json": ('{"name": "demo",', "JSON の書式エラー"),
     **{f"song_has_{k}": (template(song=_song_with(**{k: "x"})), f"song に {k} を書かないで")
-       for k in ("id", "style", "title", "usage")},
+       for k in ("id", "style", "usage", "title", "scene")},
 }
 
 
@@ -106,7 +106,7 @@ def test_broken_template_is_refused(roots, capsys, case):
     tdir, sdir = roots
     data, reason = BROKEN[case]
     write_template(tdir, "demo", data)
-    code, out, err = run(capsys, "new", "x", "--style", "demo")
+    code, out, err = run(capsys, "new", "x", "--style", "demo", "--usage", "video")
     assert code == 1 and out == ""
     assert err.startswith("曲の型 demo のファイルが壊れています: ")
     assert reason in err
@@ -119,7 +119,7 @@ def test_template_song_rejected_by_load_song_is_broken(roots, capsys):
     data = template()
     data["song"]["parts"][1]["style"] = "no_such_style"
     write_template(tdir, "demo", data)
-    code, _, err = run(capsys, "new", "x", "--style", "demo")
+    code, _, err = run(capsys, "new", "x", "--style", "demo", "--usage", "video")
     assert code == 1
     assert err.startswith("曲の型 demo のファイルが壊れています: 雛形が設計図として読めません: ")
     assert list(sdir.iterdir()) == []
@@ -129,18 +129,18 @@ def test_template_song_rejected_by_load_song_is_broken(roots, capsys):
 
 def test_new_writes_song(roots, capsys):
     tdir, sdir = roots
-    code, out, err = run(capsys, "new", "my_song_1", "--style", "demo")
+    code, out, err = run(capsys, "new", "my_song_1", "--style", "demo", "--usage", "video")
     assert (code, err) == (0, "")
-    assert out == "作成しました: songs/my_song_1/song.json（型: demo）\n"
+    assert out == "作成しました: songs/my_song_1/song.json（型: demo、用途: video）\n"
     path = sdir / "my_song_1" / "song.json"
     assert [p.name for p in sdir.iterdir()] == ["my_song_1"]
     assert [p.name for p in path.parent.iterdir()] == ["song.json"]
     raw = path.read_bytes()
     assert not raw.startswith(b"\xef\xbb\xbf") and b"\r\n" not in raw and raw.endswith(b"}\n")
-    expected = {"id": "my_song_1", "style": "demo", **SONG}
+    expected = {"id": "my_song_1", "style": "demo", "usage": "video", **SONG}
     assert raw.decode("utf-8") == json.dumps(expected, ensure_ascii=False, indent=2) + "\n"
     written = json.loads(raw)
-    assert list(written) == ["id", "style", *SONG]
+    assert list(written) == ["id", "style", "usage", *SONG]
     assert written == expected
 
     _, song = load_song(str(path))
@@ -153,8 +153,8 @@ def test_new_writes_song(roots, capsys):
 def test_new_is_deterministic(tmp_path):
     tdir = tmp_path / "templates"
     write_template(tdir, "demo", template())
-    a = templates.new_song("same", "demo", templates_dir=tdir, songs_dir=tmp_path / "a")
-    b = templates.new_song("same", "demo", templates_dir=tdir, songs_dir=tmp_path / "b")
+    a = templates.new_song("same", "demo", "video", templates_dir=tdir, songs_dir=tmp_path / "a")
+    b = templates.new_song("same", "demo", "video", templates_dir=tdir, songs_dir=tmp_path / "b")
     assert a != b and a.read_bytes() == b.read_bytes()
 
 
@@ -163,7 +163,7 @@ def test_new_is_deterministic(tmp_path):
 @pytest.mark.parametrize("song_id", ["Upper", "has-dash", "sp ace", "", "../up", "日本語"])
 def test_bad_song_id(roots, capsys, song_id):
     _, sdir = roots
-    code, out, err = run(capsys, "new", song_id, "--style", "demo")
+    code, out, err = run(capsys, "new", song_id, "--style", "demo", "--usage", "video")
     assert (code, out) == (1, "")
     assert err == f"曲IDは英小文字・数字・_ だけで書いてください: {song_id}\n"
     assert list(sdir.iterdir()) == []
@@ -173,13 +173,13 @@ def test_bad_song_id(roots, capsys, song_id):
 def test_existing_song_is_not_overwritten(roots, capsys, kind):
     _, sdir = roots
     if kind == "song":
-        assert run(capsys, "new", "x", "--style", "demo")[0] == 0
+        assert run(capsys, "new", "x", "--style", "demo", "--usage", "video")[0] == 0
     elif kind == "empty_folder":
         (sdir / "x").mkdir()
     else:
         (sdir / "x").write_text("keep", encoding="utf-8")
     before = snapshot(sdir)
-    code, out, err = run(capsys, "new", "x", "--style", "demo")
+    code, out, err = run(capsys, "new", "x", "--style", "demo", "--usage", "video")
     assert (code, out) == (1, "")
     assert err == "曲フォルダ songs/x はすでにあります。別の曲IDにしてください\n"
     assert snapshot(sdir) == before
@@ -188,7 +188,7 @@ def test_existing_song_is_not_overwritten(roots, capsys, kind):
 def test_existing_check_comes_before_unknown_style(roots, capsys):
     _, sdir = roots
     (sdir / "x").mkdir()
-    _, _, err = run(capsys, "new", "x", "--style", "nope")
+    _, _, err = run(capsys, "new", "x", "--style", "nope", "--usage", "video")
     assert err.startswith("曲フォルダ songs/x はすでにあります")
 
 
@@ -196,7 +196,7 @@ def test_existing_check_comes_before_unknown_style(roots, capsys):
 def test_unknown_style(roots, capsys, style):
     tdir, sdir = roots
     write_template(tdir, "another", template("another"))
-    code, out, err = run(capsys, "new", "x", "--style", style)
+    code, out, err = run(capsys, "new", "x", "--style", style, "--usage", "video")
     assert (code, out) == (1, "")
     assert err == f"曲の型 {style} はありません（使える型: another / demo）\n"
     assert list(sdir.iterdir()) == []
@@ -208,12 +208,40 @@ def test_missing_style_option_is_usage_error(roots):
     assert e.value.code == 2
 
 
+@pytest.mark.parametrize("args", [[], ["--usage"], ["--usage", "VIDEO"], ["--usage", "movie"], ["--usage", ""]])
+def test_missing_or_bad_usage_is_usage_error(roots, args):
+    _, sdir = roots
+    with pytest.raises(SystemExit) as e:
+        main(["new", "x", "--style", "demo", *args])
+    assert e.value.code == 2
+    assert list(sdir.iterdir()) == []
+
+
+@pytest.mark.parametrize("usage", ["video", "game", "trpg"])
+def test_new_writes_each_usage(roots, capsys, usage):
+    _, sdir = roots
+    code, out, _ = run(capsys, "new", "x", "--style", "demo", "--usage", usage)
+    assert code == 0 and out.endswith(f"用途: {usage}）\n")
+    written = json.loads((sdir / "x" / "song.json").read_text(encoding="utf-8"))
+    assert list(written)[:3] == ["id", "style", "usage"] and written["usage"] == usage
+    assert load_song(str(sdir / "x" / "song.json"))[1]["usage"] == usage
+
+
+@pytest.mark.parametrize("usage", ["", "Video", None, "カフェ"])
+def test_new_song_refuses_unknown_usage(tmp_path, usage):
+    tdir = tmp_path / "templates"
+    write_template(tdir, "demo", template())
+    with pytest.raises(templates.NewSongError, match="用途は video / game / trpg のどれか"):
+        templates.new_song("x", "demo", usage, templates_dir=tdir, songs_dir=tmp_path / "songs")
+    assert not (tmp_path / "songs").exists()
+
+
 # ---------------------------------------------------------------- song-level style is not read
 
 def test_song_level_style_is_ignored(tmp_path):
     tdir = tmp_path / "templates"
     write_template(tdir, "demo", template())
-    path = templates.new_song("x", "demo", templates_dir=tdir, songs_dir=tmp_path / "songs")
+    path = templates.new_song("x", "demo", "video", templates_dir=tdir, songs_dir=tmp_path / "songs")
     _, with_style = load_song(str(path))
     data = json.loads(path.read_text(encoding="utf-8"))
     del data["style"]

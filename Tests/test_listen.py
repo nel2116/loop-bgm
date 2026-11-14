@@ -70,12 +70,13 @@ def test_listen_cli_selects_rendered_audio(tmp_path, monkeypatch, reference, son
 
     folder = tmp_path / 'example'
     folder.mkdir()
-    song = {'tempo': 120, 'bars': 1, 'parts': [{'name': 'lead', 'instrument': 'square', 'bars': []}]}
+    song = {'usage': 'video', 'tempo': 120, 'bars': 1, 'parts': [{'name': 'lead', 'instrument': 'square', 'bars': []}]}
     if song_id is not None:
         song['id'] = song_id
     (folder / 'song.json').write_text(json.dumps(song), encoding='utf-8')
     (folder / 'example.wav').write_bytes(b'old audio')
-    audio = folder / f'{song_id or folder.name}.wav'
+    (folder / 'out').mkdir()
+    audio = folder / 'out' / f'{song_id or folder.name}.wav'
     audio.write_bytes(b'audio')
     monkeypatch.setattr(paths, 'SONGS', tmp_path)
     monkeypatch.setattr('bgm.render.SONGS', tmp_path)
@@ -98,11 +99,15 @@ def test_listen_cli_errors(tmp_path, monkeypatch, capsys):
     design.write_text('{', encoding='utf-8')
     assert __main__.main(['listen']) == 1
     assert '書式エラー' in capsys.readouterr().err
-    design.write_text(json.dumps({'tempo': 120, 'bars': 1,
+    design.write_text(json.dumps({'usage': 'video', 'tempo': 120, 'bars': 1,
                                  'parts': [{'name': 'lead', 'instrument': 'square', 'bars': []}]}), encoding='utf-8')
     assert __main__.main(['listen']) == 1
     assert '試聴音源がありません' in capsys.readouterr().err
-    (folder / 'proto_test.wav').write_bytes(b'audio')
+    (folder / 'proto_test.wav').write_bytes(b'old audio')
+    assert __main__.main(['listen']) == 1
+    assert '試聴音源がありません' in capsys.readouterr().err
+    (folder / 'out').mkdir()
+    (folder / 'out' / 'proto_test.wav').write_bytes(b'audio')
 
     def fail(*args):
         raise OSError('port occupied')

@@ -16,7 +16,7 @@ GROOVES = ("16beat", "shuffle", "bossa", "swing_ride", "bongo_8beat")
 
 
 def test_preintegration_strum_cache_hash_is_invalidated(tmp_path):
-    song = {"id": "cacheprobe", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
+    song = {"id": "cacheprobe", "usage": "video", "tempo": 120, "key": "C major", "meter": "4/4", "form": ["A"],
             "sections": {"A": {"bars": 1, "chords": "Iadd9/3"}}, "master": {"reverb": "none"},
             "parts": [{"name": "chords", "role": "chords", "style": "strum", "instrument": "nylon_guitar",
                        "humanize": 0, "reverb": 0}]}
@@ -31,7 +31,7 @@ def design(role="chords", pattern="strum", meter="4/4"):
         part.update(groove=pattern, kit=["kick", "snare", "hat", "rim", "ride", "bongo_hi", "bongo_lo", "tambourine"])
     else:
         part.update(style=pattern, instrument="nylon_guitar")
-    return {"id": "batch3", "tempo": 120, "key": "C major", "meter": meter,
+    return {"id": "batch3", "usage": "video", "tempo": 120, "key": "C major", "meter": meter,
             "form": ["A", "B", "A", "A'"],
             "sections": {"A": {"bars": 1, "chords": "Iadd9/3 ii V"}, "B": {"bars": 1, "chords": "iv"}},
             "master": {"reverb": "none"}, "parts": [part]}
@@ -229,7 +229,7 @@ def test_valid_new_song_listener_serves_rendered_wav(tmp_path, monkeypatch):
     song = design()
     load(tmp_path, song)
     render.render_song(str(tmp_path), mp3=False, log=lambda *_: None)
-    audio = tmp_path / "batch3.wav"
+    audio = tmp_path / "out" / "batch3.wav"
     content = audio.read_bytes()
 
     def serve(selected, port):
