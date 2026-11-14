@@ -34,7 +34,9 @@ def legacy_pair(tmp_path):
             mix += x * gains
         target = 10 ** (-1 / 20) * 10 ** (-2 / 20)
         mix *= np.float32(target / np.abs(mix).max())
-        sf.write(folder / "legacy_synth.wav", mix, SR, subtype="PCM_16")
+        # 旧コードは曲フォルダーに、#75 以降は out/ に master を書く。
+        (folder / "out").mkdir()
+        sf.write((folder / "out" if i else folder) / "legacy_synth.wav", mix, SR, subtype="PCM_16")
     return fixture, old, new
 
 
@@ -58,7 +60,7 @@ def test_verification_accepts_explained_bass_change_and_finishes_modes(tmp_path,
 @pytest.mark.parametrize("damage", ["pad", "lead", "drums", "unchanged_bass", "mix", "sample_rate"])
 def test_legacy_comparison_rejects_unexplained_changes(tmp_path, damage):
     fixture, old, new = legacy_pair(tmp_path)
-    path = new / "legacy_synth.wav" if damage == "mix" else new / "stems" / f"{damage}.wav"
+    path = new / "out/legacy_synth.wav" if damage == "mix" else new / "stems" / f"{damage}.wav"
     if damage == "unchanged_bass":
         path = new / "stems/bass.wav"
         path.write_bytes((old / "stems/bass.wav").read_bytes())

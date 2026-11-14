@@ -78,7 +78,7 @@ def compare_legacy(old, new, fixture):
                                 "max_abs_difference": float(np.max(np.abs(left - right)))}
         else:
             regression[name] = compare_audio(before, after)
-    left_mix, right_mix = _read_stereo(old / "legacy_synth.wav"), _read_stereo(new / "legacy_synth.wav")
+    left_mix, right_mix = _read_stereo(old / "legacy_synth.wav"), _read_stereo(new / "out" / "legacy_synth.wav")
     # 非対象stemが同一なので、bassだけ置換したmixを同じ正規化で再構成できる必要がある。
     replaced = dict(old_stems, bass=new_stems["bass"])
     old_expected, old_gain = _normalized_pcm_mix(old_stems, fixture)
@@ -99,6 +99,8 @@ def verify(output, baseline):
     fixture = next(ast.literal_eval(node.value) for node in ast.parse(source).body
                    if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "SYNTH_SONG" for t in node.targets))
     fixture["id"] = "legacy_synth"
+    # #75 で usage が必須になった。旧コードは知らないキーを読まないので両方に同じ定義を渡せる。
+    fixture["usage"] = "video"
     old, new = output / "legacy-before", output / "legacy-after"
     write_design(old, fixture)
     write_design(new, fixture)

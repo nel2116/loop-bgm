@@ -20,7 +20,7 @@ import numpy as np
 import soundfile as sf
 
 ROOT = Path(__file__).resolve().parent.parent
-BASELINE = "fc937b5"  # develop: #70（書き出し前の音源確認）のマージ。段階分けの直前。
+BASELINE = "34b884c"  # develop: #74（度数の見本曲の form を A B に）のマージ。段階分けの直前。
 
 OLD_RENDER = ("import sys; from bgm.render import render_song; "
               "render_song(sys.argv[1], force=True, mp3=False, log=lambda *_: None)")

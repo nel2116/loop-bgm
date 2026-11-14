@@ -111,7 +111,8 @@ def verify_design(folder, design):
         saved = folder / label
         shutil.copytree(folder / "stems", saved / "stems", dirs_exist_ok=True)
         shutil.copy2(folder / "events.json", saved / "events.json")
-        shutil.copy2(folder / f"{design['id']}.wav", saved / f"{design['id']}.wav")
+        (saved / "out").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(folder / "out" / f"{design['id']}.wav", saved / "out" / f"{design['id']}.wav")
         write_design(saved, edited)
         report[label] = sorted(affected)
         write_design(folder, design)
@@ -140,7 +141,7 @@ def verify_design(folder, design):
     for name in before_audio.keys() - {"mix"}:
         assert np.array_equal(reference[name], before_audio[name]), name
     report["before_basis"] = "同じ曲から新生成copy/accentのみを除く。直接記述の独立対旋律は両方に残す。"
-    report["before_after_wavs"] = [str(folder / "before" / f"{design['id']}.wav"), str(folder / f"{design['id']}.wav")]
+    report["before_after_wavs"] = [str(folder / "before/out" / f"{design['id']}.wav"), str(folder / "out" / f"{design['id']}.wav")]
     report["before_loop"] = seam(before_audio["mix"])
     snapshot(folder)
     exact(reference, arrays(folder, design))
@@ -172,7 +173,8 @@ def legacy(output, scratch):
         assert json.loads(result) == json.loads(json.dumps(current))
         report["songs"][name] = {"arrays": equality, "hashes_equal": True, "compiled_equal": True}
     # 以前は受理されても無視されたcopy/accentを実cacheで確認する。
-    design = {"id": "ignored", "tempo": 180, "key": "C major", "meter": "4/4", "form": ["A"],
+    # 旧コードは usage を読まない。今のコードは usage を必須とする(#75)。
+    design = {"id": "ignored", "usage": "video", "tempo": 180, "key": "C major", "meter": "4/4", "form": ["A"],
               "sections": {"A": {"bars": 1, "chords": "I"}}, "master": {"reverb": "none"},
               "parts": [{"name": "source", "instrument": "square", "bars": ["C4:4"], "humanize": 0, "reverb": 0},
                         {"name": "copy", "role": "arrange", "copy": "source", "instrument": "square", "humanize": 0, "reverb": 0},
@@ -212,7 +214,7 @@ def legacy_numeric(output, scratch):
                         part = {"name": "old", "role": role, "style": style, "instrument": "bass", "octave": 1, "transpose": 2}
                         if selected is not None:
                             part["sections"] = selected
-                        cases.append({"id": "numeric", "tempo": 180, "key": key, "meter": meter,
+                        cases.append({"id": "numeric", "usage": "video", "tempo": 180, "key": key, "meter": meter,
                                       "form": ["A", "B", "A", "A'"], "master": {"reverb": "none"},
                                       "sections": {"A": {"bars": 1, "chords": "Iadd9/3 iii V"}, "B": {"bars": 1, "chords": "iv"}},
                                       "parts": [part]})
