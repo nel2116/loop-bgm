@@ -29,12 +29,15 @@ def test_compilation_preserves_input_and_exposes_notes_harmony(design):
     before = copy.deepcopy(design)
     compiled = render.compile_song(design)
     assert design == before
-    assert compiled["bars"] == 6
-    assert [o["start_bar"] for o in compiled["occurrences"]] == [1, 3, 5]
+    assert compiled["bars"] == 4
+    assert [o["start_bar"] for o in compiled["occurrences"]] == [1, 3]
     assert compiled["notes"]["melody"][1] == (1, [64], 1, 90)
     assert compiled["harmony"][0]["pitches"] == [48, 52, 55]
-    assert compiled["harmony"][-1]["bar"] == 6
-    assert compiled["harmony"][-1]["source"] == "A"
+    assert compiled["harmony"][-1]["bar"] == 4
+    assert compiled["harmony"][-1]["source"] == "B"
+    # ループで同じ部分が続かない(#74): 末尾の B(ii V7)から先頭の A(I)へ戻る。
+    form = design["form"]
+    assert all(form[i] != form[(i + 1) % len(form)] for i in range(len(form)))
 
 
 @pytest.mark.parametrize("meter", ["3/4", "6/8"])
